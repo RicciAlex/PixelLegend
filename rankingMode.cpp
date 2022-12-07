@@ -369,14 +369,14 @@ void CRankingMode::UpdateMenu(void)
 
 	int* pRanking = CApplication::GetRanking()->GetRanking((CStageSelection::stage)m_nSelectedStage);
 
-	for (int nCnt = 0; nCnt < MaxRank; nCnt++)
+	for (int nCntRank = 0; nCntRank < MaxRank; nCntRank++)
 	{
 
 		int aDigit[MaxDigit] = {};
 
-		int nR = pRanking[nCnt];
+		int nR = pRanking[nCntRank];
 
-		if (pRanking[nCnt] > 0)
+		if (pRanking[nCntRank] > 0)
 		{
 			for (int nCnt = 0; nCnt < MaxDigit; nCnt++)
 			{
@@ -401,7 +401,7 @@ void CRankingMode::UpdateMenu(void)
 
 		for (int i = 0; i < MaxDigit; i++)
 		{
-			m_pRank[nCnt][i]->SetAnimPattern(aDigit[i]);
+			m_pRank[nCntRank][i]->SetAnimPattern(aDigit[i]);
 		}
 	}
 }
