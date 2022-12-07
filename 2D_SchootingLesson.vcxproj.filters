@@ -1,0 +1,693 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects">
+      <UniqueIdentifier>{cc55aa91-aa75-476f-905f-3482596408b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy">
+      <UniqueIdentifier>{6f53d92f-4835-46ec-8c9f-b13f748fdc38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Bullet">
+      <UniqueIdentifier>{cb3fee47-f4cc-4ab8-ab5c-aa489db6e34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects">
+      <UniqueIdentifier>{50c2e1d5-2b94-419d-8fe6-ffa6100c04b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy">
+      <UniqueIdentifier>{781fddc0-935c-460e-90c5-0afc0c2d313c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Bullet">
+      <UniqueIdentifier>{2bf9d864-a83b-430f-9ddc-553752726f32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins">
+      <UniqueIdentifier>{27caf0f7-c157-4c61-ba9b-0435e0bdbc70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins\Wrath">
+      <UniqueIdentifier>{dad9de5e-321b-4aa8-956c-1aa33dd1aab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Scylla">
+      <UniqueIdentifier>{ee771e07-fc73-4577-8be2-9a0aa9719727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins">
+      <UniqueIdentifier>{74de73fa-00a9-4646-9619-775f7f6d4126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins\Wrath">
+      <UniqueIdentifier>{288bf97c-83a9-443f-89fb-c8faf297da7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Scylla">
+      <UniqueIdentifier>{a05eddc8-1278-4a73-a691-747af4273631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\effect">
+      <UniqueIdentifier>{d22ebf83-d558-4688-88d8-d951d4d4fb96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\effect">
+      <UniqueIdentifier>{7790c52a-2178-4150-8d96-16c8806ed078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{38f188bb-e2b1-4f87-8988-add4fe02c0e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Input">
+      <UniqueIdentifier>{79d9ced8-0351-41cf-852b-7fcddf8eb93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Hitboxes">
+      <UniqueIdentifier>{32066541-e773-4388-8b79-f1f149d26952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hitboxes">
+      <UniqueIdentifier>{54debef3-401c-47cf-8156-f7922e34eb94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins\Sloth">
+      <UniqueIdentifier>{5a7a9b8f-776a-481a-a4e9-981868a4f2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins\Sloth">
+      <UniqueIdentifier>{737f2b68-3563-4a48-b4e8-afa3d3a4163d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins\Pride">
+      <UniqueIdentifier>{01ea2767-b3f8-4a1b-bbd4-f8e4f81b99e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins\Pride">
+      <UniqueIdentifier>{bc4193b5-ee55-4669-941f-23cd086553fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins\Envy">
+      <UniqueIdentifier>{edd6eeee-f80d-492f-839c-7a3bb01bdfe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins\Envy">
+      <UniqueIdentifier>{5c188878-13b8-4a78-94b1-c852828e38c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\UI">
+      <UniqueIdentifier>{eaf6fde2-488b-44a6-be1a-bafe6305a774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\UI">
+      <UniqueIdentifier>{96184fbd-c1b6-47e4-a895-7c653eef69a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins\Greed">
+      <UniqueIdentifier>{b9103907-3021-48f1-8537-404b1921a0a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins\Gluttony">
+      <UniqueIdentifier>{7bc9fe90-cbb7-4f4c-b8b3-005c5c35cfde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Objects\Enemy\Sins\Gluttony">
+      <UniqueIdentifier>{239a3b41-1e5b-491b-804a-cbcfde8d010b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Mode">
+      <UniqueIdentifier>{02e369be-334e-4a95-9256-71651ce8a169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\mode">
+      <UniqueIdentifier>{7cfdcb8c-a754-4c0c-9b01-d55609a1d656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Objects\Enemy\Sins\Greed">
+      <UniqueIdentifier>{abed85e1-4288-497b-a0a5-03953f38f563}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="rendering.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyCloud.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="fireballPlayer.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="thunderEnemy.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="blackHole.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="clockNeedle.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyClock.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="inputMouse.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="inputKeyboard.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="boundEnemy.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="object2D.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="explosion.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyWrathBody.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClCompile>
+    <ClCompile Include="vertebra.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Scylla</Filter>
+    </ClCompile>
+    <ClCompile Include="spine.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Scylla</Filter>
+    </ClCompile>
+    <ClCompile Include="skull.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Scylla</Filter>
+    </ClCompile>
+    <ClCompile Include="SkullTentacle.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Scylla</Filter>
+    </ClCompile>
+    <ClCompile Include="bg.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>ソース ファイル\Objects\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="rotatingSimpleEffect.cpp">
+      <Filter>ソース ファイル\Objects\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="beam.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="heartEffect.cpp">
+      <Filter>ソース ファイル\Objects\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="heartBullet.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Scylla.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Scylla</Filter>
+    </ClCompile>
+    <ClCompile Include="ScyllaBody.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Scylla</Filter>
+    </ClCompile>
+    <ClCompile Include="starEffect.cpp">
+      <Filter>ソース ファイル\Objects\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="skullFireball.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Letter.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="hitbox.cpp">
+      <Filter>ソース ファイル\Hitboxes</Filter>
+    </ClCompile>
+    <ClCompile Include="squareHitbox.cpp">
+      <Filter>ソース ファイル\Hitboxes</Filter>
+    </ClCompile>
+    <ClCompile Include="ringEffect.cpp">
+      <Filter>ソース ファイル\Objects\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="tear.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Zbullet.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="sloth.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Sloth</Filter>
+    </ClCompile>
+    <ClCompile Include="circleHitbox.cpp">
+      <Filter>ソース ファイル\Hitboxes</Filter>
+    </ClCompile>
+    <ClCompile Include="pride.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Pride</Filter>
+    </ClCompile>
+    <ClCompile Include="balloon.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="laugh.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="balloonEnemy.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="starBullet.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="bouncingBullet.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="candle.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="skullShield.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Thanatos.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="scythe.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="envy.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Envy</Filter>
+    </ClCompile>
+    <ClCompile Include="missile.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="spikeBomb.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="spike.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="envyPieces.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="lifeIcon.cpp">
+      <Filter>ソース ファイル\Objects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="greed.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Greed</Filter>
+    </ClCompile>
+    <ClCompile Include="greedBullet.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="bubbleBat.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="towerJewel.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="gluttony.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClCompile>
+    <ClCompile Include="bone.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="mode.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="stageSelection.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="gameScylla.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="gameThanatos.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="gameEnvy.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="gameGreed.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyLife.cpp">
+      <Filter>ソース ファイル\Objects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="gamePride.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="rankingMode.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="gameGluttony.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>ソース ファイル\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="maw.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClCompile>
+    <ClCompile Include="backMaw.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClCompile>
+    <ClCompile Include="heart.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClCompile>
+    <ClCompile Include="target.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="skullCursor.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>ソース ファイル\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="modeSloth.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="modeWrath.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="wrath.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClCompile>
+    <ClCompile Include="handFireball.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="handBlade.cpp">
+      <Filter>ソース ファイル\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="handFlamethrower.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClCompile>
+    <ClCompile Include="handGun.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClCompile>
+    <ClCompile Include="handCharger.cpp">
+      <Filter>ソース ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorial.cpp">
+      <Filter>ソース ファイル\mode</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rendering.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyCloud.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="fireballPlayer.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="thunderEnemy.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="blackHole.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="clockNeedle.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyClock.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="inputMouse.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inputKeyboard.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="boundEnemy.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="object2D.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyWrathBody.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClInclude>
+    <ClInclude Include="spine.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Scylla</Filter>
+    </ClInclude>
+    <ClInclude Include="vertebra.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Scylla</Filter>
+    </ClInclude>
+    <ClInclude Include="skull.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Scylla</Filter>
+    </ClInclude>
+    <ClInclude Include="SkullTentacle.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Scylla</Filter>
+    </ClInclude>
+    <ClInclude Include="bg.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>ヘッダー ファイル\Objects\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="rotatingSimpleEffect.h">
+      <Filter>ヘッダー ファイル\Objects\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="beam.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="heartEffect.h">
+      <Filter>ヘッダー ファイル\Objects\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="heartBullet.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Scylla.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Scylla</Filter>
+    </ClInclude>
+    <ClInclude Include="ScyllaBody.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Scylla</Filter>
+    </ClInclude>
+    <ClInclude Include="starEffect.h">
+      <Filter>ヘッダー ファイル\Objects\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="skullFireball.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Letter.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="hitbox.h">
+      <Filter>ヘッダー ファイル\Hitboxes</Filter>
+    </ClInclude>
+    <ClInclude Include="squareHitbox.h">
+      <Filter>ヘッダー ファイル\Hitboxes</Filter>
+    </ClInclude>
+    <ClInclude Include="ringEffect.h">
+      <Filter>ヘッダー ファイル\Objects\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="tear.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Zbullet.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="sloth.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Sloth</Filter>
+    </ClInclude>
+    <ClInclude Include="circleHitbox.h">
+      <Filter>ヘッダー ファイル\Hitboxes</Filter>
+    </ClInclude>
+    <ClInclude Include="pride.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Pride</Filter>
+    </ClInclude>
+    <ClInclude Include="balloon.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="laugh.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="balloonEnemy.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="starBullet.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="bouncingBullet.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="candle.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="skullShield.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Thanatos.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="scythe.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="envy.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Envy</Filter>
+    </ClInclude>
+    <ClInclude Include="missile.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="spikeBomb.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="spike.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="envyPieces.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="lifeIcon.h">
+      <Filter>ヘッダー ファイル\Objects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="greed.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Greed</Filter>
+    </ClInclude>
+    <ClInclude Include="greedBullet.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="bubbleBat.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="towerJewel.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="gluttony.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClInclude>
+    <ClInclude Include="bone.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="mode.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="stageSelection.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="gameScylla.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="gameThanatos.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="gameEnvy.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="gameGreed.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyLife.h">
+      <Filter>ヘッダー ファイル\Objects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="gamePride.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="rankingMode.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="gameGluttony.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="maw.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClInclude>
+    <ClInclude Include="backMaw.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClInclude>
+    <ClInclude Include="heart.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Gluttony</Filter>
+    </ClInclude>
+    <ClInclude Include="target.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="skullCursor.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>ヘッダー ファイル\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="gameSloth.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="modeWrath.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="wrath.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClInclude>
+    <ClInclude Include="handFireball.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="handBlade.h">
+      <Filter>ヘッダー ファイル\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="handFlamethrower.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClInclude>
+    <ClInclude Include="handGun.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClInclude>
+    <ClInclude Include="handCharger.h">
+      <Filter>ヘッダー ファイル\Objects\Enemy\Sins\Wrath</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorial.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
