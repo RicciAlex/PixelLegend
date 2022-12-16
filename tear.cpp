@@ -37,10 +37,11 @@ HRESULT CTearBullet::Init(void)
 //終了処理
 void CTearBullet::Uninit(void)
 {
+	//ヒットボックスの破棄
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -130,9 +131,9 @@ CTearBullet* CTearBullet::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move)
 		fAngle *= -1.0f;
 	}
 
-	pBullet->SetStartingRot(fAngle + (D3DX_PI * 0.25f));
+	pBullet->SetStartingRot(fAngle + (D3DX_PI * 0.25f));		//向きの初期値の設定
 
-	pBullet->m_pHitbox = CCircleHitbox::Create(pos, 13.0f, CHitbox::Type_EnemyBullet);
+	pBullet->m_pHitbox = CCircleHitbox::Create(pos, 13.0f, CHitbox::Type_EnemyBullet);		//ヒットボックスの生成
 
 	return pBullet;									//弾を返す
 } 

@@ -14,19 +14,19 @@
 class CInputMouse : public CInput
 {
 public:
-	CInputMouse();
-	~CInputMouse();
+	CInputMouse();						//コンストラクタ
+	~CInputMouse();						//デストラクタ
 
-	HRESULT Init(HINSTANCE hInstance, HWND hWnd, GUID guid) override;
-	void Uninit(void) override;
-	void Update(void) override;
+	HRESULT Init(HINSTANCE hInstance, HWND hWnd, GUID guid) override;		//初期化処理
+	void Uninit(void) override;			//終了処理
+	void Update(void) override;			//更新処理
 
-	DIMOUSESTATE*GetMouseState(void);
-	bool GetMouseLeftClick(void);
+	DIMOUSESTATE*GetMouseState(void);	//マウス状態の取得処理
+	bool GetMouseLeftClick(void);		//左クリックのトリガー
 
 private:
 
-	DIMOUSESTATE m_MouseState;						// マウス状態
+	DIMOUSESTATE m_MouseState;			// マウス状態
 
 };
 

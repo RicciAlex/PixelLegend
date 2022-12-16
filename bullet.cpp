@@ -52,33 +52,37 @@ void CBullet::Update(void)
 {
 	CObject_2D::Update();								//基本クラスの更新処理
 
-	D3DXVECTOR3 pos = GetPos();
-	D3DXVECTOR2 size = GetSize();
+	D3DXVECTOR3 pos = GetPos();			//位置の取得
+	D3DXVECTOR2 size = GetSize();		//サイズの取得
 
 	if (pos.x + size.x <= 0.0f || pos.x + size.x >= (float)SCREEN_WIDTH ||
 		pos.y + size.y <= 0.0f || pos.y - size.y >= (float)SCREEN_HEIGHT)
-	{
+	{//画面を出たら、消す
 		Release();
 		return;
 	}
 	
 } 
 
+//寿命の取得処理
 int CBullet::GetLife(void)
 {
 	return m_nLife;
 }
 
+//寿命の設定処理
 void CBullet::SetLife(const int life)
 {
 	m_nLife = life;
 }
 
+//弾の種類の取得処理
 CBullet::BULLET_TYPE CBullet::GetBulletType(void)
 {
 	return m_BulletType;
 }
 
+//弾の種類の設定処理
 void CBullet::SetBulletType(BULLET_TYPE type)
 {
 	m_BulletType = type;
@@ -86,34 +90,14 @@ void CBullet::SetBulletType(BULLET_TYPE type)
 
 //==================================================================================================================
 //
-//		静的関数
+//											静的関数
 //
 //==================================================================================================================
-
-//CBullet* CBullet::Create(void)
-//{
-//	CBullet* pBullet = nullptr;
-//
-//	pBullet = new CBullet;
-//
-//	if (FAILED(pBullet->Init()))
-//	{
-//		if (pBullet != nullptr)
-//		{
-//			delete pBullet;
-//			pBullet = nullptr;
-//		}
-//
-//		return nullptr;
-//	}
-//
-//	return pBullet;
-//}
 
 //弾の破棄処理
 void CBullet::DestroyBullet(void)
 {
-	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 pos = GetPos();							//位置の取得
 	CExplosion* pExplosion = nullptr;
 
 	if (m_BulletType == BULLET_FIREBALL)
@@ -123,5 +107,6 @@ void CBullet::DestroyBullet(void)
 		pExplosion->SetPos(pos);						//爆発の位置の設定
 
 	}
+
 	Release();											//弾を消す
 }

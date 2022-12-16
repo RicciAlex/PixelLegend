@@ -17,20 +17,20 @@ class CStarEffect;
 class CStarBullet : public CBullet
 {
 public:
-	CStarBullet();
-	~CStarBullet() override;
+	CStarBullet();						//コンストラクタ
+	~CStarBullet() override;			//デストラクタ
 
-	HRESULT Init(void) override;													//初期化処理
-	void Uninit(void) override;														//終了処理
-	void Update(void) override;														//更新処理
+	HRESULT Init(void) override;		//初期化処理
+	void Uninit(void) override;			//終了処理
+	void Update(void) override;			//更新処理
 
 	static CStarBullet* Create(const D3DXVECTOR3 CenterPos, const D3DXVECTOR3 move);				//生成処理
 
 private:
 
-	static const int MaxEffect = 120;
+	static const int MaxEffect = 120;			//エフェクトの最大数
 
-	CStarEffect* m_pEffect[MaxEffect];
+	CStarEffect* m_pEffect[MaxEffect];			//エフェクトへのポインタ
 };
 
 

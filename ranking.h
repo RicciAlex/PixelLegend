@@ -16,38 +16,28 @@ class CRanking
 {
 public:
 	CRanking();							//コンストラクタ
-	~CRanking();				//デストラクタ
+	~CRanking();						//デストラクタ
 
 	HRESULT Init(void);					//初期化処理
 	void Uninit(void);					//終了処理
 
-	void SetStage(CStageSelection::stage stage);
-	int GetStage(void);
+	void SetStage(CStageSelection::stage stage);	//現在のステージの設定処理
+	int GetStage(void);								//現在のステージの取得処理
 	int SetRanking(CStageSelection::stage stage, const int nScore);	//ランキングの設定処理
 	int* GetRanking(CStageSelection::stage stage);					//ランキングの取得処理
 	void SaveRanking(void);				//ランキングの書き出し処理
 	void LoadRanking(void);				//ランキングの読み込む処理
 
 
-	static CRanking* Create(void);
+	static CRanking* Create(void);		//生成処理
 
 private:
 
-	//void UpdateMenu(void);
+	static const int MaxRank = 5;		//スコアの数
 
-	static const int MaxRank = 5;
-	//static const int MaxDigit = 8;
-
-
-	int m_aRanking[CStageSelection::stage_Max][MaxRank];
-	int m_nSelectedStage;
-	int m_nCntDelay;
-
-	/*CBg* m_pBg;
-	CLetter* m_pStageName[24];
-	CLetter* m_pRank[MaxRank][MaxDigit];
-	CButton* m_pLateralButton[2];
-	CLetter* m_pLateralIcon[2];*/
+	int m_aRanking[CStageSelection::stage_Max][MaxRank];		//スコアの配列
+	int m_nSelectedStage;										//現在のステージ
+	int m_nCntDelay;											//ディレイ
 };
 
 

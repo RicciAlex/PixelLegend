@@ -38,7 +38,7 @@ private:
 	int m_nCntDestroy;							//死亡アニメーション用のカウンター
 	bool m_bDead;								//死んでいるかどうか
 
-	CSquareHitbox* m_pHitbox;
+	CSquareHitbox* m_pHitbox;					//ヒットボックス
 };
 
 #endif

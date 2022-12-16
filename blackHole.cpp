@@ -9,11 +9,13 @@
 #include "blackHole.h"
 #include "player.h"
 
+//コンストラク
 CBlackHole::CBlackHole()
 {
 
 }
 
+//デストラクタ
 CBlackHole::~CBlackHole()
 {
 	 
@@ -34,6 +36,7 @@ HRESULT CBlackHole::Init(void)
 //終了処理
 void CBlackHole::Uninit(void)
 {
+	//基本クラスの終了処理
 	CObject_2D::Uninit();
 }
 
@@ -59,13 +62,23 @@ void CBlackHole::Update(void)
 	if (nLife <= 0)
 	{//寿命が0になったら
 
-		DestroyBullet();
+		DestroyBullet();			//破棄する
 
 		return;
 	}
 	
-	SetLife(nLife);
-}
+	SetLife(nLife);					//寿命の設定
+}	
+
+
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
+
 
 //生成処理
 CBlackHole* CBlackHole::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move, const D3DXVECTOR3 acc, const D3DXVECTOR2 size, const int nLife)
@@ -77,8 +90,7 @@ CBlackHole* CBlackHole::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move, co
 		//初期化処理
 		if (FAILED(pBullet->Init()))
 		{
-			delete pBullet;			//メモリを解放する
-			return nullptr;			//nullを返す
+			return nullptr;			//生成できなかったら、nullを返す
 		}
 
 		pBullet->SetBulletType(CBullet::BULLET_BLACKHOLE);

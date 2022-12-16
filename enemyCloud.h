@@ -15,24 +15,25 @@ class CEnemyCloud : public CEnemy
 {
 public:
 	
+	//状態の列挙型
 	enum state
 	{
-		state_pursuit = 0,
-		state_aim,
-		state_fire,
-		state_flee,
+		state_pursuit = 0,				//追いかける
+		state_aim,						//狙う
+		state_fire,						//うつ
+		state_flee,						//逃げる
 		state_max
 	};
 
-	CEnemyCloud();
-	~CEnemyCloud() override;
+	CEnemyCloud();								//コンストラクタ
+	~CEnemyCloud() override;					//デストラクタ
 
 	HRESULT Init(void) override;
 	void Uninit(void) override;					//終了処理
 	void Update(void) override;					//更新処理
 	void Draw(void) override;					//描画処理
 
-	static CEnemyCloud* Create(D3DXVECTOR3 pos);
+	static CEnemyCloud* Create(D3DXVECTOR3 pos);			//生成処理
 
 private:
 

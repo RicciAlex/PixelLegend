@@ -8,16 +8,19 @@
 //インクルードファイル
 #include "inputMouse.h"
 
+//コンストラクタ
 CInputMouse::CInputMouse()
 {
 	
 }
 
+//デストラクタ
 CInputMouse::~CInputMouse()
 {
 
 }
 
+//初期化処理
 HRESULT CInputMouse::Init(HINSTANCE hInstance, HWND hWnd, GUID guid)
 {
 	//基本クラスの初期化処理
@@ -56,12 +59,14 @@ HRESULT CInputMouse::Init(HINSTANCE hInstance, HWND hWnd, GUID guid)
 	return S_OK;
 }
 
+//終了処理
 void CInputMouse::Uninit(void)
 {
 	//基本クラスの終了処理
 	CInput::Uninit();
 }
 
+//更新処理
 void CInputMouse::Update(void)
 {
 	LPDIRECTINPUTDEVICE8 pDevice = CInput::GetInputDevice();
@@ -76,11 +81,13 @@ void CInputMouse::Update(void)
 	}
 }
 
+//マウス状態の取得処理
 DIMOUSESTATE* CInputMouse::GetMouseState(void)
 {
 	return &m_MouseState;
 }
 
+//マウスの左クリックのトリガー
 bool CInputMouse::GetMouseLeftClick(void)
 {
 	return (GetKeyState(VK_LBUTTON) & 0x8000) ? true : false;

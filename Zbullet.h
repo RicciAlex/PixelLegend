@@ -31,10 +31,10 @@ public:
 
 private:
 
-	int m_nCntSize;
-	float m_fGrowth;
-
-	CSquareHitbox* m_pHitbox;
+	int m_nCntSize;					//サイズのカウンター
+	float m_fGrowth;				//大きさの減数
+									
+	CSquareHitbox* m_pHitbox;		//ヒットボックスへのポインタ
 };
 
 #endif

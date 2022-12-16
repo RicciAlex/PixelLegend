@@ -22,13 +22,14 @@ class CHandGun : public CEnemy
 {
 public:
 
+	//状態の列挙型
 	enum state
 	{
-		state_spawn = 0,
-		state_shoot,
-		state_return,
-		state_despawn,
-		state_death,
+		state_spawn = 0,			//スポーン
+		state_shoot,				//ショット
+		state_return,				//戻る
+		state_despawn,				//ディスポーン
+		state_death,				//死亡
 		state_max
 	};
 
@@ -39,18 +40,18 @@ public:
 	void Uninit(void) override;														//終了処理
 	void Update(void) override;														//更新処理
 
-	void SetParent(CWrath* pParent);
+	void SetParent(CWrath* pParent);												//親の設定処理
 
 	static CHandGun* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move);						//生成処理
 
 private:
 
-	void UpdateState(void);
-
-	state m_state;
-
-	CCircleHitbox* m_pHitbox;
-	CWrath* m_pParent;
+	void UpdateState(void);			//状態によっての更新処理
+									
+	state m_state;					//状態
+									
+	CCircleHitbox* m_pHitbox;		//ヒットボックス
+	CWrath* m_pParent;				//親へのポインタ
 };
 
 

@@ -27,10 +27,10 @@ public:
 	//状態
 	enum State
 	{
-		state_Spawn = 0,
-		state_Damage,
-		state_Death,
-		state_normal,
+		state_Spawn = 0,			//スポーン状態
+		state_Damage,				//ダメージを受ける状態
+		state_Death,				//死亡状態
+		state_normal,				//普通の状態
 		state_Max
 	};
 
@@ -45,11 +45,13 @@ public:
 	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
-	const bool GetEnd(void);
+	const bool GetEnd(void);							//終わったかどうかの取得処理
 
 	static CScylla* Create(void);						//生成処理
 
 private:
+
+	void UpdateState(void);								//状態によっての更新処理
 
 	static const int MaxTentacle = 6;					
 
@@ -59,12 +61,12 @@ private:
 	int m_nAliveHeadNum;								//残っている頭の数
 	int m_nCntAttack;									//攻撃用のカウンター
 	State m_state;										//状態
-	bool m_bEnd;
+	bool m_bEnd;										//終わったかどうか
 
 	CSkullTentacle* m_pTentacle[MaxTentacle];
-	CSpine* m_pSpine[MaxTentacle];
-	CScyllaBody* m_pBody;
-	CEnemyLife* m_pLife;
+	CSpine* m_pSpine[MaxTentacle];						//骨へのポインタ
+	CScyllaBody* m_pBody;								//体へのポインタ
+	CEnemyLife* m_pLife;								//体力UIへのポインタ
 };
 
 

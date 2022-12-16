@@ -54,12 +54,13 @@ HRESULT CSpine::Init(void)
 //終了処理
 void CSpine::Uninit(void)
 {
+	//骨の破棄処理
 	for (int nCnt = 0; nCnt < VertebraNumber; nCnt++)
 	{
 		if (m_pVertebra[nCnt] != nullptr)
-		{
-			m_pVertebra[nCnt]->Release();
-			m_pVertebra[nCnt] = nullptr;
+		{//nullチェック
+			m_pVertebra[nCnt]->Release();			//メモリを解放する
+			m_pVertebra[nCnt] = nullptr;			//ポインタをnullにする
 		}
 	}
 }
@@ -73,7 +74,10 @@ void CSpine::Update(void)
 
 		for (int nCnt = 0; nCnt < VertebraNumber; nCnt++)
 		{
-			m_pVertebra[nCnt]->SetPos(m_anchor + (dir * (float)(nCnt + 1)));
+			if (m_pVertebra[nCnt])
+			{//nullチェック
+				m_pVertebra[nCnt]->SetPos(m_anchor + (dir * (float)(nCnt + 1)));			//位置の更新
+			}
 		}
 	}
 	else
@@ -83,8 +87,8 @@ void CSpine::Update(void)
 		m_nCntDestroy--;
 
 		if (m_nCntDestroy <= 0)
-		{
-			Release();
+		{//死亡アニメーションが終わったら
+			Release();			//メモリを解放する
 		}
 	}
 }
@@ -122,30 +126,36 @@ const D3DXVECTOR3 CSpine::GetPos(void)
 //死亡アニメーション処理
 void CSpine::Kill(void)
 {
-	m_bDead = true;
+	m_bDead = true;			//死んだ状態にする
 	D3DXVECTOR3 dir;
 
 	for (int nCnt = 0; nCnt < VertebraNumber; nCnt++)
 	{
-		dir = D3DXVECTOR3((float)random(-5000, 5000), (float)random(-5000, 5000), 0.0f);
-		D3DXVec3Normalize(&dir, &dir);
-		dir.x *= 2.0f;
-		dir.y *= 2.0f;
+		if (m_pVertebra[nCnt])
+		{//nullチェック
 
-		m_pVertebra[nCnt]->SetMove(dir);
-		m_pVertebra[nCnt]->SetRotation(((float)random(-100, 100) * 0.01f) * D3DX_PI * 0.25f);
-		m_pVertebra[nCnt]->SetAcceleration(D3DXVECTOR3(0.0f, 0.05f, 0.0f));
-		m_nCntDestroy = 120;
+			//ランダムな方向に動かせて、下向きの加速を設定して、回転させる
+			dir = D3DXVECTOR3((float)random(-5000, 5000), (float)random(-5000, 5000), 0.0f);
+			D3DXVec3Normalize(&dir, &dir);
+			dir.x *= 2.0f;
+			dir.y *= 2.0f;
+
+			m_pVertebra[nCnt]->SetMove(dir);
+			m_pVertebra[nCnt]->SetRotation(((float)random(-100, 100) * 0.01f) * D3DX_PI * 0.25f);
+			m_pVertebra[nCnt]->SetAcceleration(D3DXVECTOR3(0.0f, 0.05f, 0.0f));
+			m_nCntDestroy = 120;
+		}
 	}
 }
 
+//テクスチャの反転処理
 void CSpine::Flip(void)
 {
 	for (int nCnt = 0; nCnt < CSpine::VertebraNumber; nCnt++)
 	{
 		if (m_pVertebra[nCnt] != nullptr)
-		{
-			m_pVertebra[nCnt]->FlipX();
+		{//nullチェック
+			m_pVertebra[nCnt]->FlipX();		//テクスチャを反転する
 		}
 	}
 }
@@ -160,19 +170,19 @@ CSpine* CSpine::Create(D3DXVECTOR3 anchor, D3DXVECTOR3 head)
 {
 	D3DXVECTOR3 dir = (head - anchor) * 0.125f;
 
-	CSpine* pSpine = new CSpine;
+	CSpine* pSpine = new CSpine;			//インスタンスを生成する
 
 	if (FAILED(pSpine->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 	
 	for (int nCnt = 0; nCnt < VertebraNumber; nCnt++)
 	{
-		pSpine->m_anchor = anchor;
-		pSpine->m_head = head;
-		pSpine->m_pVertebra[nCnt] = CVertebra::Create(anchor + (dir * (float)(nCnt + 1)), D3DXVECTOR2(18.75f, 18.75f));
+		pSpine->m_anchor = anchor;			//生成位置の設定
+		pSpine->m_head = head;				//頭の位置の設定
+		pSpine->m_pVertebra[nCnt] = CVertebra::Create(anchor + (dir * (float)(nCnt + 1)), D3DXVECTOR2(18.75f, 18.75f));		//骨を生成する
 	}
 
-	return pSpine;
+	return pSpine;							//生成したインスタンスを返す
 } 

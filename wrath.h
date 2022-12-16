@@ -28,21 +28,19 @@ public:
 	void Update(void) override;					//更新処理
 	void Draw(void) override;
 
-	const bool GetEnd(void);
-	const bool GetDeath(void);
-	void Damage(const int nDamage);
+	const bool GetEnd(void);					//終わったかどうかの取得処理
+	const bool GetDeath(void);					//死亡したかどうかの取得処理
+	void Damage(const int nDamage);				//ダメージを受ける処理
 
 	static CWrath* Create(void);				//生成処理
 
 private:
 
-	//void WrathBehavior(void);					//更新処理
-
-	bool m_bEnd;
-	bool m_bDeath;
-
-	CWrathBody* m_pBody;
-	CEnemyLife* m_pLife;
+	bool m_bEnd;								//終わったかどうか
+	bool m_bDeath;								//死亡したかどうか
+												
+	CWrathBody* m_pBody;						//体インスタンスへのポインタ
+	CEnemyLife* m_pLife;						//体力UIへのポインタ
 };
 
 

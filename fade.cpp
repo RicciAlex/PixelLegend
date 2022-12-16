@@ -14,6 +14,7 @@
 //コンストラクタ
 CFade::CFade()
 {
+	//メンバー変数をクリアする
 	m_fade = FADE_NONE;
 	m_pFade = nullptr;
 	m_mode = CApplication::Mode_Title;
@@ -28,6 +29,7 @@ CFade::~CFade()
 //初期化処理
 HRESULT CFade::Init(void)
 {
+	//メンバー変数を初期化する
 	m_pFade = nullptr;
 
 	m_mode = CApplication::Mode_Title;
@@ -40,10 +42,11 @@ HRESULT CFade::Init(void)
 //終了処理
 void CFade::Uninit(void)
 {
+	//フェード用のポリゴンを破棄する
 	if (m_pFade != nullptr)
-	{
-		m_pFade->Release();
-		m_pFade = nullptr;
+	{//nullチェック
+		m_pFade->Release();			//メモリを解放する
+		m_pFade = nullptr;			//nullにする
 	}
 }
 
@@ -58,23 +61,24 @@ void CFade::Update(void)
 
 	case CFade::FADE_IN:
 
-	{
+	{//フェードインだったら
 		if (m_pFade != nullptr)
-		{
-			D3DXCOLOR col = m_pFade->GetColor();
+		{//フェード用のポリゴンがnullではなかったら
 
-			col.a -= 0.025f;
+			D3DXCOLOR col = m_pFade->GetColor();			//色の取得
+
+			col.a -= 0.025f;			//α値を更新する
 
 			if (col.a <= 0.0f)
-			{
-				m_pFade->Release();
-				m_pFade = nullptr;
-				m_fade = FADE_NONE;
-				CApplication::SetFade(false);
+			{//α値が0以下になったら
+				m_pFade->Release();					//フェード用のポリゴンを破棄する
+				m_pFade = nullptr;					//ポインタをnullにする
+				m_fade = FADE_NONE;					//フェード状態の設定
+				CApplication::SetFade(false);		//フェードが終わったことを設定する
 			}
 			else
 			{
-				m_pFade->SetColor(col);
+				m_pFade->SetColor(col);				//色の設定
 			}
 		}
 		
@@ -84,15 +88,16 @@ void CFade::Update(void)
 
 	case CFade::FADE_OUT:
 
-	{
+	{//フェードアウトだったら
 		if (m_pFade != nullptr)
-		{
-			D3DXCOLOR col = m_pFade->GetColor();
+		{//nullチェック
 
-			col.a += 0.025f;
+			D3DXCOLOR col = m_pFade->GetColor();			//色の取得
 
-			if (col.a >= 0.0f)
-			{
+			col.a += 0.025f;			//α値の更新
+
+			if (col.a >= 1.0f)
+			{//α値が
 				m_pFade->Release();
 				m_pFade = nullptr;
 				m_fade = FADE_IN;

@@ -48,10 +48,11 @@ HRESULT CStarEffect::Init(void)
 //終了処理
 void CStarEffect::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -64,8 +65,9 @@ void CStarEffect::Update(void)
 	//位置の計算と設定
 	float fX, fY, x, y;
 
-	m_fAngleStart += m_fAngleSpeed;
+	m_fAngleStart += m_fAngleSpeed;				//移動の角度の更新
 
+	//パラメトリック方程式を使って、現在の位置を計算する
 	float a = 5.0f;
 	float b = 3.0f;
 	x = sinf(m_fAngleStart + m_fAngleSpeed);
@@ -73,7 +75,7 @@ void CStarEffect::Update(void)
 	fX = m_center.x + 20.0f * ((a - b) * y + b * (cosf(((a - b) / b) * m_fAngleStart + m_fAngleSpeed)));
 	fY = m_center.y + 20.0f * ((a - b) * x - b * (sinf(((a - b) / b) * m_fAngleStart + m_fAngleSpeed)));
 
-	SetPos(D3DXVECTOR3(fX, fY, 0.0f));
+	SetPos(D3DXVECTOR3(fX, fY, 0.0f));				//位置の設定
 
 	//基本クラスの更新
 	CObject_2D::Update();
@@ -83,19 +85,24 @@ void CStarEffect::Update(void)
 	life--;								//ライフの更新
 
 	if (life <= 0)
-	{//ライフが０以下になったら、消す
+	{//ライフが0以下になったら、消す
 		m_bActive = false;
 	}
 	else
 	{
 		SetLife(life);					//ライフの設定
 	}
+	
+	//ヒットボックスの更新処理
+	if (m_pHitbox)
+	{//nullチェック
 
-	m_pHitbox->SetPos(GetPos());
+		m_pHitbox->SetPos(GetPos());			//ヒットボックスの位置の更新
 
-	if (m_pHitbox->Hit())
-	{//プレイヤーと当たった場合、消す
-		m_bActive = false;
+		if (m_pHitbox->Hit())
+		{//プレイヤーと当たった場合、消す
+			m_bActive = false;
+		}
 	}
 }
 
@@ -112,11 +119,13 @@ void CStarEffect::SetCenterPos(const D3DXVECTOR3 center)
 	m_center = center;
 }
 
+//角度の初期値の設定処理	
 void CStarEffect::SetAngleMove(const float fAngle)
 {
 	m_fAngleStart = fAngle;
 }
 
+//まだあるかどうかの取得処理
 bool CStarEffect::GetActiveState(void)
 {
 	return m_bActive;
@@ -145,12 +154,13 @@ CStarEffect* CStarEffect::Create(const D3DXVECTOR3 center, const float fAngleSta
 	pEffect->SetLife(Life);														//ライフの設定
 	pEffect->SetSize(size);														//サイズの設定
 	pEffect->m_center = center;													//中心点の設定
-	pEffect->m_fAngleStart = fAngleStart;										
-	pEffect->m_fAngleSpeed = fAngleMove * 0.02f;								
+	pEffect->m_fAngleStart = fAngleStart;										//角度の初期値の設定
+	pEffect->m_fAngleSpeed = fAngleMove * 0.02f;								//回転速度の設定
 
 	//位置の計算と設定
 	float fX, fY, x, y, a, b;
 
+	//パラメトリック方程式を使って、位置を計算する
 	a = 5.0f;
 	b = 3.0f;
 	x = sinf(pEffect->m_fAngleStart + pEffect->m_fAngleSpeed);
@@ -158,12 +168,13 @@ CStarEffect* CStarEffect::Create(const D3DXVECTOR3 center, const float fAngleSta
 	fX = center.x + 20.0f * ((a - b) * y + b * (cosf(((a - b) / b) * pEffect->m_fAngleStart + pEffect->m_fAngleSpeed)));
 	fY = center.y + 20.0f * ((a - b) * x - b * (sinf(((a - b) / b) * pEffect->m_fAngleStart + pEffect->m_fAngleSpeed)));
 
-	pEffect->SetPos(D3DXVECTOR3(fX, fY, 0.0f));
+	pEffect->SetPos(D3DXVECTOR3(fX, fY, 0.0f));									//位置の設定
 
 	pEffect->SetTexture(CObject::TextureNormalEffect);							//テクスチャの設定
 	pEffect->SetTextureParameter(1, 1, 1, INT_MAX);								//テクスチャパラメータの設定
 
+	//ヒットボックスの生成
 	pEffect->m_pHitbox = CCircleHitbox::Create(pEffect->GetPos(), size.x * 0.5f, CHitbox::Type_EnemyBullet);
 
-	return pEffect;																//エフェクトを返す
+	return pEffect;							//エフェクトを返す
 }	 

@@ -17,19 +17,19 @@ class CCircleHitbox;
 class CBalloonEnemy : public CEnemy
 {
 public:
-	CBalloonEnemy();
-	~CBalloonEnemy() override;
-
-	HRESULT Init(void) override;
+	CBalloonEnemy();							//コンストラクタ
+	~CBalloonEnemy() override;					//デストラクタ
+												
+	HRESULT Init(void) override;				//初期化処理
 	void Uninit(void) override;					//終了処理
 	void Update(void) override;					//更新処理
 	void Draw(void) override;					//描画処理
 
-	static CBalloonEnemy* Create(D3DXVECTOR3 pos);
+	static CBalloonEnemy* Create(D3DXVECTOR3 pos);				//生成処理
 
 private:
 
-	CCircleHitbox* m_pHitbox;
+	CCircleHitbox* m_pHitbox;					//ヒットボックス
 };
 
 #endif

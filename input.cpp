@@ -44,17 +44,18 @@ HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd, GUID guid)
 //終了処理
 void CInput::Uninit(void)
 {
+	//ポインタの破棄
 	if (m_pInput != nullptr)
-	{
-		m_pInput->Release();
-		m_pInput = nullptr;
+	{//nullチェック
+		m_pInput->Release();		//メモリを解放する
+		m_pInput = nullptr;			//ポインタをnullにする
 	}
 
 	if (m_pDevice != nullptr)
-	{
+	{//nullチェック
 		m_pDevice->Unacquire();
-		m_pDevice->Release();
-		m_pDevice = nullptr;
+		m_pDevice->Release();		//メモリを解放する
+		m_pDevice = nullptr;		//ポインタをnullにする
 	}
 }
 

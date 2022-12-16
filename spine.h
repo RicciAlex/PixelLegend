@@ -17,7 +17,8 @@ class CVertebra;
 class CSpine : public CObject
 {
 public:
-	static const int VertebraNumber = 8;
+
+	static const int VertebraNumber = 8;					//骨の数
 
 
 	CSpine();												//コンストラクタ

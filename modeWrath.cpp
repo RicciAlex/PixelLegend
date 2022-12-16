@@ -83,95 +83,112 @@ void CGameWrath::Uninit(void)
 {
 	//ポインタの破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();					//メモリを解放する
+		m_pBg = nullptr;					//ポインタをnullにする
 	}
 	if (m_pBackBg != nullptr)
-	{
-		m_pBackBg->Release();
-		m_pBackBg = nullptr;
+	{//nullチェック
+		m_pBackBg->Release();				//メモリを解放する
+		m_pBackBg = nullptr;				//ポインタをnullにする
 	}
 	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Release();
-		m_pPlayer = nullptr;
+	{//nullチェック
+		m_pPlayer->Release();				//メモリを解放する
+		m_pPlayer = nullptr;				//ポインタをnullにする
 	}
 
 	if (m_pEnemy != nullptr)
-	{
-		m_pEnemy->Release();
-		m_pEnemy = nullptr;
+	{//nullチェック
+		m_pEnemy->Release();				//メモリを解放する
+		m_pEnemy = nullptr;					//ポインタをnullにする
 	}
 
 	if (m_pMenuBg != nullptr)
-	{
-		m_pMenuBg->Release();
-		m_pMenuBg = nullptr;
+	{//nullチェック
+		m_pMenuBg->Release();				//メモリを解放する
+		m_pMenuBg = nullptr;				//ポインタをnullにする
 	}
-
-
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();		//メモリを解放する
+			m_pButton[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
-
 	if (m_pObj != nullptr)
-	{
-		m_pObj->Release();
-		m_pObj = nullptr;
+	{//nullチェック
+		m_pObj->Release();		//メモリを解放する
+		m_pObj = nullptr;		//ポインタをnullにする
 	}
 }
 
 //更新処理
 void CGameWrath::Update(void)
 {
+	//ボスの更新処理
 	if (m_pEnemy != nullptr)
-	{
+	{//nullチェック
+
 		if (m_pEnemy->GetEnd())
 		{//敵が死んでいるかどうか確認する
+
 			if (m_pPlayer != nullptr)
-			{
-				CApplication::SetRemainingLife(m_pPlayer->GetLife());
+			{//プレイヤーがnullではなかったら
+
+				CApplication::SetRemainingLife(m_pPlayer->GetLife());		//プレイヤーの残った体力の取得
 			}
 
-			CApplication::SetFade(CApplication::Mode_Result);					//モードを切り替える
+			CApplication::SetFade(CApplication::Mode_Result);				//モードを切り替える
 		}
 		else
-		{
+		{//敵がまだ死んでいなかったら
+
+			//背景の更新処理
 			if (m_pBackBg != nullptr)
-			{
-				m_nCntBg++;
+			{//nullチェック
 
-				D3DXCOLOR col = m_pBackBg->GetColor();
+				m_nCntBg++;			//アニメーションカウンターをインクリメントする
 
+				D3DXCOLOR col = m_pBackBg->GetColor();		//現在の色の取得
+
+				//色の更新
 				col.r += m_fColAnim;
 				col.g += m_fColAnim;
 
 				if (col.r >= 1.0f || col.r <= 0.7f)
-				{
+				{//範囲を出たら、アニメーション用の変数を逆にする
+
 					m_fColAnim *= -1.0f;
 				}
 
-				m_pBackBg->SetColor(col);
+				m_pBackBg->SetColor(col);			//色の設定
 			}
 
-			UpdateMenu();														//メニューの更新処理
+			UpdateMenu();		//メニューの更新処理
 		}
 	}
 
+	//プレイヤーの更新
 	if (m_pPlayer != nullptr)
-	{
+	{//nullチェック
+
 		if (m_pPlayer->GetEnd())
-		{
-			CApplication::SetFade(CApplication::Mode_Result);					//フェードの設定処理
+		{//プレイヤーが死んだら
+
+			CApplication::SetFade(CApplication::Mode_Result);		//フェードの設定処理
 		}
 	}
 }
+
+
+
+//=============================================================================
+//
+//									静的関数
+//
+//=============================================================================
 
 
 
@@ -185,6 +202,7 @@ CGameWrath* CGameWrath::Create(void)
 		return nullptr;
 	}
 
+	//背景の生成
 	pGame->m_pBackBg = CObject_2D::Create();			
 
 	if (pGame->m_pBackBg != nullptr)
@@ -215,8 +233,15 @@ CGameWrath* CGameWrath::Create(void)
 
 	pGame->m_pEnemy = CWrath::Create();			//敵の生成
 
-	return pGame;
+	return pGame;				//生成したインスタンスを返す
 }
+
+
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
 
 
 
@@ -229,6 +254,7 @@ void CGameWrath::UpdateMenu(void)
 		{//ポーズ状態だったら
 			m_bPause = false;			//普通状態にする
 
+			//ボタンを破棄する
 			for (int nCnt = 0; nCnt < button_max; nCnt++)
 			{
 				if (m_pButton[nCnt] != nullptr)
@@ -237,13 +263,14 @@ void CGameWrath::UpdateMenu(void)
 					m_pButton[nCnt] = nullptr;
 				}
 			}
+			//メニューの背景を破棄する
 			if (m_pMenuBg != nullptr)
 			{
 				m_pMenuBg->Release();
 				m_pMenuBg = nullptr;
 			}
 
-			CObject::SetPause(false);
+			CObject::SetPause(false);			//ポーズ中ではない状態にする
 		}
 		else
 		{//普通状態だったら、ポーズメニューを生成して、ポーズ状態にする
@@ -273,19 +300,22 @@ void CGameWrath::UpdateMenu(void)
 	{//ポーズ状態だったら
 		for (int nCnt = 0; nCnt < button_max; nCnt++)
 		{//ボタンの更新処理
+
 			if (m_pButton[nCnt] != nullptr)
-			{
+			{//nullチェック
 				m_pButton[nCnt]->Update();
 
 				if (m_pButton[nCnt]->GetTriggerState())
-				{
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+				{//押されたら
 
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックサウンドを再生する
+
+					//どんなボタンが押されたによって更新する
 					switch (nCnt)
 					{
 					case button_continue:
 
-					{
+					{//コンティニューボタンだったら、ポーズメニューを破棄する
 						m_bPause = false;
 
 						for (int nCnt2 = 0; nCnt2 < button_max; nCnt2++)
@@ -310,7 +340,8 @@ void CGameWrath::UpdateMenu(void)
 
 					case button_quit:
 
-					{
+					{//タイトルに戻るボタンだったら、タイトル画面に切り替える
+
 						m_bPause = false;
 						CObject::SetPause(false);
 						CApplication::SetFade(CApplication::Mode_Title);

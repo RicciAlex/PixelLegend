@@ -25,41 +25,42 @@ class CGameWrath : public CMode
 {
 public:
 
+	//ボタンの列挙型
 	enum Button
 	{
-		button_continue = 0,
-		button_quit,
-		button_max
+		button_continue = 0,		//コンティニューボタン
+		button_quit,				//タイトルに戻るボタン
+		button_max					
 	};
 
-	CGameWrath();
-	~CGameWrath();
+	CGameWrath();					//コンストラクタ
+	~CGameWrath();					//デストラクタ
 
-	HRESULT Init(void) override;				//初期化処理
-	void Uninit(void) override;					//終了処理
-	void Update(void) override;					//更新処理
+	HRESULT Init(void) override;	//初期化処理
+	void Uninit(void) override;		//終了処理
+	void Update(void) override;		//更新処理
 
-	static CGameWrath* Create(void);					//生成処理
+	static CGameWrath* Create(void);		//生成処理
 
 private:
 
-	void UpdateMenu(void);
+	void UpdateMenu(void);			//メニューの更新処理
 
-	bool m_bPause;
+	bool m_bPause;					//ポーズ中であるかどうか
 
-	int m_nCntBg;
-	float m_fColAnim;
+	int m_nCntBg;					//背景アニメーション用のカウンター
+	float m_fColAnim;				//背景アニメーション用の変数
 
-	CBg* m_pBg;
-	CObject_2D* m_pBackBg;
-	CPlayer* m_pPlayer;
-	CWrath* m_pEnemy;
-
-	CBg* m_pMenuBg;
-	CButton* m_pButton[button_max];
-
-	int m_nAnim;
-	CObject_2D* m_pObj;
+	CBg* m_pBg;						//背景へのポインタ
+	CObject_2D* m_pBackBg;			//背景アニメーション用の2Dポリゴンへのポインタ
+	CPlayer* m_pPlayer;				//プレイヤーへのポインタ
+	CWrath* m_pEnemy;				//敵へのポインタ
+									
+	CBg* m_pMenuBg;					//メニューへのポインタ
+	CButton* m_pButton[button_max];	//ボタンへのポインタ
+									
+	int m_nAnim;					//アニメーションカウンター
+	CObject_2D* m_pObj;				//UIへのポインタ
 };
 
 #endif

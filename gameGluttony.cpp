@@ -115,38 +115,37 @@ HRESULT CGameGluttony::Init(void)
 //終了処理
 void CGameGluttony::Uninit(void)
 {
-	//ポインタの破棄
+	//背景の破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();			//メモリを解放する
+		m_pBg = nullptr;			//ポインタをnullにする
 	}
-
+	//プレイヤーの破棄
 	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Release();
-		m_pPlayer = nullptr;
+	{//nullチェック
+		m_pPlayer->Release();		//メモリを解放する
+		m_pPlayer = nullptr;		//ポインタをnullにする
 	}
-
+	//敵の破棄
 	if (m_pEnemy != nullptr)
-	{
-		m_pEnemy->Uninit();
-		m_pEnemy = nullptr;
+	{//nullチェック
+		m_pEnemy->Uninit();		//メモリを解放する
+		m_pEnemy = nullptr;			//ポインタをnullにする
 	}
-
+	//メニューの背景の破棄
 	if (m_pMenuBg != nullptr)
-	{
-		m_pMenuBg->Release();
-		m_pMenuBg = nullptr;
+	{//nullチェック
+		m_pMenuBg->Release();		//メモリを解放する
+		m_pMenuBg = nullptr;		//ポインタをnullにする
 	}
-
-
+	//ボタンの破棄
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();			//メモリを解放する
+			m_pButton[nCnt] = nullptr;			//ポインタをnullにする
 		}
 	}
 }
@@ -155,14 +154,17 @@ void CGameGluttony::Uninit(void)
 void CGameGluttony::Update(void)
 {
 	if (m_pEnemy != nullptr)
-	{
-		m_pEnemy->Update();
+	{//敵のnullチェック
+
+		m_pEnemy->Update();			//敵の更新処理
 
 		if (m_pEnemy->GetEnd())
 		{//敵が死んでいるかどうか確認する
+
 			if (m_pPlayer != nullptr)
-			{
-				CApplication::SetRemainingLife(m_pPlayer->GetLife());
+			{//プレイヤーのnullチェック
+
+				CApplication::SetRemainingLife(m_pPlayer->GetLife());			//プレイヤーの残った体力の取得
 			}
 
 			CApplication::SetFade(CApplication::Mode_Result);					//モードを切り替える
@@ -174,14 +176,22 @@ void CGameGluttony::Update(void)
 	}
 
 	if (m_pPlayer != nullptr)
-	{
+	{//プレイヤーのnullチェック
+
 		if (m_pPlayer->GetEnd())
-		{
+		{//プレイヤーが死んだら
+
 			CApplication::SetFade(CApplication::Mode_Result);					//フェードの設定処理
 		}
 	}
 }
 
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 //生成処理
@@ -215,6 +225,12 @@ CGameGluttony* CGameGluttony::Create(void)
 }
 
 
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
+
 
 //メニューの更新処理
 void CGameGluttony::UpdateMenu(void)
@@ -225,6 +241,7 @@ void CGameGluttony::UpdateMenu(void)
 		{//ポーズ状態だったら
 			m_bPause = false;			//普通状態にする
 
+										//ボタンを破棄する
 			for (int nCnt = 0; nCnt < button_max; nCnt++)
 			{
 				if (m_pButton[nCnt] != nullptr)
@@ -233,13 +250,14 @@ void CGameGluttony::UpdateMenu(void)
 					m_pButton[nCnt] = nullptr;
 				}
 			}
+			//メニューの背景を破棄する
 			if (m_pMenuBg != nullptr)
 			{
 				m_pMenuBg->Release();
 				m_pMenuBg = nullptr;
 			}
 
-			CObject::SetPause(false);
+			CObject::SetPause(false);			//ポーズ中ではない状態にする
 		}
 		else
 		{//普通状態だったら、ポーズメニューを生成して、ポーズ状態にする
@@ -269,19 +287,22 @@ void CGameGluttony::UpdateMenu(void)
 	{//ポーズ状態だったら
 		for (int nCnt = 0; nCnt < button_max; nCnt++)
 		{//ボタンの更新処理
+
 			if (m_pButton[nCnt] != nullptr)
-			{
+			{//nullチェック
 				m_pButton[nCnt]->Update();
 
 				if (m_pButton[nCnt]->GetTriggerState())
-				{
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+				{//押されたら
 
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックサウンドを再生する
+
+																						//どんなボタンが押されたによって更新する
 					switch (nCnt)
 					{
 					case button_continue:
 
-					{
+					{//コンティニューボタンだったら、ポーズメニューを破棄する
 						m_bPause = false;
 
 						for (int nCnt2 = 0; nCnt2 < button_max; nCnt2++)
@@ -306,7 +327,8 @@ void CGameGluttony::UpdateMenu(void)
 
 					case button_quit:
 
-					{
+					{//タイトルに戻るボタンだったら、タイトル画面に切り替える
+
 						m_bPause = false;
 						CObject::SetPause(false);
 						CApplication::SetFade(CApplication::Mode_Title);

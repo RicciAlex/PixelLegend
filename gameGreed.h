@@ -24,10 +24,11 @@ class CGameGreed : public CMode
 {
 public:
 
+	//ボタンの列挙型
 	enum Button
 	{
-		button_continue = 0,
-		button_quit,
+		button_continue = 0,		//コンティニューボタン
+		button_quit,				//タイトルに戻るボタン
 		button_max
 	};
 
@@ -42,7 +43,7 @@ public:
 
 private:
 
-	void UpdateMenu(void);
+	void UpdateMenu(void);					//メニューの更新処理
 
 	bool m_bPause;
 

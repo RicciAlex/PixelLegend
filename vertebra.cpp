@@ -14,6 +14,7 @@
 //コンストラクタ
 CVertebra::CVertebra()
 {
+	//メンバー変数をクリアする
 	m_pHitbox = nullptr;
 }
 
@@ -38,10 +39,11 @@ HRESULT CVertebra::Init(void)
 //終了処理
 void CVertebra::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();		//メモリを解放する
+		m_pHitbox = nullptr;		//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -54,8 +56,13 @@ void CVertebra::Update(void)
 	//基本クラスの更新処理
 	CObject_2D::Update();
 
-	D3DXVECTOR3 pos = GetPos();
-	m_pHitbox->SetPos(pos);
+	//ヒットボックスの更新処理
+	if (m_pHitbox)
+	{//nullチェック
+		//位置を取得して、ヒットボックスの位置を設定する
+		D3DXVECTOR3 pos = GetPos();
+		m_pHitbox->SetPos(pos);
+	}
 }
 
 
@@ -73,7 +80,7 @@ CVertebra* CVertebra::Create(D3DXVECTOR3 pos, D3DXVECTOR2 size)
 		//初期化処理
 		if (FAILED(pVertebra->Init()))
 		{
-			return nullptr;						//nullを返す
+			return nullptr;						//生成できなかったら、nullを返す
 		}
 
 		pVertebra->SetObjType(CObject::OBJTYPE_ENEMY);					//オブジェクトの種類の設定
@@ -89,8 +96,9 @@ CVertebra* CVertebra::Create(D3DXVECTOR3 pos, D3DXVECTOR2 size)
 
 		pVertebra->SetTexture(TextureVertebra);							//テクスチャの設定
 
+		//ヒットボックスの生成処理
 		pVertebra->m_pHitbox = CCircleHitbox::Create(pos, size.x * 0.3f, CHitbox::Type_Enemy);
 	}
 
-	return pVertebra;
+	return pVertebra;				//生成したインスタンスを返す
 } 

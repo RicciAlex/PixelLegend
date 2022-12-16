@@ -72,6 +72,7 @@ void CFireballPlayer::Update(void)
 	D3DXVECTOR3 move = GetMove();
 	D3DXVECTOR3 pos = GetPos() + move;					//位置の更新
 
+	//パラメトリック方程式を使って、位置を設定する
 	m_fBulletInclination;
 	m_BulletVector += D3DXVECTOR3(10.0f, 5.0f * (float)sin(m_fBulletAngle), 0.0f);
 	m_fBulletAngle += D3DX_PI * 0.1f;
@@ -80,7 +81,12 @@ void CFireballPlayer::Update(void)
 	pos.y = (m_BulletVector.x - m_origin.x) * sinf(m_fBulletInclination) + (m_BulletVector.y - m_origin.y) * cosf(m_fBulletInclination) + m_origin.y;
 
 	SetPos(pos);										//位置の設定
-	m_pHitbox->SetPos(pos);
+
+	//ヒットボックスの更新処理
+	if (m_pHitbox)
+	{//nullチェック
+		m_pHitbox->SetPos(pos);				//ヒットボックスの位置の更新
+	}
 
 	//移動量の更新
 	move += GetAcceleration();							
@@ -131,6 +137,7 @@ bool CFireballPlayer::Hit(void)
 	return false;
 }
 
+//角度の初期値の設定処理
 void CFireballPlayer::SetStartingAngle(const float fAngle)
 {
 	m_fBulletAngle = fAngle;
@@ -176,8 +183,9 @@ CFireballPlayer* CFireballPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR
 		pBullet->SetTexture(CObject::TextureFireball);		//テクスチャの設定
 		pBullet->SetTextureParameter(8, 4, 2, 3);			//テクスチャパラメータの設定処理
 		pBullet->SetSize(Size);								//サイズの設定
-		pBullet->m_BulletVector = pos;
+		pBullet->m_BulletVector = pos;						//ローカル座標の位置の設定
 
+		//ヒットボックスの生成
 		pBullet->m_pHitbox = CCircleHitbox::Create(pos, Size.x, CHitbox::Type_PlayerBullet);
 
 	}

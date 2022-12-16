@@ -22,35 +22,36 @@ class CHandFlamethrower : public CEnemy
 {
 public:
 
+	//状態
 	enum state
 	{
-		state_spawn = 0,
-		state_shoot,
-		state_return,
-		state_despawn,
-		state_death,
+		state_spawn = 0,				//スポーン状態
+		state_shoot,					//攻撃状態
+		state_return,					//戻る状態
+		state_despawn,					//ディスポーン状態
+		state_death,					//死亡状態
 		state_max
 	};
 
-	CHandFlamethrower();																		//コンストラクタ
-	~CHandFlamethrower() override;															//デストラクタ
+	CHandFlamethrower();															//コンストラクタ
+	~CHandFlamethrower() override;													//デストラクタ
 
 	HRESULT Init(void) override;													//初期化処理
 	void Uninit(void) override;														//終了処理
 	void Update(void) override;														//更新処理
 
-	void SetParent(CWrath* pParent);
+	void SetParent(CWrath* pParent);												//親へのポインタの設定処理
 
 	static CHandFlamethrower* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move);						//生成処理
 
 private:
 
-	void updateState(void);
-
-	state m_state;
-
-	CCircleHitbox* m_pHitbox;
-	CWrath* m_pParent;
+	void updateState(void);					//状態によっての更新処理
+											
+	state m_state;							//現在の状態
+											
+	CCircleHitbox* m_pHitbox;				//ヒットボックス
+	CWrath* m_pParent;						//親へのポインタ
 };
 
 

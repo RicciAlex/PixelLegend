@@ -25,6 +25,7 @@ class CStageSelection : public CMode
 {
 public:
 
+	//ステージの列挙型
 	enum stage
 	{
 		stage_Scylla = 0,
@@ -38,15 +39,16 @@ public:
 		stage_Max
 	};
 
+	//ボタンの列挙型
 	enum Button
 	{
-		button_play = 0,
-		button_leaderboard,
-		button_title,
+		button_play = 0,			//プレイボタン
+		button_leaderboard,			//ランキングボタン
+		button_title,				//タイトルボタン
 		button_Max
 	};
 
-	static const char m_aStage[stage_Max][24];
+	static const char m_aStage[stage_Max][24];	//ステージの名前の配列
 
 	CStageSelection();							//コンストラクタ
 	~CStageSelection() override;				//デストラクタ
@@ -59,20 +61,19 @@ public:
 
 private:
 
-	void UpdateMenu(void);
+	void UpdateMenu(void);				//メニューの更新処理
 
-	int m_nSelectedStage;
-	int m_nCntDelay;
-	int m_nDifficulty;
-
-	//CStageSelectionMenu* m_pMenu;
-	CBg* m_pBg;
-	CButton* m_pButton[button_Max];
-	CButton* m_pLateralButton[2];
-	CLetter* m_pStageName[24];
-	CLetter* m_pLateralIcon[2];
-	CLetter* m_pStageSelectTitle[16];
-	CObject_2D* m_pDifficultyIcon[5];
+	int m_nSelectedStage;				//現在のステージ
+	int m_nCntDelay;					//ディレイ
+	int m_nDifficulty;					//難易度
+										
+	CBg* m_pBg;							//背景へのポインタ
+	CButton* m_pButton[button_Max];		//ボタンへのポインタ
+	CButton* m_pLateralButton[2];		//ボタンへのポインタ
+	CLetter* m_pStageName[24];			//ステージの名前へのポインタ
+	CLetter* m_pLateralIcon[2];			//UIへのポインタ
+	CLetter* m_pStageSelectTitle[16];	//文字へのポインタ
+	CObject_2D* m_pDifficultyIcon[5];	//難易度UIへのポインタ
 };
 
 #endif

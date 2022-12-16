@@ -20,8 +20,8 @@ class CCircleHitbox;
 class CSkullShield : public CEnemy
 {
 public:
-	CSkullShield();
-	~CSkullShield() override;								//デストラクタ
+	CSkullShield();										//コンストラクタ
+	~CSkullShield() override;							//デストラクタ
 
 	virtual HRESULT Init(void) override;				//初期化処理
 	virtual void Uninit(void) override;					//終了処理
@@ -32,7 +32,7 @@ public:
 
 private:
 
-	CCircleHitbox* m_pHitbox;
+	CCircleHitbox* m_pHitbox;							//ヒットボックス
 };
 
 #endif

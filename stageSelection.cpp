@@ -17,7 +17,10 @@
 #include "sound.h"
 #include "object2D.h"
 
-const char CStageSelection::m_aStage[CStageSelection::stage_Max][24] =
+//=============================================================================
+//								静的変数の初期化
+//=============================================================================
+const char CStageSelection::m_aStage[CStageSelection::stage_Max][24] =			//ステージの名前
 {
 	{ "scylla" },
 	{ "thanatos" },
@@ -32,7 +35,7 @@ const char CStageSelection::m_aStage[CStageSelection::stage_Max][24] =
 //コンストラクタ
 CStageSelection::CStageSelection()
 {
-	//m_pMenu = nullptr;
+	//メンバー変数をクリアする
 
 	m_nSelectedStage = 0;
 	m_nCntDelay = 0;
@@ -76,7 +79,7 @@ CStageSelection::~CStageSelection()
 //初期化処理
 HRESULT CStageSelection::Init(void)
 {
-	//m_pMenu = nullptr;
+	//メンバー変数を初期化する
 
 	m_nSelectedStage = 0;
 	m_nCntDelay = 0;
@@ -116,66 +119,66 @@ HRESULT CStageSelection::Init(void)
 //終了処理
 void CStageSelection::Uninit(void)
 {
-	/*if (m_pMenu != nullptr)
-	{
-		m_pMenu->Uninit();
-		m_pMenu = nullptr;
-	}*/
-
+	//背景の破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();		//メモリを解放する
+		m_pBg = nullptr;		//ポインタをnullにする
 	}
 
+	//ボタンの破棄
 	for (int nCnt = 0; nCnt < button_Max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();		//メモリを解放する
+			m_pButton[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
 
+	//ステージの名前の破棄
 	for (int nCnt = 0; nCnt < 24; nCnt++)
 	{
 		if (m_pStageName[nCnt] != nullptr)
-		{
-			m_pStageName[nCnt]->Release();
-			m_pStageName[nCnt] = nullptr;
+		{//nullチェック
+			m_pStageName[nCnt]->Release();	//メモリを解放する
+			m_pStageName[nCnt] = nullptr;	//ポインタをnullにする
 		}
 	}
 
+	//ボタンとアイコンの破棄
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
 		if (m_pLateralButton[nCnt] != nullptr)
-		{
-			m_pLateralButton[nCnt]->Uninit();
-			m_pLateralButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pLateralButton[nCnt]->Uninit();	//メモリを解放する
+			m_pLateralButton[nCnt] = nullptr;	//ポインタをnullにする
 		}
 
 		if (m_pLateralIcon[nCnt] != nullptr)
-		{
-			m_pLateralIcon[nCnt]->Release();
-			m_pLateralIcon[nCnt] = nullptr;
+		{//nullチェック
+			m_pLateralIcon[nCnt]->Release();	//メモリを解放する
+			m_pLateralIcon[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
 
+	//文字列の破棄
 	for (int nCnt = 0; nCnt < 16; nCnt++)
 	{
 		if (m_pStageSelectTitle[nCnt] != nullptr)
-		{
-			m_pStageSelectTitle[nCnt]->Release();
-			m_pStageSelectTitle[nCnt] = nullptr;
+		{//nullチェック
+			m_pStageSelectTitle[nCnt]->Release();	//メモリを解放する
+			m_pStageSelectTitle[nCnt] = nullptr;	//ポインタをnullにする
 		}
 	}
 
+	//難易度UIの破棄
 	for (int nCnt = 0; nCnt < 5; nCnt++)
 	{
 		if (m_pDifficultyIcon[nCnt] != nullptr)
 		{
-			m_pDifficultyIcon[nCnt]->Release();
-			m_pDifficultyIcon[nCnt] = nullptr;
+			m_pDifficultyIcon[nCnt]->Release();		//メモリを解放する
+			m_pDifficultyIcon[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
 }
@@ -183,17 +186,14 @@ void CStageSelection::Uninit(void)
 //更新処理
 void CStageSelection::Update(void)
 {
-	/*if (m_pMenu != nullptr)
-	{
-		m_pMenu->Update();
-	}*/
-
 	if (m_nCntDelay >= 30)
-	{
+	{//フェードが終わったら
+
 		bool bDx = false;
 		bool bSx = false;
 
 		{
+			//マウスカーソルの位置を取得して、変換する
 			POINT pt;
 			GetCursorPos(&pt);
 			HWND wnd = CApplication::GetWindow();
@@ -203,6 +203,8 @@ void CStageSelection::Update(void)
 			MousePos.y = (float)pt.y;
 			MousePos.z = 0.0f;
 
+			//========================================================================================================================
+			//				ボタンの更新処理。マウスカーソルと重なったら、色を変えて、押されたらかどうかを取得する
 			if (m_pLateralButton[0] != nullptr)
 			{
 				D3DXVECTOR2 size = m_pLateralButton[0]->GetSize();
@@ -252,7 +254,9 @@ void CStageSelection::Update(void)
 				bDx = m_pLateralButton[1]->GetTriggerState();
 			}
 		}
-
+		//========================================================================================================================
+		//========================================================================================================================
+		//			右/左アローボタン、A/Dボタン、又は左右のボタンが押されたら、選択されているステージを変える
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_RIGHT) || CInputKeyboard::GetKeyboardTrigger(DIK_D) || bDx)
 		{
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
@@ -282,7 +286,9 @@ void CStageSelection::Update(void)
 
 			UpdateMenu();
 		}
-
+		//========================================================================================================================
+		//========================================================================================================================
+		//									Q/Eボタンが押されたら、難易度を変える
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_Q))
 		{
 			int a = 0;
@@ -304,12 +310,15 @@ void CStageSelection::Update(void)
 				m_pDifficultyIcon[m_nDifficulty]->SetAnimPattern(1);
 			}
 		}
+		//========================================================================================================================
 	}
 	else
-	{
-		m_nCntDelay++;
+	{//まだフェード中だったら
+		m_nCntDelay++;				//カウンターを更新する
 	}
 
+	//============================================================================================================================
+	//							プレイボタンが押されたら、選択されているステージモードに切り替える
 	if (m_pButton[button_play] != nullptr)
 	{
 		m_pButton[button_play]->Update();
@@ -323,7 +332,6 @@ void CStageSelection::Update(void)
 			case stage_Scylla:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Scylla);
 				CApplication::SetFade(CApplication::Mode_Game_Scylla);
 			}
 
@@ -332,7 +340,6 @@ void CStageSelection::Update(void)
 			case stage_Thanatos:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Thanatos);
 				CApplication::SetFade(CApplication::Mode_Game_Thanatos);
 			}
 
@@ -341,7 +348,6 @@ void CStageSelection::Update(void)
 			case stage_Pride:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Pride);
 				CApplication::SetFade(CApplication::Mode_Game_Pride);
 			}
 
@@ -350,7 +356,6 @@ void CStageSelection::Update(void)
 			case stage_Envy:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Envy);
 				CApplication::SetFade(CApplication::Mode_Game_Envy);
 			}
 
@@ -367,7 +372,6 @@ void CStageSelection::Update(void)
 			case stage_Sloth:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Envy);
 				CApplication::SetFade(CApplication::Mode_Game_Sloth);
 			}
 
@@ -376,7 +380,6 @@ void CStageSelection::Update(void)
 			case stage_Greed:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Greed);
 				CApplication::SetFade(CApplication::Mode_Game_Greed);
 			}
 
@@ -385,7 +388,6 @@ void CStageSelection::Update(void)
 			case stage_Gluttony:
 
 			{
-				//CApplication::SetMode(CApplication::Mode_Game_Gluttony);
 				CApplication::SetFade(CApplication::Mode_Game_Gluttony);
 			}
 
@@ -400,6 +402,9 @@ void CStageSelection::Update(void)
 			return;
 		}
 	}
+	//============================================================================================================================
+	//============================================================================================================================
+	//							ランキングボタンが押されたら、ランキングモードに切り替える
 	if (m_pButton[button_leaderboard] != nullptr)
 	{
 		m_pButton[button_leaderboard]->Update();
@@ -408,11 +413,13 @@ void CStageSelection::Update(void)
 		{
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
 
-			//CApplication::SetMode(CApplication::Mode_Ranking);
 			CApplication::SetFade(CApplication::Mode_Ranking);
 			return;
 		}
 	}
+	//============================================================================================================================
+	//============================================================================================================================
+	//							タイトルボタンが押されたら、タイトルモードに切り替える
 	if (m_pButton[button_title] != nullptr)
 	{
 		m_pButton[button_title]->Update();
@@ -421,7 +428,6 @@ void CStageSelection::Update(void)
 		{
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
 
-			//CApplication::SetMode(CApplication::Mode_Title);
 			CApplication::SetFade(CApplication::Mode_Title);
 			return;
 		}
@@ -431,22 +437,33 @@ void CStageSelection::Update(void)
 
 
 
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
 
 
 //生成処理
 CStageSelection* CStageSelection::Create(void)
 {
-	CStageSelection* pStage = new CStageSelection;
+	CStageSelection* pStage = new CStageSelection;			//インスタンスを生成する
 
 	if (pStage == nullptr)
-	{
+	{//生成できなかったら、nullを返す
 		return nullptr;
 	}
 
+	//背景を生成して、生成出来たら、必要なパラメータを設定する
 	pStage->m_pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
-	pStage->m_pBg->SetTexture(CObject::TextureSeaBG);
-	pStage->m_pBg->SetTextureParameter(2, 1, 2, 30);
-	pStage->m_nDifficulty = 1;
+
+	if (pStage->m_pBg)
+	{
+		pStage->m_pBg->SetTexture(CObject::TextureSeaBG);
+		pStage->m_pBg->SetTextureParameter(2, 1, 2, 30);
+		pStage->m_nDifficulty = 1;
+	}
 
 	char Str[16] = "stage selection";
 
@@ -454,10 +471,11 @@ CStageSelection* CStageSelection::Create(void)
 	{
 		if (pStage->m_pStageSelectTitle[nCnt] == nullptr)
 		{
+			//文字列の生成
 			pStage->m_pStageSelectTitle[nCnt] = CLetter::Create(D3DXVECTOR3(40.0f + 50.0f * nCnt, 40.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), Str[nCnt]);
 
 			if (pStage->m_pStageSelectTitle[nCnt] != nullptr)
-			{
+			{//文字が生成出来たら、必要なパラメータを設定する
 				pStage->m_pStageSelectTitle[nCnt]->SetPriority(5);
 				pStage->m_pStageSelectTitle[nCnt]->SetColor(D3DXCOLOR(0.25f, 1.0f, 0.6f, 1.0f));
 				pStage->m_pStageSelectTitle[nCnt]->SetObjType(CObject::OBJTYPE_MENU);
@@ -467,10 +485,11 @@ CStageSelection* CStageSelection::Create(void)
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
+		//難易度UIの生成
 		pStage->m_pDifficultyIcon[(4 * nCnt)] = CObject_2D::Create();
 
 		if (pStage->m_pDifficultyIcon[(4 * nCnt)] != nullptr)
-		{
+		{//生成出来たら、必要なパラメータを設定する
 			pStage->m_pDifficultyIcon[(4 * nCnt)]->SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f - 125.0f + 250.0f * nCnt, (float)SCREEN_HEIGHT * 0.5f - 100.0f, 0.0f));
 			pStage->m_pDifficultyIcon[(4 * nCnt)]->SetSize(D3DXVECTOR2(20.0f, 53.0f));
 			pStage->m_pDifficultyIcon[(4 * nCnt)]->SetTextureParameter(2, 2, 1, 15);
@@ -479,8 +498,8 @@ CStageSelection* CStageSelection::Create(void)
 		}
 	}
 
-	pStage->m_pDifficultyIcon[0]->SetTexture(CObject::TextureLateralQIcon);
-	pStage->m_pDifficultyIcon[4]->SetTexture(CObject::TextureLateralEIcon);
+	pStage->m_pDifficultyIcon[0]->SetTexture(CObject::TextureLateralQIcon);		//難易度UIのテクスチャの設定
+	pStage->m_pDifficultyIcon[4]->SetTexture(CObject::TextureLateralEIcon);		//難易度UIのテクスチャの設定
 
 	for (int nCnt = 1; nCnt < 4; nCnt++)
 	{
@@ -499,15 +518,20 @@ CStageSelection* CStageSelection::Create(void)
 
 	pStage->m_pDifficultyIcon[1]->SetAnimPattern(1);
 
+	//UIの生成
 	CObject_2D* pLogo = CObject_2D::Create();
 
-	pLogo->SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f + 280.0f, (float)SCREEN_HEIGHT * 0.5f - 90.0f, 0.0f));
-	pLogo->SetSize(D3DXVECTOR2(80.0f, 40.0f));
-	pLogo->SetTexture(CObject::TextureDifficultyLogo);
-	pLogo->SetTextureParameter(1, 1, 1, INT_MAX);
-	pLogo->SetStartingRot(D3DX_PI * 0.5f);
-	pLogo->SetPriority(5);
+	if (pLogo)
+	{//生成出来たら、必要なパラメータを設定する
+		pLogo->SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f + 280.0f, (float)SCREEN_HEIGHT * 0.5f - 90.0f, 0.0f));
+		pLogo->SetSize(D3DXVECTOR2(80.0f, 40.0f));
+		pLogo->SetTexture(CObject::TextureDifficultyLogo);
+		pLogo->SetTextureParameter(1, 1, 1, INT_MAX);
+		pLogo->SetStartingRot(D3DX_PI * 0.5f);
+		pLogo->SetPriority(5);
+	}
 
+	//ステージの名前の生成
 	char aStrg[24] = {};
 	strcpy(aStrg, m_aStage[pStage->m_nSelectedStage]);
 
@@ -518,7 +542,8 @@ CStageSelection* CStageSelection::Create(void)
 			pStage->m_pStageName[nCnt] = CLetter::Create(D3DXVECTOR3(((float)SCREEN_WIDTH * 0.35f) + 60.0f * nCnt, (float)SCREEN_HEIGHT * 0.2f, 0.0f), D3DXVECTOR2(50.0f * 0.5f, 50.0f * 0.5f), aStrg[nCnt]);
 
 			if (pStage->m_pStageName[nCnt] != nullptr)
-			{
+			{//生成出来たら、必要なパラメータを設定する
+
 				pStage->m_pStageName[nCnt]->SetPriority(5);
 				pStage->m_pStageName[nCnt]->SetColor(D3DXCOLOR(1.0f, 8.0f, 0.0f, 1.0f));
 				pStage->m_pStageName[nCnt]->SetObjType(CObject::OBJTYPE_MENU);
@@ -526,6 +551,7 @@ CStageSelection* CStageSelection::Create(void)
 		}
 	}
 
+	//ボタンを生成して、出来たら、必要なパラメータの設定する
 	char aButton[CStageSelection::button_Max][24] = { "play" , "leaderboard", "title"};
 
 	for (int nCnt = 0; nCnt < CStageSelection::button_Max; nCnt++)
@@ -533,19 +559,32 @@ CStageSelection* CStageSelection::Create(void)
 		pStage->m_pButton[nCnt] = CButton::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.6f + 100.0f * nCnt, 0.0f), D3DXVECTOR2(280.0f, 55.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f), aButton[nCnt]);
 	}
 
-
 	pStage->m_pLateralButton[0] = CButton::Create(D3DXVECTOR3(150.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f), " ");
-	pStage->m_pLateralIcon[0] = CLetter::Create(D3DXVECTOR3(150.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), 0);
-	pStage->m_pLateralIcon[0]->SetAnimPattern(13);
+
+	if (pStage->m_pLateralButton[0])
+	{
+		pStage->m_pLateralIcon[0] = CLetter::Create(D3DXVECTOR3(150.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), 0);
+		pStage->m_pLateralIcon[0]->SetAnimPattern(13);
+	}
 
 	pStage->m_pLateralButton[1] = CButton::Create(D3DXVECTOR3((float)SCREEN_WIDTH - 150.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f), " ");
-	pStage->m_pLateralIcon[1] = CLetter::Create(D3DXVECTOR3((float)SCREEN_WIDTH - 150.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), 0);
-	pStage->m_pLateralIcon[1]->SetAnimPattern(14);
+	
+	if (pStage->m_pLateralButton[1])
+	{
+		pStage->m_pLateralIcon[1] = CLetter::Create(D3DXVECTOR3((float)SCREEN_WIDTH - 150.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), 0);
+		pStage->m_pLateralIcon[1]->SetAnimPattern(14);
+	}
 
-	//pStage->m_pMenu = CStageSelectionMenu::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(200.0f, 200.0f), D3DXVECTOR2(150.0f, 150.0f), D3DXCOLOR(1.0f, 0.8f, 0.0f, 1.0f));
-
-	return pStage;
+	return pStage;				//生成したインスタンスを返す
 }
+
+
+
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
 
 
 

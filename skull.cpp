@@ -50,10 +50,11 @@ HRESULT CSkull::Init(void)
 //終了処理
 void CSkull::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();		//メモリを解放する
+		m_pHitbox = nullptr;		//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -66,23 +67,29 @@ void CSkull::Update(void)
 	//基本クラスの更新処理
 	CObject_2D::Update();
 
-	m_pHitbox->SetPos(GetPos());
+	//ヒットボックスの更新処理
+	if (m_pHitbox)
+	{//nullチェック
 
-	if (m_pHitbox->Hit() || m_pHitbox->GetHitState())
-	{
-		int nDamage = CPlayer::GetPlayer()->GetAttack();
-		SetLife(GetLife() - nDamage);
-		m_pHitbox->SetHitState(false);
+		m_pHitbox->SetPos(GetPos());		//位置の設定
+
+		if (m_pHitbox->Hit() || m_pHitbox->GetHitState())
+		{//当たった状態だったら
+
+			int nDamage = CPlayer::GetPlayer()->GetAttack();		//プレイヤーの攻撃力の取得
+			SetLife(GetLife() - nDamage);							//体力更新との設定
+			m_pHitbox->SetHitState(false);							//当っていない状態に戻す
+		}
 	}
 
 	//死亡アニメーション処理
 	if (m_bDead)
 	{
-		m_nCntDestroy--;
+		m_nCntDestroy--;			//死亡カウンターをデクリメントする
 
 		if (m_nCntDestroy <= 0)
-		{
-			Release();
+		{//死亡カウンターが0以下になったら
+			Release();				//破棄する
 		}
 	}
 }
@@ -90,8 +97,9 @@ void CSkull::Update(void)
 //死亡アニメーション処理
 void CSkull::Kill(void)
 {
-	m_bDead = true;
+	m_bDead = true;			//死んだ状態にする
 
+	//ランダムな方向に移動させて、回転させる
 	D3DXVECTOR3 dir = D3DXVECTOR3((float)random(-5000, 5000), (float)random(-5000, 5000), 0.0f);
 	D3DXVec3Normalize(&dir, &dir);
 	dir.x *= 2.0f;
@@ -135,7 +143,8 @@ CSkull* CSkull::Create(D3DXVECTOR3 pos, D3DXVECTOR2 size)
 
 	pSkull->SetTexture(TextureSkull);							//テクスチャの設定
 
+	//ヒットボックスの生成
 	pSkull->m_pHitbox = CSquareHitbox::Create(pos, D3DXVECTOR2(size.x * 0.5f, size.y * 0.5f), CHitbox::Type_Enemy);
 
-	return pSkull;
+	return pSkull;							//生成したインスタンスを返す
 } 

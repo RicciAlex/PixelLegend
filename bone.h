@@ -27,15 +27,15 @@ public:
 	void Uninit(void) override;					//終了処理
 	void Update(void) override;					//更新処理
 
-	static CBone* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move);
+	static CBone* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move);			//生成処理
 
 private:
 
-	void Split(void);
+	void Split(void);				//折れる処理
 
-	bool m_bBroken;
+	bool m_bBroken;					//折れたかどうか
 
-	CSquareHitbox* m_pHitbox;
+	CSquareHitbox* m_pHitbox;		//ヒットボックスへのポインタ
 
 };
 

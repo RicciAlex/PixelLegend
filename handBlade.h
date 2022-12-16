@@ -20,19 +20,19 @@ class CCircleHitbox;
 class CHandBlade : public CBullet
 {
 public:
-	CHandBlade();																		//コンストラクタ
-	~CHandBlade() override;															//デストラクタ
+	CHandBlade();							//コンストラクタ
+	~CHandBlade() override;					//デストラクタ
 
-	HRESULT Init(void) override;													//初期化処理
-	void Uninit(void) override;														//終了処理
-	void Update(void) override;														//更新処理
+	HRESULT Init(void) override;			//初期化処理
+	void Uninit(void) override;				//終了処理
+	void Update(void) override;				//更新処理
 
 
-	static CHandBlade* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move);						//生成処理
+	static CHandBlade* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move);	//生成処理
 
 private:
 
-	CCircleHitbox* m_pHitbox;
+	CCircleHitbox* m_pHitbox;				//ヒットボックスへのポインタ
 };
 
 

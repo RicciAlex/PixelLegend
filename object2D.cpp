@@ -226,19 +226,9 @@ HRESULT CObject_2D::Init(void)
 		pVtx[nCnt].col = m_col;
 	}
 
+	//テクスチャとテクスチャパラメータの初期化
 	SetTexture(TextureNull);
 	SetTextureParameter(1, 1, 1, INT_MAX);
-
-	//カラーの設定
-	/*pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f);
-	pVtx[1].col = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
-	pVtx[2].col = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-	pVtx[3].col = D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f);*/
-
-	//pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	//pVtx[1].tex = D3DXVECTOR2(0.25f, 0.0f);
-	//pVtx[2].tex = D3DXVECTOR2(0.0f, 0.5f);
-	//pVtx[3].tex = D3DXVECTOR2(0.25f, 0.5f);
 
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -282,10 +272,12 @@ void CObject_2D::Update()
 		}
 	}
 
+	//公転があったら
 	if (m_fRevolutionRadius != 0.0f)
 	{
-		m_revolutionCenter += GetMove();
+		m_revolutionCenter += GetMove();			//中心点の位置の更新
 
+		//位置の更新
 		m_posPolygon.x = m_revolutionCenter.x + (cosf(m_fRevolutionAngle) * (m_fRevolutionRadius));
 		m_posPolygon.y = m_revolutionCenter.y + (sinf(m_fRevolutionAngle) * (m_fRevolutionRadius));
 	}
@@ -306,8 +298,10 @@ void CObject_2D::Update()
 	pVtx[3].pos.y = (m_posPolygon.y) + cosf(m_fRot - m_fAngle) * (dim);
 	pVtx[3].pos.z = 0.0f;
 
+	//公転角度の更新
 	m_fRevolutionAngle += m_fRevolutionSpeed;
 
+	//テクスチャ座標の更新処理
 	UpdateTexture();
 
 	//頂点バッファをアンロックする
@@ -424,9 +418,9 @@ const float CObject_2D::GetRot(void)
 void CObject_2D::SetRevolution(const D3DXVECTOR3 Center,
 	const float fAngularSpeed, const float fRadius)
 {
-	m_revolutionCenter = Center;
-	m_fRevolutionSpeed = fAngularSpeed;
-	m_fRevolutionRadius = fRadius;
+	m_revolutionCenter = Center;			//中心点の設定
+	m_fRevolutionSpeed = fAngularSpeed;		//公転速度の設定
+	m_fRevolutionRadius = fRadius;			//公転の半径の設定
 }
 
 //公転の中心点の設定処理
@@ -435,6 +429,7 @@ void CObject_2D::SetRevolutionCenter(const D3DXVECTOR3 Center)
 	m_revolutionCenter = Center;
 }
 
+//現在の公転角度の設定処理
 void CObject_2D::SetPresentRevolutionAngle(const float fAngle)
 {
 	m_fRevolutionAngle = fAngle;
@@ -446,6 +441,7 @@ const D3DXVECTOR3 CObject_2D::GetRevolutionCenter(void)
 	return m_revolutionCenter;
 }
 
+//公転速度の加算処理
 void CObject_2D::AddRevolutionSpeed(const float fSpeed)
 {
 	m_fRevolutionSpeed += fSpeed;
@@ -485,6 +481,7 @@ const int CObject_2D::GetPresentAnimPattern(void)
 	return m_nAnimPattern;				//アニメーションパターンを返す
 }
 
+//アニメションパターンの設定処理
 void CObject_2D::SetAnimPattern(const int PatternNum)
 {
 	m_nAnimPattern = PatternNum;
@@ -626,382 +623,6 @@ void CObject_2D::LoadTextures(void)
 		D3DXCreateTextureFromFile(pDevice,
 			m_paTextPass[nCnt],
 			&m_pTextureAll[nCnt]);
-
-		//種類によってテクスチャを生成する
-		/*switch (nCnt)
-		{
-		case TextureFireball:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Fireball_Sprite.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureThunder:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Thunder.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureExplosion:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Explosion.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureWing:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Wing.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureClock:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Clock.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureCloud:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Cloud.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureBlackHole:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\BlackHole.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureClockNeedle:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\ClockNeedle.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureWrathArm:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\WrathArm.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureWrathBody:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\WrathBody.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureVertebra:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Scylla\\Vertebra.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSkull:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Scylla\\WivernSkull_Sprite.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureScyllaBody:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Scylla\\ScyllaBody.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureNormalEffect:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Effect\\effect105.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSkullFireball:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\SkullFireball.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureLetters:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Alphabet.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSeaBG:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\BG\\Sea.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureThanatosBG:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\BG\\ThanatosBg.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureRoundEffect:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Effect\\tex_eff_light02.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureTeardrop:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Tear.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSloth:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\SlothSprite.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TexturePride:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\PrideSprite.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureBalloon:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Balloon.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureLaugh:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Laugh.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureBalloonEnemy:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\BalloonEnemy.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureCandle:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Candle.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSkullShield:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\SkullShield.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureThanatos:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Thanatos.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureScythe:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Scythe.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureGear:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Envy\\Gear_Sprite.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureFace:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Envy\\Face.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TexturePipe:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Envy\\Pipe.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureTopHat:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Envy\\TopHat.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureMissile:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Missile.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSpikeBomb:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\SpikeBomb.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSpike:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\Spike.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureSpringAndScrew:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Bullet\\SpringAndScrew.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureLifeIcon:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\LifeIcon.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureDragon:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Player.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureGreed:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Greed\\Greed.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		case TextureMoneyVolcano:
-
-			//テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				"data\\TEXTURE\\Enemy\\Greed\\MoneyVolcano.png",
-				&m_pTextureAll[nCnt]);
-
-			break;
-
-		default:
-			break;
-		}*/
 	}
 }
 
@@ -1021,25 +642,19 @@ void CObject_2D::DestroyLoadedTextures(void)
 //生成処理
 CObject_2D* CObject_2D::Create(void)
 {
-	CObject_2D* pObj2D = nullptr;
+	CObject_2D* pObj2D = nullptr;			
 
-	pObj2D = new CObject_2D;
+	pObj2D = new CObject_2D;	//インスタンスを生成する
 
 	if (FAILED(pObj2D->Init()))
-	{
-		if (pObj2D != nullptr)
-		{
-			delete pObj2D;
-			pObj2D = nullptr;
-		}
-
+	{//初期化処理
 		return nullptr;
 	}
 
-	return pObj2D;
+	return pObj2D;				//インスタンスを返す
 }
 
-
+//テクスチャ座標の更新処理
 void CObject_2D::UpdateTexture(void)
 {
 	VERTEX_2D* pVtx = nullptr;					//頂点情報へのポインタ
@@ -1050,6 +665,7 @@ void CObject_2D::UpdateTexture(void)
 	float fX = 1.0f / m_nTexLine;
 	float fY = 1.0f / m_nMaxTexColumn;
 
+	//反転の状態によってテクスチャ座標を更新する
 	if (!m_bFlipX && !m_bFlipY)
 	{
 		pVtx[0].tex = D3DXVECTOR2(m_textureTranslation.x + 0.0f + fX * (m_nAnimPattern % m_nTexLine), m_textureTranslation.y + 0.0f + fY * (m_nAnimPattern / m_nTexLine));

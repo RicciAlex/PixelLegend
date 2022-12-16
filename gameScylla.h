@@ -25,34 +25,34 @@ class CGameScylla : public CMode
 {
 public:
 
+	//ボタンの列挙型
 	enum Button
 	{
-		button_continue = 0,
-		button_quit,
+		button_continue = 0,		//コンティニューボタン
+		button_quit,				//タイトルに戻るボタン
 		button_max
 	};
 
-	CGameScylla();									//コンストラクタ
-	~CGameScylla() override;							//デストラクタ
+	CGameScylla();					//コンストラクタ
+	~CGameScylla() override;		//デストラクタ
 
-	HRESULT Init(void) override;				//初期化処理
-	void Uninit(void) override;					//終了処理
-	void Update(void) override;					//更新処理
+	HRESULT Init(void) override;	//初期化処理
+	void Uninit(void) override;		//終了処理
+	void Update(void) override;		//更新処理
 
 	static CGameScylla* Create(void);					//生成処理
 
 private:
 
-	void UpdateMenu(void);
+	void UpdateMenu(void);			//メニューの更新処理
 
-	bool m_bPause;
+	bool m_bPause;					//ポーズ中であるかどうか
 
-	CBg* m_pBg;
-	CPlayer* m_pPlayer;
-	CScylla* m_pEnemy;
-	//CPauseMenu* m_pMenu;
-	CBg* m_pMenuBg;
-	CButton* m_pButton[button_max];
+	CBg* m_pBg;						//背景へのポインタ
+	CPlayer* m_pPlayer;				//プレイヤーへのポインタ
+	CScylla* m_pEnemy;				//敵へのポインタ
+	CBg* m_pMenuBg;					//メニューの背景へのポインタ
+	CButton* m_pButton[button_max];	//ボタンへのポインタ
 };
 
 #endif

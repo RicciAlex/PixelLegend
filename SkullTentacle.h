@@ -1,4 +1,4 @@
-//=============================================================================
+ï»¿//=============================================================================
 //
 // SkullTentacle.h
 // Author : Ricci Alex
@@ -9,12 +9,12 @@
 #define SKULL_TENTACLE_H
 
 //=============================================================================
-//ƒCƒ“ƒNƒ‹[ƒhƒtƒ@ƒCƒ‹
+//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«
 //=============================================================================
 #include "object.h"
 
 //=============================================================================
-//‘O•ûéŒ¾
+//å‰æ–¹å®£è¨€
 //=============================================================================
 class CSpine;
 class CSkull;
@@ -23,64 +23,64 @@ class CSkullTentacle : public CObject
 {
 public:
 
-	//ó‘Ô
+	//çŠ¶æ…‹
 	enum State
 	{
-		state_Spawn = 0,
-		state_Idle,
-		state_Bite,
-		state_Pursuit,
-		state_Aim,
-		state_ShootBeam,
-		state_Flamethrower,
-		state_Pull,
-		state_Return,
+		state_Spawn = 0,		//ã‚¹ãƒãƒ¼ãƒ³çŠ¶æ…‹
+		state_Idle,				//å¾…æ©ŸçŠ¶æ…‹
+		state_Bite,				//åš™ã‚€æ”»æ’ƒ
+		state_Pursuit,			//è¿½ã„ã‹ã‘ã‚‹çŠ¶æ…‹
+		state_Aim,				//ç‹™ã†
+		state_ShootBeam,		//ãƒ“ãƒ¼ãƒ æ”»æ’ƒ
+		state_Flamethrower,		//ç‚æ”»æ’ƒ
+		state_Pull,				//å¼•ãæ”»æ’ƒ
+		state_Return,			//æˆ»ã‚‹çŠ¶æ…‹
 		state_Max,
 	};
 
-	CSkullTentacle();									//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	~CSkullTentacle() override;							//ƒfƒXƒgƒ‰ƒNƒ^
+	CSkullTentacle();									//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	~CSkullTentacle() override;							//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
-	HRESULT Init(void) override;						//‰Šú‰»ˆ—
-	void Uninit(void) override;							//I—¹ˆ—
-	void Update(void) override;							//XVˆ—
-	void Draw(void) override;							//•`‰æˆ—
+	HRESULT Init(void) override;						//åˆæœŸåŒ–å‡¦ç†
+	void Uninit(void) override;							//çµ‚äº†å‡¦ç†
+	void Update(void) override;							//æ›´æ–°å‡¦ç†
+	void Draw(void) override;							//æç”»å‡¦ç†
 
-	void SetPos(const D3DXVECTOR3 pos) override;				//ˆÊ’u‚Ìİ’èˆ—
-	const D3DXVECTOR2 GetSize(void) override;				//ƒTƒCƒY‚Ìæ“¾ˆ—
-	const D3DXVECTOR3 GetPos(void) override;
+	void SetPos(const D3DXVECTOR3 pos) override;		//ä½ç½®ã®è¨­å®šå‡¦ç†
+	const D3DXVECTOR2 GetSize(void) override;			//ã‚µã‚¤ã‚ºã®å–å¾—å‡¦ç†
+	const D3DXVECTOR3 GetPos(void) override;			//ä½ç½®ã®å–å¾—å‡¦ç†
 
-	const State GetState(void);							//ó‘Ô‚Ìæ“¾ˆ—
+	const State GetState(void);							//çŠ¶æ…‹ã®å–å¾—å‡¦ç†
 
-	void SetState(const State state);					//ó‘Ô‚Ìİ’èˆ—
+	void SetState(const State state);					//çŠ¶æ…‹ã®è¨­å®šå‡¦ç†
 
-	void SetLife(const int nLife);						//ƒ‰ƒCƒt‚Ìİ’èˆ—
+	void SetLife(const int nLife);						//ãƒ©ã‚¤ãƒ•ã®è¨­å®šå‡¦ç†
 
-	const int GetLife(void);							//ƒ‰ƒCƒt‚Ìæ“¾ˆ—
+	const int GetLife(void);							//ãƒ©ã‚¤ãƒ•ã®å–å¾—å‡¦ç†
 
-	void Kill(void);
+	void Kill(void);									//æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®šå‡¦ç†
 
-	static CSkullTentacle* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 headPos);		//¶¬ˆ—		pos = CSpine‚Ìanchor
+	static CSkullTentacle* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 headPos);		//ç”Ÿæˆå‡¦ç†		pos = CSpineã®anchor
 
 
 
 private:
 
-	void UpdateState(void);								//XVˆ—
-	void ChargeAnimation(const D3DXCOLOR color);		//ƒAƒjƒ[ƒVƒ‡ƒ“ˆ—
+	void UpdateState(void);								//æ›´æ–°å‡¦ç†
+	void ChargeAnimation(const D3DXCOLOR color);		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å‡¦ç†
 
-	int m_nLife;										//‘Ì—Í
-	D3DXVECTOR3 m_SkullPos;								//“ª‚ÌˆÊ’u
-	D3DXVECTOR3 m_SkullDir;								//“ª‚ÌŒü‚«
-	D3DXVECTOR3 m_target;								//–Ú“I‚ÌˆÊ’u
-	CSkull* m_pSkull;									
-	CSpine* m_pSpine;									
-	State m_state;										//ó‘Ô
-	int m_nCntAtk;										//UŒ‚—p‚ÌƒJƒEƒ“ƒ^[
-	int m_nCntDeath;									//€–SƒAƒjƒ[ƒVƒ‡ƒ“—p‚ÌƒJƒEƒ“ƒ^[
-	int m_nCntMove;										//ˆÚ“®—p‚ÌƒJƒEƒ“ƒ^[
-	float m_fAngleMove;									//ˆÚ“®—p‚ÌƒJƒEƒ“ƒ^[
-	bool m_bDead;										//€‚ñ‚Å‚¢‚é‚©‚Ç‚¤‚©
+	int m_nLife;										//ä½“åŠ›
+	D3DXVECTOR3 m_SkullPos;								//é ­ã®ä½ç½®
+	D3DXVECTOR3 m_SkullDir;								//é ­ã®å‘ã
+	D3DXVECTOR3 m_target;								//ç›®çš„ã®ä½ç½®
+	CSkull* m_pSkull;									//é ­ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	CSpine* m_pSpine;									//éª¨ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	State m_state;										//çŠ¶æ…‹
+	int m_nCntAtk;										//æ”»æ’ƒç”¨ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	int m_nCntDeath;									//æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	int m_nCntMove;										//ç§»å‹•ç”¨ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	float m_fAngleMove;									//ç§»å‹•ç”¨ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	bool m_bDead;										//æ­»ã‚“ã§ã„ã‚‹ã‹ã©ã†ã‹
 };
 
 #endif

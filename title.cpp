@@ -18,20 +18,23 @@
 #include "skullCursor.h"
 #include "Letter.h"
 
-
-D3DXCOLOR CTitle::targetColors[CTitle::TargetCol_Max] = 
+//=============================================================================
+//							静的変数の初期化
+//=============================================================================
+D3DXCOLOR CTitle::targetColors[CTitle::TargetCol_Max] =				//タイトルアニメーションの色
 {
-	{1.0f, 0.0f, 0.0f, 1.0f},
-	{0.0f, 1.0f, 0.0f, 1.0f},
-	{0.0f, 0.0f, 1.0f, 1.0f},
-	{1.0f, 1.0f, 0.0f, 1.0f},
-	{1.0f, 0.0f, 1.0f, 1.0f},
-	{0.0f, 1.0f, 1.0f, 1.0f}
+	{1.0f, 0.0f, 0.0f, 1.0f},			//赤
+	{0.0f, 1.0f, 0.0f, 1.0f},			//緑
+	{0.0f, 0.0f, 1.0f, 1.0f},			//青
+	{1.0f, 1.0f, 0.0f, 1.0f},			//黄
+	{1.0f, 0.0f, 1.0f, 1.0f},			//マゼンタ
+	{0.0f, 1.0f, 1.0f, 1.0f}			//シアン
 };
 
 //コンストラクタ
 CTitle::CTitle()
 {
+	//メンバー変数をクリアする
 	m_pBg = nullptr;
 
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
@@ -64,6 +67,7 @@ CTitle::~CTitle()
 //初期化処理
 HRESULT CTitle::Init(void)
 {
+	//メンバー変数を初期化する
 	m_pBg = nullptr;
 
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
@@ -85,34 +89,40 @@ HRESULT CTitle::Init(void)
 //終了処理
 void CTitle::Uninit(void)
 {
+	//背景の破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();					//メモリを解放する
+		m_pBg = nullptr;					//ポインタをnullにする
 	}
 
+	//ボタンの破棄
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();		//メモリを解放する
+			m_pButton[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
+
+	//カーソルの破棄
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
 		if (m_pCursor[nCnt] != nullptr)
-		{
-			m_pCursor[nCnt]->Uninit();
-			m_pCursor[nCnt] = nullptr;
+		{//nullチェック
+			m_pCursor[nCnt]->Uninit();		//メモリを解放する
+			m_pCursor[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
+
+	//タイトルの文字の破棄
 	for (int nCnt = 0; nCnt < 16; nCnt++)
 	{
 		if (m_pTitle[nCnt] != nullptr)
-		{
-			m_pTitle[nCnt]->Release();
-			m_pTitle[nCnt] = nullptr;
+		{//nullチェック
+			m_pTitle[nCnt]->Release();		//メモリを解放する
+			m_pTitle[nCnt] = nullptr;		//ポインタをnullにする
 		}
 	}
 }
@@ -120,133 +130,144 @@ void CTitle::Uninit(void)
 //更新処理
 void CTitle::Update(void)
 {
-	UpdateTitleColor();
+	UpdateTitleColor();						//タイトルの色の更新処理
 
+	//カーソルの更新処理
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
 		if (m_pCursor[nCnt] != nullptr)
-		{
+		{//nullチェック
 			m_pCursor[nCnt]->Update();
 		}
 	}
 
-		if (m_pButton[button_play] != nullptr)
-		{
-			m_pButton[button_play]->Update();
+	//ボタンの更新処理
+	if (m_pButton[button_play] != nullptr)
+	{//プレイボタンのnullチェック
 
-			if (m_pButton[button_play]->GetTriggerState())
-			{
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+		m_pButton[button_play]->Update();			//プレイボタンの更新処理
 
-				//CApplication::SetMode(CApplication::Mode_StageSelection);
-				CApplication::SetFade(CApplication::Mode_StageSelection);
-				return;
-			}
+		if (m_pButton[button_play]->GetTriggerState())
+		{//押されたら
+
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックのサウンドを再生する
+
+			CApplication::SetFade(CApplication::Mode_StageSelection);			//ステージ選択画面に移動
+			return;		
 		}
-		if (m_pButton[button_tutorial] != nullptr)
-		{
-			m_pButton[button_tutorial]->Update();
+	}
+	if (m_pButton[button_tutorial] != nullptr)
+	{//チュートリアルボタンのnullチェック
 
-			if (m_pButton[button_tutorial]->GetTriggerState())
-			{
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+		m_pButton[button_tutorial]->Update();		//チュートリアルボタンの更新処理
 
-				CApplication::SetFade(CApplication::Mode_Tutorial);
-				return;
-			}
+		if (m_pButton[button_tutorial]->GetTriggerState())
+		{//押されたら
+
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックのサウンドを再生する
+
+			CApplication::SetFade(CApplication::Mode_Tutorial);					//チュートリアル画面に移動
+			return;
 		}
-		if (m_pButton[button_leaderboard] != nullptr)
-		{
-			m_pButton[button_leaderboard]->Update();
+	}
+	if (m_pButton[button_leaderboard] != nullptr)
+	{//ランキングボタンのnullチェック
 
-			if (m_pButton[button_leaderboard]->GetTriggerState())
-			{
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+		m_pButton[button_leaderboard]->Update();	//ランキングボタンの更新処理
 
-				//CApplication::SetMode(CApplication::Mode_Ranking);
-				CApplication::SetFade(CApplication::Mode_Ranking);
-				return;
-			}
+		if (m_pButton[button_leaderboard]->GetTriggerState())
+		{//押されたら
+
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックのサウンドを再生する
+
+			CApplication::SetFade(CApplication::Mode_Ranking);					//ランキング画面に移動
+			return;
 		}
-
-	/*if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
-	{
-		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
-
-		CApplication::SetMode(CApplication::Mode_StageSelection);
-	}*/
+	}
 }
+
+
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 
 //生成処理
 CTitle* CTitle::Create(void)
 {
-	CTitle* pTitle = new CTitle;
+	CTitle* pTitle = new CTitle;			//インスタンスを生成する
 
 	if (FAILED(pTitle->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pTitle->m_pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
-	pTitle->m_pBg->SetTexture(CObject::TextureMenuBg);
-	pTitle->m_pBg->SetTextureParameter(1, 1, 1, INT_MAX);
-	pTitle->m_pBg->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	pTitle->m_pCursor[0] = CSkullCursor::Create(D3DXVECTOR3(0.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
-	pTitle->m_pCursor[1] = CSkullCursor::Create(D3DXVECTOR3((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
+	pTitle->m_pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));		//タイトルの生成
 
-	char aStr[16] = "pixel legend";
+	if (pTitle->m_pBg)
+	{//生成出来たら、必要なパラメータの設定
+
+		pTitle->m_pBg->SetTexture(CObject::TextureMenuBg);
+		pTitle->m_pBg->SetTextureParameter(1, 1, 1, INT_MAX);
+		pTitle->m_pBg->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		pTitle->m_pCursor[0] = CSkullCursor::Create(D3DXVECTOR3(0.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
+		pTitle->m_pCursor[1] = CSkullCursor::Create(D3DXVECTOR3((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
+	}
+
+	char aStr[16] = "pixel legend";			//タイトルの文字列
 
 	int Lenght = strlen(aStr);
 
 	for (int nCnt = 0; nCnt < Lenght; nCnt++)
 	{
+		//タイトルの文字の生成
 		pTitle->m_pTitle[nCnt] = CLetter::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f - 75.0f * (Lenght * 0.5f) + (80.0f * nCnt), (float)SCREEN_HEIGHT * 0.25f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), aStr[nCnt]);
 		
 		if (pTitle->m_pTitle[nCnt] != nullptr)
-		{
+		{//生成出来たら、色とプライオリティの設定
+
 			pTitle->m_pTitle[nCnt]->SetColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 			pTitle->m_pTitle[nCnt]->SetPriority(2);
 		}
 	}
 
-	pTitle->m_TargetCol = TargetCol_Yellow;
+	pTitle->m_TargetCol = TargetCol_Yellow;		//目的の色の設定
 
-	char aText[button_max][24] = { { "play" }, { "tutorial" },{ "leaderboard" } };
+	char aText[button_max][24] = { { "play" }, { "tutorial" },{ "leaderboard" } };			//ボタンの文字列
 
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
+		//ボタンの生成
 		pTitle->m_pButton[nCnt] = CButton::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f + 50.0f * 2.5f * nCnt, 0.0f), D3DXVECTOR2(300.0f, 55.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f), aText[nCnt]);
 	}
 
-	//pTitle->m_pTitleMenu = CTitleMenu::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR2(500.0f, 350.0f), D3DXVECTOR2(350.0f, 50.0f));
-
-
-	return pTitle;
+	return pTitle;				//生成したインスタンスを返す
 }
 
 
+
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
+
+
+//タイトルの色の更新処理
 void CTitle::UpdateTitleColor(void)
 {
-	m_nChangeFrame--;
+	m_nChangeFrame--;				//アニメーションカウンターをデクリメントする
 
 	if (m_nChangeFrame <= 0)
-	{
-		m_nChangeFrame = 120;
+	{//アニメーションカウンターが0以下になったら
 
-		int nRand = -1;
+		m_nChangeFrame = 120;		//120に戻す
 
-		/*while (1)
-		{
-			nRand = CObject::random(0, TargetCol_Max);
-
-			if ((TargetCol)nRand != m_TargetCol)
-			{
-				break;
-			}
-		}*/
-
+		//現在の色によって、次の目的の色を設定する
 		switch (m_TargetCol)
 		{
 		case CTitle::TargetCol_Red:
@@ -289,7 +310,6 @@ void CTitle::UpdateTitleColor(void)
 			break;
 		}
 
-		//m_TargetCol = (TargetCol)nRand;
 		m_changeCol = targetColors[m_TargetCol] - m_pTitle[0]->GetColor();
 		m_changeCol.r /= 120.0f;
 		m_changeCol.g /= 120.0f;
@@ -297,15 +317,18 @@ void CTitle::UpdateTitleColor(void)
 		m_changeCol.a = 0.0f;
 	}
 	else
-	{
-		D3DXCOLOR col = m_pTitle[0]->GetColor();
+	{//アニメーションがまだ途中だったら
 
-		col += m_changeCol;
+		D3DXCOLOR col = m_pTitle[0]->GetColor();		//現在の色を取得する
 
+		col += m_changeCol;			//色を更新する
+
+		//色を設定する
 		for (int nCnt = 0; nCnt < 16; nCnt++)
 		{
 			if (m_pTitle[nCnt] != nullptr)
-			{
+			{//nullチェック
+
 				m_pTitle[nCnt]->SetColor(col);
 			}
 		}

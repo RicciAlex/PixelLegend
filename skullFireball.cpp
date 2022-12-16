@@ -39,10 +39,11 @@ HRESULT CSkullFireball::Init(void)
 //終了処理
 void CSkullFireball::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -52,12 +53,17 @@ void CSkullFireball::Uninit(void)
 //更新処理
 void CSkullFireball::Update(void)
 {
-	m_pHitbox->SetPos(GetPos());
+	//ヒットボックスの更新処理
+	if (m_pHitbox)
+	{//nullチェック
 
-	if (m_pHitbox->Hit())
-	{//プレイヤーと当たった場合、弾を消す
-		Release();
-		return;
+		m_pHitbox->SetPos(GetPos());		//ヒットボックスの位置の設定
+
+		if (m_pHitbox->Hit())
+		{//プレイヤーと当たった場合、弾を消す
+			Release();
+			return;
+		}
 	}
 
 	//基本クラスの更新処理
@@ -66,7 +72,9 @@ void CSkullFireball::Update(void)
 
 
 //=============================================================================
-//静的関数
+//
+//								静的関数
+//
 //=============================================================================
 
 //生成処理
@@ -89,7 +97,8 @@ CSkullFireball* CSkullFireball::Create(D3DXVECTOR3 pos, D3DXVECTOR3 move)
 	pBullet->SetSize(D3DXVECTOR2(15.0f, 15.0f));			//サイズの設定
 	pBullet->SetRotation(-D3DX_PI * 0.025f);				//回転速度の設定
 
+	//ヒットボックスの生成
 	pBullet->m_pHitbox = CCircleHitbox::Create(pos, 12.0f, CHitbox::Type_EnemyBullet);
 
-	return pBullet;
+	return pBullet;					//生成したインスタンスを返す
 } 

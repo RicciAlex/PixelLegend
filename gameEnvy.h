@@ -25,25 +25,26 @@ class CGameEnvy : public CMode
 {
 public:
 
+	//ボタンの列挙型
 	enum Button
 	{
-		button_continue = 0,
-		button_quit,
+		button_continue = 0,		//コンティニューボタン
+		button_quit,				//タイトルに戻るボタン
 		button_max
 	};
 
-	CGameEnvy();
-	~CGameEnvy();
+	CGameEnvy();					//コンストラクタ
+	~CGameEnvy();					//デストラクタ
 
-	HRESULT Init(void) override;				//初期化処理
-	void Uninit(void) override;					//終了処理
-	void Update(void) override;					//更新処理
+	HRESULT Init(void) override;	//初期化処理
+	void Uninit(void) override;		//終了処理
+	void Update(void) override;		//更新処理
 
 	static CGameEnvy* Create(void);					//生成処理
 
 private:
 
-	void UpdateMenu(void);
+	void UpdateMenu(void);			//メニューの更新処理
 
 	bool m_bPause;
 	int m_nCntAnim;

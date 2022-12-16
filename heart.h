@@ -22,18 +22,19 @@ class CHeart : public CEnemy
 {
 public:
 
+	//状態
 	enum state
 	{
-		state_spawn = 0,
-		state_awake,
-		state_sleep,
-		state_vulnerable,
-		state_return,
-		state_death,
+		state_spawn = 0,		//スポーン状態
+		state_awake,			//起きる状態
+		state_sleep,			//寝る状態
+		state_vulnerable,		//ダメージを受ける状態
+		state_return,			//戻る状態
+		state_death,			//死亡状態
 		state_max
 	};
-
-	CHeart();
+		
+	CHeart();										//コンストラクタ
 	~CHeart() override;								//デストラクタ
 
 	HRESULT Init(void) override;					//初期化処理
@@ -41,24 +42,22 @@ public:
 	void Update(void) override;						//更新処理
 	void Draw(void) override;						//描画処理
 
-	void SetActive(void);
-	const bool GetEnd(void);
+	void SetActive(void);							//起きる状態の設定処理
+	const bool GetEnd(void);						//終わったかどうかの終了処理
 
 	static CHeart* Create(void);					//生成処理
 
-
-
 private:
 
-	void UpdateState(void);
+	void UpdateState(void);				//状態によっての更新処理
 
 	
-	bool m_bEnd;
-	float m_fAngleShoot;
-	state m_state;
-
-	CSquareHitbox* m_pHitbox;
-	CEnemyLife* m_pLife;
+	bool m_bEnd;						//終わったかどうか
+	float m_fAngleShoot;				//攻撃角度
+	state m_state;						//状態
+										
+	CSquareHitbox* m_pHitbox;			//ヒットボックス
+	CEnemyLife* m_pLife;				//体力UI
 };
 
 #endif

@@ -43,10 +43,11 @@ HRESULT CZBullet::Init(void)
 //終了処理
 void CZBullet::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -60,24 +61,28 @@ void CZBullet::Update(void)
 	m_nCntSize++;
 
 	if (m_nCntSize >= 30)
-	{
-		m_nCntSize = 0;
+	{//30フレームごと減数の符号を逆にする
 
+		m_nCntSize = 0;
 		m_fGrowth *= -1.0f;
 	}
 
+	//サイズの更新
 	D3DXVECTOR2 size = GetSize();
 	size += D3DXVECTOR2(m_fGrowth, m_fGrowth);
 	SetSize(size);
 
+	//ヒットボックスの更新処理
+	if (m_pHitbox)
+	{
+		m_pHitbox->SetPos(GetPos());				//位置の取得
+		m_pHitbox->SetSize(size);					//サイズの取得
 
-	m_pHitbox->SetPos(GetPos());				//位置の取得
-	m_pHitbox->SetSize(size);					//サイズの取得
-
-	if (m_pHitbox->Hit())
-	{//プレイヤーと当たった場合、消す
-		Release();
-		return;
+		if (m_pHitbox->Hit())
+		{//プレイヤーと当たった場合、消す
+			Release();
+			return;
+		}
 	}
 
 	//基本クラスの更新処理
@@ -110,6 +115,7 @@ CZBullet* CZBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 move)
 
 	pBullet->SetStartingRot((D3DX_PI * 0.5f));				//回転角度の設定
 
+	//ヒットボックスの生成
 	pBullet->m_pHitbox = CSquareHitbox::Create(pos, D3DXVECTOR2(31.0f, 31.0f), CHitbox::Type_EnemyBullet);
 
 	return pBullet;											//弾を返す

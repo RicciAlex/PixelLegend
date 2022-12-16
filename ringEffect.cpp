@@ -63,7 +63,7 @@ void CRingEffect::Update(void)
 	size += m_deltaSize;								//サイズのの更新
 
 	if (size.x <= 0.0f || size.y <= 0.0f)
-	{//サイズが０以下になったら、消す
+	{//サイズが0以下になったら、消す
 		Release();
 		return;
 	}
@@ -114,9 +114,9 @@ CRingEffect* CRingEffect::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move,
 	pEffect->SetPos(pos);										//位置の設定
 	pEffect->SetMove(move);										//速度の設定
 	pEffect->SetSize(size);										//サイズの設定
-	pEffect->m_deltaSize = deltaSize;							
+	pEffect->m_deltaSize = deltaSize;							//サイズの減数の設定	
 	pEffect->SetColor(col);										//カーラーの設定
-	pEffect->m_deltaCol = deltaCol;								
+	pEffect->m_deltaCol = deltaCol;								//色の減数の設定
 	pEffect->SetLife(600);										//ライフの設定
 
 	pEffect->SetTexture(CObject::TextureRoundEffect);			//テクスチャの設定

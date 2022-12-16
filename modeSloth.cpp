@@ -20,14 +20,10 @@
 #include "backMaw.h"
 #include "target.h"
 
-#include "maw.h"
-#include "heart.h"
-
 //コンストラクタ
 CGameSloth::CGameSloth()
 {
 	//メンバー変数をクリアする
-
 	m_bPause = false;
 
 	m_pBg = nullptr;
@@ -58,7 +54,6 @@ HRESULT CGameSloth::Init(void)
 	m_pBg = nullptr;
 	m_pPlayer = nullptr;
 	m_pEnemy = nullptr;
-	//m_pMenu = nullptr;
 
 	m_pMenuBg = nullptr;
 
@@ -75,36 +70,36 @@ void CGameSloth::Uninit(void)
 {
 	//ポインタの破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();				//メモリを解放する
+		m_pBg = nullptr;				//ポインタをnullにする
 	}
 
 	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Release();
-		m_pPlayer = nullptr;
+	{//nullチェック
+		m_pPlayer->Release();			//メモリを解放する
+		m_pPlayer = nullptr;			//ポインタをnullにする
 	}
 
 	if (m_pEnemy != nullptr)
-	{
-		m_pEnemy->Uninit();
-		m_pEnemy = nullptr;
+	{//nullチェック
+		m_pEnemy->Uninit();				//メモリを解放する
+		m_pEnemy = nullptr;				//ポインタをnullにする
 	}
 
 	if (m_pMenuBg != nullptr)
-	{
-		m_pMenuBg->Release();
-		m_pMenuBg = nullptr;
+	{//nullチェック
+		m_pMenuBg->Release();			//メモリを解放する
+		m_pMenuBg = nullptr;			//ポインタをnullにする
 	}
 
 
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();			//メモリを解放する
+			m_pButton[nCnt] = nullptr;			//ポインタをnullにする
 		}
 	}
 }
@@ -118,10 +113,11 @@ void CGameSloth::Update(void)
 		{//敵が死んでいるかどうか確認する
 			if (m_pPlayer != nullptr)
 			{
-				CApplication::SetRemainingLife(m_pPlayer->GetLife());
+				CApplication::SetRemainingLife(m_pPlayer->GetLife());			//プレイヤーの残った体力の設定
 			}
 
 			CApplication::SetMode(CApplication::Mode_Result);					//モードを切り替える
+			return;
 		}
 		else
 		{
@@ -134,9 +130,18 @@ void CGameSloth::Update(void)
 		if (m_pPlayer->GetEnd())
 		{
 			CApplication::SetFade(CApplication::Mode_Result);					//フェードの設定処理
+			return;
 		}
 	}
 }
+
+
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 
@@ -167,8 +172,16 @@ CGameSloth* CGameSloth::Create(void)
 
 	pGame->m_pEnemy = CSloth::Create();			//敵の生成
 
-	return pGame;
+	return pGame;				//生成したインスタンスを返す
 }
+
+
+
+//=============================================================================
+//
+//								プライベート関数
+//
+//=============================================================================
 
 
 
@@ -181,6 +194,7 @@ void CGameSloth::UpdateMenu(void)
 		{//ポーズ状態だったら
 			m_bPause = false;			//普通状態にする
 
+										//ボタンを破棄する
 			for (int nCnt = 0; nCnt < button_max; nCnt++)
 			{
 				if (m_pButton[nCnt] != nullptr)
@@ -189,13 +203,14 @@ void CGameSloth::UpdateMenu(void)
 					m_pButton[nCnt] = nullptr;
 				}
 			}
+			//メニューの背景を破棄する
 			if (m_pMenuBg != nullptr)
 			{
 				m_pMenuBg->Release();
 				m_pMenuBg = nullptr;
 			}
 
-			CObject::SetPause(false);
+			CObject::SetPause(false);			//ポーズ中ではない状態にする
 		}
 		else
 		{//普通状態だったら、ポーズメニューを生成して、ポーズ状態にする
@@ -225,19 +240,22 @@ void CGameSloth::UpdateMenu(void)
 	{//ポーズ状態だったら
 		for (int nCnt = 0; nCnt < button_max; nCnt++)
 		{//ボタンの更新処理
+
 			if (m_pButton[nCnt] != nullptr)
-			{
+			{//nullチェック
 				m_pButton[nCnt]->Update();
 
 				if (m_pButton[nCnt]->GetTriggerState())
-				{
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+				{//押されたら
 
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックサウンドを再生する
+
+																						//どんなボタンが押されたによって更新する
 					switch (nCnt)
 					{
 					case button_continue:
 
-					{
+					{//コンティニューボタンだったら、ポーズメニューを破棄する
 						m_bPause = false;
 
 						for (int nCnt2 = 0; nCnt2 < button_max; nCnt2++)
@@ -262,7 +280,8 @@ void CGameSloth::UpdateMenu(void)
 
 					case button_quit:
 
-					{
+					{//タイトルに戻るボタンだったら、タイトル画面に切り替える
+
 						m_bPause = false;
 						CObject::SetPause(false);
 						CApplication::SetFade(CApplication::Mode_Title);

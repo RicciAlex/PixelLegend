@@ -49,12 +49,7 @@ void CSquareHitbox::Uninit(void)
 //当たり判定
 bool CSquareHitbox::Hit(void)
 {
-	CHitbox** pHitbox = GetAllHitbox();
-
-	//if (GetType() != Type_Player && GetType() != Type_Enemy)
-	//{
-	//	SetHitState(false);
-	//}
+	CHitbox** pHitbox = GetAllHitbox();			//全部のヒットボックスの取得
 
 	for (int nCnt = 0; nCnt < CHitbox::MaxHitbox; nCnt++)
 	{
@@ -66,7 +61,7 @@ bool CSquareHitbox::Hit(void)
 				type == Type_Player && this->GetType() == Type_Enemy ||
 				type == Type_Enemy && this->GetType() == Type_PlayerBullet ||
 				type == Type_Player && this->GetType() == Type_EnemyBullet)
-			{
+			{//種類の確認
 				Shape shape = pHitbox[nCnt]->GetShape();					//形の取得処理
 
 				switch (shape)
@@ -78,15 +73,15 @@ bool CSquareHitbox::Hit(void)
 					D3DXVECTOR2 size = pHitbox[nCnt]->GetSize();			//サイズの取得
 
 					if (SquareSquareHit(pos, size))
-					{
-						SetHitState(true);
+					{//当たり判定
+						SetHitState(true);						//当たった状態にする
 
 						if (type == Type_Enemy && this->GetType() == Type_Player)
-						{
+						{//プレイヤーは敵に当たった場合、敵にダメージを与えないことにする
 							return true;
 						}
 
-						pHitbox[nCnt]->SetHitState(true);
+						pHitbox[nCnt]->SetHitState(true);		//相手を当たった状態にする
 						return true;
 					}
 
@@ -102,14 +97,14 @@ bool CSquareHitbox::Hit(void)
 
 					if (SquareCircleHit(pos, radius))
 					{
-						SetHitState(true);
+						SetHitState(true);							//当たった状態にする
 
 						if (type == Type_Enemy && this->GetType() == Type_Player)
-						{
+						{//プレイヤーは敵に当たった場合、敵にダメージを与えないことにする
 							return true;
 						}
 
-						pHitbox[nCnt]->SetHitState(true);
+						pHitbox[nCnt]->SetHitState(true);			//相手を当たった状態にする
 						return true;
 					}
 				}
@@ -131,6 +126,7 @@ const D3DXVECTOR2 CSquareHitbox::GetSize(void)
 	return m_size;
 }
 
+//半径の取得処理
 const float CSquareHitbox::GetRadius(void)
 {
 	return 0.0f;
@@ -145,6 +141,7 @@ void CSquareHitbox::SetSize(const D3DXVECTOR2 size)
 //四角形と四角形の当たり判定
 bool CSquareHitbox::SquareSquareHit(const D3DXVECTOR3 pos, const D3DXVECTOR2 size)
 {
+	//省略用のローカル変数
 	D3DXVECTOR2 Size = GetSize();
 	float fUp, fDown, fRight, fLeft;
 	fUp = GetPos().y - size.y - Size.y;
@@ -153,7 +150,7 @@ bool CSquareHitbox::SquareSquareHit(const D3DXVECTOR3 pos, const D3DXVECTOR2 siz
 	fLeft = GetPos().x - size.x - Size.x;
 
 	if (pos.x >= fLeft && pos.x <= fRight && pos.y >= fUp && pos.y <= fDown)
-	{
+	{//判定
 		return true;
 	}
 
@@ -163,6 +160,7 @@ bool CSquareHitbox::SquareSquareHit(const D3DXVECTOR3 pos, const D3DXVECTOR2 siz
 //四角形と丸の当たり判定
 bool CSquareHitbox::SquareCircleHit(const D3DXVECTOR3 center, const float radius)
 {
+	//省略用のローカル変数
 	float fUp, fDown, fRight, fLeft;
 	D3DXVECTOR2 size = GetSize();
 	fUp = GetPos().y - radius - size.y;
@@ -171,7 +169,7 @@ bool CSquareHitbox::SquareCircleHit(const D3DXVECTOR3 center, const float radius
 	fLeft = GetPos().x - radius - size.x;
 
 	if (center.x >= fLeft && center.x <= fRight && center.y >= fUp && center.y <= fDown)
-	{
+	{//判定
 		return true;
 	}
 
@@ -180,14 +178,16 @@ bool CSquareHitbox::SquareCircleHit(const D3DXVECTOR3 center, const float radius
 
 
 //=============================================================================
-//静的関数 
+//
+//								静的関数
+//
 //=============================================================================
 
 
 //生成処理
 CSquareHitbox* CSquareHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const Type type)
 {
-	CSquareHitbox* pHitbox = new CSquareHitbox;			//生成
+	CSquareHitbox* pHitbox = new CSquareHitbox;			//インスタンスを生成する
 
 	//初期化処理
 	if (FAILED(pHitbox->Init()))
@@ -199,5 +199,5 @@ CSquareHitbox* CSquareHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 si
 	pHitbox->SetSize(size);								//サイズの設定
 	pHitbox->SetType(type);								//種類の取得
 
-	return pHitbox;
+	return pHitbox;				//生成したインスタンスを返す
 }

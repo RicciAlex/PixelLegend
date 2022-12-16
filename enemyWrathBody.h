@@ -30,17 +30,17 @@ public:
 	};
 
 
-	CWrathBody();
-	~CWrathBody() override;
+	CWrathBody();								//コンストラクタ
+	~CWrathBody() override;						//デストラクタ
 
 	HRESULT Init(void) override;				//初期化処理
 	void Uninit(void) override;					//終了処理
 	void Update(void) override;					//更新処理
 	void Draw(void) override;					//描画処理
 
-	void SetParent(CWrath* pParent);
-
-	const bool GetDeath(void);
+	void SetParent(CWrath* pParent);			//親へのポインタの設定処理
+												
+	const bool GetDeath(void);					//死亡状態の取得処理
 
 	//==========================================================================================================
 	//											静的関数
@@ -48,26 +48,26 @@ public:
 
 private:
 
-	void UpdateState(void);
-
-	bool m_bDead;
-	bool m_bBound;
-
-	int m_nCntShoot;
-	int m_nCntState;
-	D3DXVECTOR3 m_targetPos;
-	state m_state;
-
-	D3DXVECTOR3 m_posArm;
-
-	CObject_2D* m_pArm;
-
-	D3DXVECTOR3 m_posBodyHitbox;
-	D3DXVECTOR3 m_posHeadHitbox;
-
-	CSquareHitbox* m_pHitbox;
-	CCircleHitbox* m_pHeadHitbox;
-
-	CWrath* m_pParent;
+	void UpdateState(void);				//状態によっての更新処理
+										
+	bool m_bDead;						//死亡したかどうか
+	bool m_bBound;						//親に結んでいるかどうか
+										
+	int m_nCntShoot;					//攻撃カウンター
+	int m_nCntState;					//状態カウンター
+	D3DXVECTOR3 m_targetPos;			//目的の位置
+	state m_state;						//現在の状態
+										
+	D3DXVECTOR3 m_posArm;				//腕の位置
+										
+	CObject_2D* m_pArm;					//腕へのポインタ
+										
+	D3DXVECTOR3 m_posBodyHitbox;		//体のヒットボックス
+	D3DXVECTOR3 m_posHeadHitbox;		//頭のヒットボックス
+										
+	CSquareHitbox* m_pHitbox;			//体のヒットボックス
+	CCircleHitbox* m_pHeadHitbox;		//頭のヒットボックス
+										
+	CWrath* m_pParent;					//親へのポインタ
 };
 

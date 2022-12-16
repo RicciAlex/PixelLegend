@@ -60,7 +60,7 @@ void CRotSimpleEff::Update(void)
 	col += m_deltaCol;							//カーラーの更新
 
 	if (sqrtf((((pos.x - m_target.x) * (pos.x - m_target.x))) + ((pos.y - m_target.y) * (pos.y - m_target.y))) <= 5.0f)
-	{
+	{//目的の位置に着いたら、消す
 		Release();
 		return;
 	}
@@ -99,11 +99,11 @@ CRotSimpleEff* CRotSimpleEff::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 ta
 	pEffect->SetMove(move);								//速度の設定
 	pEffect->SetColor(col);								//カーラーの設定
 	pEffect->SetLife(Life);								//ライフの設定
-	pEffect->m_deltaCol = deltaCol;						
+	pEffect->m_deltaCol = deltaCol;						//色の減数の設定
 	pEffect->SetRotation(fFrameRot);					//回転速度の設定
 	pEffect->SetSize(size);								//サイズの設定
-	pEffect->SetTexture(CObject::TextureRoundEffect);
-	pEffect->SetTextureParameter(1, 1, 1, INT_MAX);
+	pEffect->SetTexture(CObject::TextureRoundEffect);	//テクスチャの設定
+	pEffect->SetTextureParameter(1, 1, 1, INT_MAX);		//テクスチャパラメータの設定
 
 	return pEffect;										//エフェクトを返す
 } 

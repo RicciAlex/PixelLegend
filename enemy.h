@@ -24,13 +24,13 @@ public:
 	virtual void Update(void) override;					//更新処理
 	virtual void Draw(void) override;					//描画処理
 														
-	const int GetLife(void);
-	void SetLife(const int nLife);
+	const int GetLife(void);							//体力の取得処理
+	void SetLife(const int nLife);						//体力の設定処理
 	void SetMaxSpeed(const float maxSpeed);				//最大速度の設定処理
 	const float GetMaxSpeed(void);						//最大速度の取得処理
 	void SetSubtype(const EnemyType subType);			//敵の種類の設定処理
-	const bool GetDamageableState(void);
-	void SetDamageableState(const bool bDamageable);
+	const bool GetDamageableState(void);				//ダメージを受けるかどうかの取得処理
+	void SetDamageableState(const bool bDamageable);	//ダメージを受けるかどうかの設定処理
 	const EnemyType GetSubtype(void);					//敵の種類の取得処理
 
 protected:

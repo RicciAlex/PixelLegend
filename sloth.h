@@ -22,15 +22,15 @@ public:
 	//状態
 	enum State
 	{
-		state_Spawn = 0,
-		state_Normal,
-		state_Return,
-		state_Charge,
-		state_Snore,
-		state_Weep,
-		state_Cry,
-		state_Summon,
-		state_Death,
+		state_Spawn = 0,			//スポーン状態
+		state_Normal,				//普通の状態
+		state_Return,				//戻る状態
+		state_Charge,				//体当たり
+		state_Snore,				//いびき攻撃
+		state_Weep,					//泣く攻撃(1)
+		state_Cry,					//泣く攻撃(2)
+		state_Summon,				//召喚
+		state_Death,				//死亡状態
 		state_Max
 	};
 
@@ -42,7 +42,7 @@ public:
 	void Update(void) override;					//更新処理
 	void Draw(void) override;					//描画処理
 
-	const bool GetEnd(void);
+	const bool GetEnd(void);					//終わったかどうかの取得処理
 
 	static CSloth* Create(void);				//生成処理
 
@@ -54,16 +54,16 @@ private:
 	float m_fYCoord;							//Y座標
 	int m_nCntState;							//状態カウンター
 	int m_nCntDmg;								//ダメージ用のカウンター
-	int m_nCntSpawn;
-	int m_nChange;
-	int m_nCntSound;
-	int m_nSoundDelay;
-	int m_nCntAnim;
-	D3DXVECTOR3 m_HitboxRelativePos;
+	int m_nCntSpawn;							//スポーンカウンター
+	int m_nChange;								//
+	int m_nCntSound;							//サウンドのカウンター
+	int m_nSoundDelay;							//サウンドのディレイ
+	int m_nCntAnim;								//アニメーションカウンター
+	D3DXVECTOR3 m_HitboxRelativePos;			//ヒットボックスの相対位置
 	State m_state;								//状態
 
-	CSquareHitbox* m_pHitbox;
-	CEnemyLife* m_pLife;
+	CSquareHitbox* m_pHitbox;					//ヒットボックス
+	CEnemyLife* m_pLife;						//体力UIへのポインタ
 };
 
 

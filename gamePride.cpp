@@ -24,6 +24,7 @@
 //コンストラクタ
 CGamePride::CGamePride()
 {
+	//メンバー変数をクリアする
 	m_bPause = false;
 
 	m_pBg = nullptr;
@@ -55,6 +56,7 @@ CGamePride::~CGamePride()
 //初期化処理
 HRESULT CGamePride::Init(void)
 {
+	//メンバー変数を初期化する
 	m_bPause = false;
 
 	m_pBg = nullptr;
@@ -84,45 +86,46 @@ HRESULT CGamePride::Init(void)
 //終了処理
 void CGamePride::Uninit(void)
 {
+	//背景の破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();			//メモリを解放する
+		m_pBg = nullptr;			//ポインタをnullにする
 	}
-
+	//プレイヤーの破棄
 	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Release();
-		m_pPlayer = nullptr;
+	{//nullチェック
+		m_pPlayer->Release();		//メモリを解放する
+		m_pPlayer = nullptr;		//ポインタをnullにする
 	}
-
+	//敵の破棄
 	if (m_pEnemy != nullptr)
-	{
-		m_pEnemy->Release();
-		m_pEnemy = nullptr;
+	{//nullチェック
+		m_pEnemy->Release();		//メモリを解放する
+		m_pEnemy = nullptr;			//ポインタをnullにする
 	}
-
+	//メニューの背景の破棄
 	if (m_pMenuBg != nullptr)
-	{
-		m_pMenuBg->Release();
-		m_pMenuBg = nullptr;
+	{//nullチェック
+		m_pMenuBg->Release();		//メモリを解放する
+		m_pMenuBg = nullptr;		//ポインタをnullにする
 	}
-
+	//ボタンの破棄
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();			//メモリを解放する
+			m_pButton[nCnt] = nullptr;			//ポインタをnullにする
 		}
 	}
-
+	//風船の破棄
 	for (int nCnt = 0; nCnt < Max_Obj; nCnt++)
 	{
 		if (m_pBalloon[nCnt] != nullptr)
-		{
-			m_pBalloon[nCnt]->Release();
-			m_pBalloon[nCnt] = nullptr;
+		{//nullチェック
+			m_pBalloon[nCnt]->Release();		//メモリを解放する
+			m_pBalloon[nCnt] = nullptr;			//ポインタをnullにする
 		}
 	}
 }
@@ -130,20 +133,22 @@ void CGamePride::Uninit(void)
 //更新処理
 void CGamePride::Update(void)
 {
-	m_nCntAnim++;
+	m_nCntAnim++;			//アニメーションカウンターをインクリメントする
 
 	if (m_nCntAnim % 300 == 30)
-	{
+	{//300フレームごと背景の風船を生成する
+
 		if (m_nBalloonNumber <= Max_Obj)
 		{
 			for (int nCnt = 0; nCnt < Max_Obj; nCnt++)
 			{
 				if (m_pBalloon[nCnt] == nullptr)
 				{
+					//風船を生成する
 					m_pBalloon[nCnt] = CObject_2D::Create();
 
 					if (m_pBalloon[nCnt] != nullptr)
-					{
+					{//生成出来たら、必要なパラメータの設定
 						m_pBalloon[nCnt]->SetPos(D3DXVECTOR3((float)CObject::random(50, 1080), (float)SCREEN_HEIGHT + 100.0f, 0.0f));
 						m_pBalloon[nCnt]->SetSize(D3DXVECTOR2(15.0f, 25.0f));
 						m_pBalloon[nCnt]->SetTexture(CObject::TextureBalloon);
@@ -153,6 +158,7 @@ void CGamePride::Update(void)
 						m_pBalloon[nCnt]->SetPriority(1);
 						m_nBalloonNumber++;
 
+						//ランダムで色を設定する
 						D3DXCOLOR col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
 						switch (CObject::random(0,5))
@@ -189,15 +195,17 @@ void CGamePride::Update(void)
 	}
 
 	if (m_nBalloonNumber > 0)
-	{
+	{//風船があったら
+
 		for (int nCnt = 0; nCnt < Max_Obj; nCnt++)
 		{
 			if (m_pBalloon[nCnt] != nullptr)
-			{
-				D3DXVECTOR3 pos = m_pBalloon[nCnt]->GetPos();
+			{//nullチェック
+
+				D3DXVECTOR3 pos = m_pBalloon[nCnt]->GetPos();		//風船の位置の取得
 
 				if (pos.x >= (float)SCREEN_WIDTH + 20.0f || pos.y <= -30.0f)
-				{
+				{//画面を出たら、消す
 					m_pBalloon[nCnt]->Release();
 					m_pBalloon[nCnt] = nullptr;
 					m_nBalloonNumber--;
@@ -207,70 +215,88 @@ void CGamePride::Update(void)
 	}
 
 	if (m_pEnemy != nullptr)
-	{
+	{//敵のnullチェック
+
 		if (m_pEnemy->GetEnd())
-		{
+		{//敵が死んだら
+
 			if (m_pPlayer != nullptr)
-			{
-				CApplication::SetRemainingLife(m_pPlayer->GetLife());
+			{//プレイヤーのnullチェック
+
+				CApplication::SetRemainingLife(m_pPlayer->GetLife());		//プレイヤーの残った体力の取得
 			}
 
-			//CApplication::SetMode(CApplication::Mode_Result);		
-			CApplication::SetFade(CApplication::Mode_Result);
+			CApplication::SetFade(CApplication::Mode_Result);				//リザルト画面に切り替える
 		}
 		else
-		{
-			UpdateMenu();
+		{//まだ死んでいなかったら
+
+			UpdateMenu();			//メニューを更新する
 		}
 	}
 
 	if (m_pPlayer != nullptr)
-	{
+	{//プレイヤーのnullチェック
+
 		if (m_pPlayer->GetEnd())
-		{
-			CApplication::SetFade(CApplication::Mode_Result);					//フェードの設定処理
+		{//プレイヤーが死んだら
+
+			CApplication::SetFade(CApplication::Mode_Result);		//リザルト画面に切り替える
 		}
 	}
 }
 
 
-
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 //生成処理
 CGamePride* CGamePride::Create(void)
 {
-	CGamePride* pGame = new CGamePride;
+	CGamePride* pGame = new CGamePride;			//インスタンスを生成する
 
 	if (FAILED(pGame->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
+	//背景を生成する
 	pGame->m_pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, -0.0f));
 
 	if (pGame->m_pBg != nullptr)
-	{
+	{//生成出来たら、必要なパラメータの設定
 		pGame->m_pBg->SetTexture(CObject::TexturePrideBg);
 		pGame->m_pBg->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		pGame->m_pBg->SetTextureParameter(1, 1, 1, INT_MAX);
 	}
 
+	//プレイヤーの生成
 	pGame->m_pPlayer = CPlayer::Create();
 
 	if (pGame->m_pPlayer != nullptr)
-	{
+	{//生成出来たら、位置を設定する
 		pGame->m_pPlayer->SetPos(D3DXVECTOR3(300.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 	}
 
+	//敵の生成
 	pGame->m_pEnemy = CPride::Create();
 
-	return pGame;
+	return pGame;			//生成したインスタンスを返す
 }
 
 
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
 
 
+//メニューの更新処理
 void CGamePride::UpdateMenu(void)
 {
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
@@ -279,6 +305,7 @@ void CGamePride::UpdateMenu(void)
 		{//ポーズ状態だったら
 			m_bPause = false;			//普通状態にする
 
+										//ボタンを破棄する
 			for (int nCnt = 0; nCnt < button_max; nCnt++)
 			{
 				if (m_pButton[nCnt] != nullptr)
@@ -287,13 +314,14 @@ void CGamePride::UpdateMenu(void)
 					m_pButton[nCnt] = nullptr;
 				}
 			}
+			//メニューの背景を破棄する
 			if (m_pMenuBg != nullptr)
 			{
 				m_pMenuBg->Release();
 				m_pMenuBg = nullptr;
 			}
 
-			CObject::SetPause(false);
+			CObject::SetPause(false);			//ポーズ中ではない状態にする
 		}
 		else
 		{//普通状態だったら、ポーズメニューを生成して、ポーズ状態にする
@@ -323,19 +351,22 @@ void CGamePride::UpdateMenu(void)
 	{//ポーズ状態だったら
 		for (int nCnt = 0; nCnt < button_max; nCnt++)
 		{//ボタンの更新処理
+
 			if (m_pButton[nCnt] != nullptr)
-			{
+			{//nullチェック
 				m_pButton[nCnt]->Update();
 
 				if (m_pButton[nCnt]->GetTriggerState())
-				{
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+				{//押されたら
 
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックサウンドを再生する
+
+																						//どんなボタンが押されたによって更新する
 					switch (nCnt)
 					{
 					case button_continue:
 
-					{
+					{//コンティニューボタンだったら、ポーズメニューを破棄する
 						m_bPause = false;
 
 						for (int nCnt2 = 0; nCnt2 < button_max; nCnt2++)
@@ -360,7 +391,8 @@ void CGamePride::UpdateMenu(void)
 
 					case button_quit:
 
-					{
+					{//タイトルに戻るボタンだったら、タイトル画面に切り替える
+
 						m_bPause = false;
 						CObject::SetPause(false);
 						CApplication::SetFade(CApplication::Mode_Title);

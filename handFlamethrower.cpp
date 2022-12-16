@@ -19,6 +19,7 @@
 //コンストラクタ
 CHandFlamethrower::CHandFlamethrower()
 {
+	//メンバー変数をクリアする
 	m_state = state_spawn;
 
 	m_pHitbox = nullptr;
@@ -34,6 +35,7 @@ CHandFlamethrower::~CHandFlamethrower()
 //初期化処理
 HRESULT CHandFlamethrower::Init(void)
 {
+	//メンバー変数を初期化する
 	if(FAILED(CEnemy::Init()))
 	{
 		return -1;
@@ -50,56 +52,66 @@ HRESULT CHandFlamethrower::Init(void)
 //終了処理
 void CHandFlamethrower::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//nullにする
 	}
 
+	//親へのポインタがnullではなかったら、nullにする
 	if (m_pParent != nullptr)
 	{
 		m_pParent = nullptr;
 	}
 
+	//基本クラスの終了処理
 	CEnemy::Uninit();
 }
 
 //更新処理
 void CHandFlamethrower::Update(void)
 {
+	//基本クラスの更新処理
 	CObject_2D::Update();
 
+	//ヒットボックスの更新処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->SetPos(GetPos());
+	{//nullチェック
+
+		m_pHitbox->SetPos(GetPos());			//位置の設定
 
 		if (m_pHitbox->GetHitState())
-		{
-			m_pHitbox->SetHitState(false);
+		{//当たった状態だったら
 
-			int nDamage = CPlayer::GetPlayer()->GetAttack();
+			m_pHitbox->SetHitState(false);		//当っていない状態に戻す
+
+			int nDamage = CPlayer::GetPlayer()->GetAttack();		//プレイヤーの攻撃力を取得する
 
 			if (m_pParent != nullptr)
-			{
-				m_pParent->Damage(nDamage);
+			{//親へのポインタがnullではなかったら、
+
+				m_pParent->Damage(nDamage);				//親にダメージを与える
 			}
 		}
 	}
 
+	//死亡状態の確認
 	if (m_pParent != nullptr)
-	{
+	{//nullチェック
 		if (m_pParent->GetDeath() && m_state != state_death)
-		{
-			m_state = state_death;
-			SetMove(D3DXVECTOR3(0.0f, 2.0f, 0.0f));
-			m_nPhase = 0;
+		{//親が死亡状態だったら
+
+			m_state = state_death;						//死亡状態にする
+			SetMove(D3DXVECTOR3(0.0f, 2.0f, 0.0f));		//移動量の設定
+			m_nPhase = 0;								//カウンターを0に戻す
 		}
 	}
 
-	updateState();
+	updateState();				//状態によっての更新処理
 }
 
-
+//親へのポインタの設定処理
 void CHandFlamethrower::SetParent(CWrath* pParent)
 {
 	m_pParent = pParent;
@@ -107,36 +119,43 @@ void CHandFlamethrower::SetParent(CWrath* pParent)
 
 
 
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 
 //生成処理
 CHandFlamethrower* CHandFlamethrower::Create(D3DXVECTOR3 pos, D3DXVECTOR3 move)
 {
-	CHandFlamethrower* pEnemy = new CHandFlamethrower;
+	CHandFlamethrower* pEnemy = new CHandFlamethrower;			//インスタンスを生成する
 
 	if (FAILED(pEnemy->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pEnemy->SetPos(pos);
-	pEnemy->SetMove(move);
-	pEnemy->SetStartingRot(D3DX_PI * 0.5f);
-	pEnemy->SetSize(D3DXVECTOR2(120.0f, 80.0f));
-	pEnemy->SetTexture(CObject::TextureHand);
-	pEnemy->SetTextureParameter(1, 4, 2, INT_MAX);
-	pEnemy->SetAnimPattern(1);
-	pEnemy->SetPriority(2);
+	pEnemy->SetPos(pos);									//位置の設定
+	pEnemy->SetMove(move);									//速度の設定
+	pEnemy->SetStartingRot(D3DX_PI * 0.5f);					//向きの初期値の設定
+	pEnemy->SetSize(D3DXVECTOR2(120.0f, 80.0f));			//サイズの設定
+	pEnemy->SetTexture(CObject::TextureHand);				//テクスチャの設定
+	pEnemy->SetTextureParameter(1, 4, 2, INT_MAX);			//テクスチャパラメータの設定
+	pEnemy->SetAnimPattern(1);								//アニメションパターンの設定
+	pEnemy->SetPriority(2);									//プライオリティの設定
 
+	//位置によってテクスチャを反転する
 	if (pos.x <= 0.0f)
 	{
 		pEnemy->FlipX();
 	}
 
+	//ヒットボックスの生成
 	pEnemy->m_pHitbox = CCircleHitbox::Create(pos, 75.0f, CHitbox::Type_Enemy);
 
-	return pEnemy;
+	return pEnemy;					//生成したインスタンスを返す
 }
 
 

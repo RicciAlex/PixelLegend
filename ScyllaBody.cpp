@@ -43,10 +43,11 @@ HRESULT CScyllaBody::Init(void)
 //終了処理
 void CScyllaBody::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -59,7 +60,10 @@ void CScyllaBody::Update(void)
 	//基本クラスの更新処理
 	CObject_2D::Update();
 
-	m_pHitbox->SetPos(GetPos());
+	if (m_pHitbox)
+	{
+		m_pHitbox->SetPos(GetPos());			//ヒットボックスの位置を更新する
+	}
 }
 
 //描画処理
@@ -94,7 +98,8 @@ CScyllaBody* CScyllaBody::Create(void)
 	pEnemy->SetStartingRot(D3DX_PI * 0.5f);								//回転角度の設定
 	pEnemy->SetSubtype(ENEMYTYPE_SCYLLA_BODY);							//敵の種類の設定
 
+	//ヒットボックスの生成
 	pEnemy->m_pHitbox = CSquareHitbox::Create(pos, D3DXVECTOR2(70.0f, 250.0f), CHitbox::Type_Enemy);
 
-	return pEnemy;
+	return pEnemy;			//生成したインスタンスを返す
 }

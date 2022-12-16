@@ -21,18 +21,18 @@ class CCircleHitbox;
 class CBouncingBullet : public CBullet
 {
 public:
-	CBouncingBullet();
-	~CBouncingBullet() override;
+	CBouncingBullet();						//コンストラクタ
+	~CBouncingBullet() override;			//デストラクタ
 
-	HRESULT Init(void) override;													//初期化処理
-	void Uninit(void) override;														//終了処理
-	void Update(void) override;														//更新処理
+	HRESULT Init(void) override;			//初期化処理
+	void Uninit(void) override;				//終了処理
+	void Update(void) override;				//更新処理
 
 	static CBouncingBullet* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move);	//生成処理
 
 private:
 
-	CCircleHitbox* m_pHitbox;
+	CCircleHitbox* m_pHitbox;				//ヒットボックス
 };
 
 

@@ -69,26 +69,29 @@ const  CObject::EObjType CObject::GetObjType(void)
 	return m_type;			//種類を返す
 }
 
+//オブジェクトの種類の設定処理
 void CObject::SetObjType(const EObjType type)
 {
 	m_type = type;
 }
 
+//プライオリティの設定処理
 void CObject::SetPriority(int nPriority)
 {
 	if (nPriority < 1)
-	{
+	{//プライオリティが0以下だったら、1に設定する
 		nPriority = 1;
 	}
 	else if(nPriority > 5)
-	{
+	{//プライオリティが6以上だったら、5に設定する
 		nPriority = 5;
 	}
 
 	int nLastPriority = m_nPriority;
 
-	m_nPriority = nPriority;
+	m_nPriority = nPriority;					//プライオリティの設定
 
+	//配列の更新
 	m_nPriorityObjNum[nLastPriority - 1]--;
 	m_nPriorityObjNum[m_nPriority - 1]++;
 }
@@ -168,17 +171,7 @@ void CObject::DrawAll(void)
 	}
 }
 
-//=============================================================================
-//生成処理
-//=============================================================================
 
-////プレイヤー情報の取得処理
-//CPlayer* CObject::GetPlayer(void)
-//{
-//	CPlayer* pPlayer = dynamic_cast <CPlayer*> (m_pObject[m_PlayerIdx]);
-//
-//	return pPlayer;
-//}
 
 //オブジェクトの取得処理
 CObject** CObject::GetObj(void)
@@ -198,6 +191,7 @@ void CObject::SavePlayerIdx(CPlayer* ptr)
 	}
 }
 
+//ポーズ状態の設定処理
 void CObject::SetPause(const bool bPause)
 {
 	m_bPause = bPause;
@@ -281,6 +275,7 @@ D3DXVECTOR3 CObject::GetPerpendicularVersor(D3DXVECTOR3 V)
 std::random_device rd;
 std::mt19937 gen(rd());
 
+//乱数を返す関数
 int CObject::random(const int low, const int high)
 {
 	std::uniform_int_distribution<> dist(low, high);

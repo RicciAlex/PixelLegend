@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //
 // SkullTentacle.cpp
 // Author : Ricci Alex
@@ -6,7 +6,7 @@
 //=============================================================================
 
 //=============================================================================
-//�C���N���[�h�t�@�C��
+//インクルードファイル
 //=============================================================================
 #include "SkullTentacle.h"
 #include "skull.h"
@@ -19,17 +19,17 @@
 #include "application.h"
 #include "sound.h"
 
-//�ꎞ�I
+//一時的
 #include "inputKeyboard.h"
 #include "heartBullet.h"
 #include "starEffect.h"
 #include "Letter.h"
 #include "tear.h"
 
-//�R���X�g���N�^
+//コンストラクタ
 CSkullTentacle::CSkullTentacle()
 {
-	//�����o�[�ϐ����N���A����
+	//メンバー変数をクリアする
 	m_pSkull = nullptr;
 	m_pSpine = nullptr;
 	m_nLife = 0;
@@ -44,16 +44,16 @@ CSkullTentacle::CSkullTentacle()
 	m_bDead = false;
 }
 
-//�f�X�g���N�^
+//デストラクタ
 CSkullTentacle::~CSkullTentacle()
 {
 
 }
 
-//����������
+//初期化処理
 HRESULT CSkullTentacle::Init(void)
 {
-	//�����o�[�ϐ��̏�����
+	//メンバー変数の初期化
 	if (m_pSkull != nullptr)
 	{
 		m_pSkull->Release();
@@ -79,31 +79,33 @@ HRESULT CSkullTentacle::Init(void)
 	return S_OK;
 }
 
-//�I������
+//終了処理
 void CSkullTentacle::Uninit(void)
 {
+	//頭の破棄処理
 	if (m_pSkull != nullptr)
-	{
-		m_pSkull->Release();
-		m_pSkull = nullptr;
+	{//nullチェック
+		m_pSkull->Release();		//メモリを解放する
+		m_pSkull = nullptr;			//ポインタをnullにする
 	}
+	//骨の破棄処理
 	if (m_pSpine != nullptr)
-	{
-		m_pSpine->Release();
-		m_pSpine = nullptr;
+	{//nullチェック
+		m_pSpine->Release();		//メモリを解放する
+		m_pSpine = nullptr;			//ポインタをnullにする
 	}
 }
 
-//�X�V����
+//更新処理
 void CSkullTentacle::Update(void)
 {
 	if (!m_bDead)
-	{//����ł��Ȃ��ꍇ
+	{//死んでいない場合
 
-		D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();				//�v���C���[�̈ʒu�̎擾
-		D3DXVECTOR3 SkullPos = m_pSkull->GetPos();					//���̈ʒu�̎擾
+		D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();		//プレイヤーの位置の取得
+		D3DXVECTOR3 SkullPos = m_pSkull->GetPos();					//頭の位置の取得
 
-		//���̌����̐ݒ菈��
+		//頭の向きの設定処理
 		if (PlayerPos.x >= SkullPos.x)
 		{
 			m_SkullDir.x = 1.0f;
@@ -113,202 +115,161 @@ void CSkullTentacle::Update(void)
 			m_SkullDir.x = -1.0f;
 		}
 
+		//プレイヤーの位置と向きを比べて、必要だったら、テクスチャを反転する
 		if (m_pSkull->GetFlipX() && m_SkullDir.x == -1.0f || !m_pSkull->GetFlipX() && m_SkullDir.x == 1.0f)
 		{
 			m_pSkull->FlipX();
 		}
 
-		UpdateState();							//�X�V����
+		UpdateState();							//更新処理
 
-		m_nLife = m_pSkull->GetLife();
-
-
-		////==================================================================================================================================================
-		////																�ꎞ�I
-		//if (CInputKeyboard::GetKeyboardTrigger(DIK_I))
-		//{
-		//	D3DXVECTOR3 move = PlayerPos - SkullPos;
-		//	D3DXVec3Normalize(&move, &move);
-		//	move.x *= 2.0f;
-		//	move.y *= 2.0f;
-		//	move.z = 0.0f;
-
-		//	CHeartBullet* pBullet = CHeartBullet::Create(SkullPos, move, D3DXCOLOR(0.97f, 0.51f, 1.0f, 0.75f));
-		//}
-
-		//if (CInputKeyboard::GetKeyboardTrigger(DIK_O))
-		//{
-		//	/*D3DXVECTOR3 move = PlayerPos - SkullPos;
-		//	D3DXVec3Normalize(&move, &move);
-		//	move.x *= 2.0f;
-		//	move.y *= 2.0f;
-		//	move.z = 0.0f;*/
-
-		//	for (int nCnt = 0; nCnt < 80; nCnt++)
-		//	{
-		//		CStarEffect* pBullet = CStarEffect::Create(D3DXVECTOR3(300.0f, 300.0f, 0.0f), 6.0f * nCnt * D3DX_PI / 80.0f, 18.0f * D3DX_PI / 40.0f, D3DXCOLOR(1.0f, 1.0f, 0.015f, 0.25f), D3DXVECTOR2(4.0f, 4.0f), 640);
-		//	}
-		//}
-		//if (CInputKeyboard::GetKeyboardTrigger(DIK_M))
-		//{
-		//	CLetter* letter = CLetter::Create(D3DXVECTOR3(500.0f, 300.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), 'a');
-		//	letter = CLetter::Create(D3DXVECTOR3(550.0f, 300.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), 'h');
-		//	letter = CLetter::Create(D3DXVECTOR3(600.0f, 300.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), 'a');
-		//	letter = CLetter::Create(D3DXVECTOR3(650.0f, 300.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), 'h');
-		//	letter = CLetter::Create(D3DXVECTOR3(700.0f, 300.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), 'a');
-		//	letter = CLetter::Create(D3DXVECTOR3(750.0f, 300.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), 'h');
-		//}
-		//if (CInputKeyboard::GetKeyboardTrigger(DIK_N))
-		//{
-		//	int rand = random(0, 1);
-
-		//	D3DXVECTOR3 dir = D3DXVECTOR3((float)random(5, 30) * 0.1f, (float)random(40, 70) * -0.1f, 0.0f);
-
-		//	if (rand == 0)
-		//	{
-		//		dir.x *= -1.0f;
-		//	}
-
-		//	CTearBullet* pBullet = CTearBullet::Create(D3DXVECTOR3(400.0f, 400.0f, 0.0f), dir);
-		//}
+		m_nLife = m_pSkull->GetLife();			//体力の設定
 	}
 	else
-	{//���񂾂�
+	{//死んだら
 
-		//���S�A�j���[�V��������
+		//死亡アニメーション処理
 		m_nCntDeath++;
 
 		if (m_nCntDeath >= 120)
-		{
-			Release();
+		{//120フレームが経ったら
+			Release();			//インスタンスを消す
 		}
 	}
 }
 
-//�`�揈��
+//描画処理
 void CSkullTentacle::Draw(void)
 {
 
 }
 
-//�ʒu�̐ݒ菈��
+//位置の設定処理
 void CSkullTentacle::SetPos(const D3DXVECTOR3 pos)
 {
 
 }
 
-//�T�C�Y�̎擾����
+//サイズの取得処理
 const D3DXVECTOR2 CSkullTentacle::GetSize(void)
 {
 	return D3DXVECTOR2(0.0f, 0.0f);
 }
 
-
+//位置の取得処理
 const D3DXVECTOR3 CSkullTentacle::GetPos(void)
 {
 	return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
-//��Ԃ̎擾����
+//状態の取得処理
 const CSkullTentacle::State CSkullTentacle::GetState(void)
 {
 	return m_state;
 }
 
-//��Ԃ̐ݒ菈��
+//状態の設定処理
 void CSkullTentacle::SetState(const State state)
 {
 	m_state = state;
 }
 
-//���C�t�̐ݒ菈��
+//ライフの設定処理
 void CSkullTentacle::SetLife(const int nLife)
 {
 	m_nLife = nLife;
 }
 
-//���C�t�̎擾����
+//ライフの取得処理
 const int CSkullTentacle::GetLife(void)
 {
 	return m_nLife;
 }
 
-//���S�A�j���[�V�����̐ݒ菈��
+//死亡アニメーションの設定処理
 void CSkullTentacle::Kill(void)
 {
-	m_pSkull->Kill();
-	m_pSkull = nullptr;
-	m_pSpine->Kill();
-	m_pSpine = nullptr;
-	m_bDead = true;
+	m_pSkull->Kill();		//頭の死亡アニメーションを設定する
+	m_pSkull = nullptr;		//頭へのポインタをnullにする
+	m_pSpine->Kill();		//骨の死亡アニメーションを設定する
+	m_pSpine = nullptr;		//骨へのポインタをnullにする
+	m_bDead = true;			//死んだ状態にする
 }
 
 
 //==================================================================================================
-//										�ÓI�֐�
+//										静的関数
 //==================================================================================================
 
-//��������		pos = CSpine��anchor
+//生成処理		pos = CSpineのanchor
 CSkullTentacle* CSkullTentacle::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 headPos)
 {
-	CSkullTentacle* pTentacle = new CSkullTentacle;					//���������m�ۂ���
+	CSkullTentacle* pTentacle = new CSkullTentacle;					//メモリを確保する
 
-	//����������
+	//初期化処理
 	if (FAILED(pTentacle->Init()))
 	{
 		return nullptr;
 	}
 
-	D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();							//�v���C���[�̈ʒu�̎擾
+	D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();							//プレイヤーの位置の取得
 
-	pTentacle->m_pSpine = CSpine::Create(pos, headPos);								
-	pTentacle->m_pSkull = CSkull::Create(headPos, D3DXVECTOR2(60.0f, 60.0f));		
-	pTentacle->m_pSpine->SetHeadPos(headPos);										
-	pTentacle->m_pSpine->SetPos(pos);												
-	pTentacle->m_SkullPos = headPos;												
-																					
-	pTentacle->m_nLife = 5000;														//���C�t�̐ݒ�
+	pTentacle->m_pSpine = CSpine::Create(pos, headPos);								//頭の生成					
+	pTentacle->m_pSkull = CSkull::Create(headPos, D3DXVECTOR2(60.0f, 60.0f));		//骨の生成
 
-	return pTentacle;
-}
+	if (pTentacle->m_pSpine)
+	{//nullチェック
+		pTentacle->m_pSpine->SetHeadPos(headPos);					//頭の位置の設定
+		pTentacle->m_pSpine->SetPos(pos);							//スポーン位置の設定
+	}
+													
+	pTentacle->m_SkullPos = headPos;								//頭の位置の設定
+																	
+	pTentacle->m_nLife = 5000;										//ライフの設定
+
+	return pTentacle;						//生成したインスタンスを返す
+}	
 
 
 
 //==================================================================================================
-//									�v���C�x�[�g�֐� 
+//									プライベート関数 
 //==================================================================================================
 
-//�X�V����
+
+//更新処理
 void CSkullTentacle::UpdateState(void)
 {
-	
 	switch (m_state)
 	{
 	case CSkullTentacle::state_Spawn:
 
-	{
+	{//スポーン状態
+
 		D3DXVECTOR3 pos, PlayerPos, move;
 
-		pos = m_pSkull->GetPos();
-		PlayerPos = CPlayer::GetPlayer()->GetPos();
+		pos = m_pSkull->GetPos();						//位置の取得
+		PlayerPos = CPlayer::GetPlayer()->GetPos();		//プレイヤーの位置の取得
 
+		//プレイヤーの方向に動かせる
 		move = PlayerPos - pos;
 		D3DXVec3Normalize(&move, &move);
 		move.x *= 1.0f;
 		move.y *= 1.0f;
 
-		pos += move;
+		pos += move;		//位置の更新
 
-		m_nCntMove++;
+		m_nCntMove++;		//移動カウンターをインクリメントする
 
+		//位置の設定
 		m_pSkull->SetPos(pos);
 		m_pSpine->SetHeadPos(pos);
 		m_SkullPos = pos;
 
 		if (m_nCntMove >= 30)
-		{
-			m_nCntMove = 0;
-			m_state = state_Idle;
+		{//30フレームが経ったら
+			m_nCntMove = 0;				//移動カウンターを0に戻す
+			m_state = state_Idle;		//待機状態にする
 		}
 	}
 
@@ -316,15 +277,18 @@ void CSkullTentacle::UpdateState(void)
 
 	case CSkullTentacle::state_Idle:
 
-	{
-		m_pSkull->SetAnimPattern(0);
+	{//待機状態
+
+		m_pSkull->SetAnimPattern(0);						
 		D3DXVECTOR3 pos = m_pSkull->GetPos();
 		D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-		m_nCntMove--;
+		m_nCntMove--;				//移動カウンターをデクリメントする
 
 		if (m_nCntMove <= 0)
-		{
+		{//移動カウンターが0以下になったら
+
+			//別のランダムな方向に動かせる
 			move = D3DXVECTOR3((float)random(-100, 100), (float)random(-100, 100), 0.0f);
 			D3DXVec3Normalize(&move, &move);
 			move.x *= 0.5f;
@@ -333,10 +297,12 @@ void CSkullTentacle::UpdateState(void)
 			m_nCntMove = 30;
 		}
 
-		m_SkullPos = m_pSkull->GetPos();
+		m_SkullPos = m_pSkull->GetPos();			//頭の位置の設定
 
-		move = m_pSkull->GetMove();
+		move = m_pSkull->GetMove();					//速度の取得
 
+		//==============================================================================================================
+		//画面を出ないようにする(画面を出ようとすると戻したら、その座標の速度を逆にする)
 		if (m_SkullPos.x > (float)SCREEN_WIDTH)
 		{
 			m_SkullPos.x = (float)SCREEN_WIDTH;
@@ -357,9 +323,17 @@ void CSkullTentacle::UpdateState(void)
 			m_SkullPos.y = 0.0f;
 			move.y *= -1.0f;
 		}
+		//==============================================================================================================
 
-		m_pSpine->SetHeadPos(m_SkullPos);
-		m_pSkull->SetMove(move);
+		//位置の設定
+		if (m_pSpine)
+		{
+			m_pSpine->SetHeadPos(m_SkullPos);
+		}
+		if (m_pSkull)
+		{
+			m_pSkull->SetMove(move);
+		}
 		m_target = m_SkullPos;
 	}
 
@@ -367,12 +341,14 @@ void CSkullTentacle::UpdateState(void)
 
 	case CSkullTentacle::state_Bite:
 
-		m_nCntAtk++;
+	{//嚙む攻撃
+
+		m_nCntAtk++;			//攻撃カウンターをインクリメントする
 
 		if (m_nCntAtk <= 1)
-		{
+		{//プレイヤーを追いかける
 
-			m_pSkull->SetAnimPattern(1);
+			m_pSkull->SetAnimPattern(1);								
 			D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();
 
 			D3DXVECTOR3 pos = m_pSkull->GetPos();
@@ -381,7 +357,8 @@ void CSkullTentacle::UpdateState(void)
 			m_pSkull->SetMove(target);
 		}
 		else if (m_nCntAtk == 46)
-		{
+		{//嚙むアニメーションと速度を逆にする
+
 			D3DXVECTOR3 move = m_pSkull->GetMove();
 			move.x *= -1.0f;
 			move.y *= -1.0f;
@@ -389,7 +366,8 @@ void CSkullTentacle::UpdateState(void)
 			m_pSkull->SetAnimPattern(0);
 		}
 		else if (m_nCntAtk > 90)
-		{
+		{//速度を0にして、待機状態に戻る
+
 			D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			m_pSkull->SetMove(move);
 			m_nCntAtk = 0;
@@ -397,18 +375,23 @@ void CSkullTentacle::UpdateState(void)
 			m_nCntMove = 0;
 		}
 
+		//位置の設定
 		m_SkullPos = m_pSkull->GetPos();
 		m_pSpine->SetHeadPos(m_SkullPos);
+	}
 
 		break;
 
 	case state_Pursuit:
 
-	{
-		m_nCntMove++;
+	{//追いかける
+
+		m_nCntMove++;				//移動カウンターをインクリメントする
+
 		D3DXVECTOR3 pos = m_pSkull->GetPos();
 		D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();
 
+		//プレイヤーの位置によって目的の位置を設定する
 		if (pos.x > PlayerPos.x)
 		{
 			PlayerPos.x += 150.0f;
@@ -418,6 +401,7 @@ void CSkullTentacle::UpdateState(void)
 			PlayerPos.x -= 150.0f;
 		}
 
+		//目的の位置の方向に動かせる
 		D3DXVECTOR3 target = PlayerPos - pos;
 
 		D3DXVECTOR3 dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -429,7 +413,8 @@ void CSkullTentacle::UpdateState(void)
 
 
 		if (sqrtf(((PlayerPos.x - pos.x) * (PlayerPos.x - pos.x)) + ((PlayerPos.y - pos.y) * (PlayerPos.y - pos.y))) <= 100.0f)
-		{
+		{//プレイヤーに近づいたら、狙う状態に切り替える
+
 			m_SkullPos = PlayerPos;
 			m_pSkull->SetPos(m_SkullPos);
 			m_state = state_Aim;
@@ -437,16 +422,20 @@ void CSkullTentacle::UpdateState(void)
 			m_pSkull->SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		}
 
+		//位置の設定
 		m_SkullPos = m_pSkull->GetPos();
 		m_pSpine->SetHeadPos(m_SkullPos);
 	}
 	break;
 
 	case state_Aim:
-	{
+	{//狙う状態
+
+		//位置の取得
 		D3DXVECTOR3 pos = m_pSkull->GetPos();
 		D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();
 
+		//プレイヤーの位置によって目的の位置の設定
 		if (pos.x > PlayerPos.x)
 		{
 			PlayerPos.x += 150.0f;
@@ -456,63 +445,69 @@ void CSkullTentacle::UpdateState(void)
 			PlayerPos.x -= 150.0f;
 		}
 
+		//位置を目的の位置にする
 		D3DXVECTOR3 target = PlayerPos;
 
 		m_SkullPos = target;
 		m_pSkull->SetPos(m_SkullPos);
 		m_pSpine->SetHeadPos(m_SkullPos);
 
-		m_pSkull->SetAnimPattern(1);
+		m_pSkull->SetAnimPattern(1);		//アニメーションパターンの設定
 
-		m_nCntMove++;
+		m_nCntMove++;						//移動カウンターをインクリメントする
 
 		if (m_nCntMove < 100)
-		{
-			ChargeAnimation(D3DXCOLOR(0.97f, 1.0f, 0.58f, 0.25f));
+		{//100フレームまでエネルギーを集まるアニメーションをする
+
+			ChargeAnimation(D3DXCOLOR(0.97f, 1.0f, 0.58f, 0.25f));			//エネルギーを集まるアニメーションの処理
 
 			if (m_nCntMove % 20 == 0)
-			{
+			{//20フレームごとサウンドを再生する
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_BEAM_CHARGE);
 			}
 		}
 
 		if (m_nCntMove >= 140)
-		{
-			m_nCntMove = 0;
-			m_state = state_ShootBeam;
+		{//140フレームが経ったら
+			m_nCntMove = 0;				//移動カウンターを0に戻す
+			m_state = state_ShootBeam;	//ビーム攻撃にする
 		}
 	}
 	break;
 
 	case state_ShootBeam:
 
-	{
-		D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();
+	{//ビーム攻撃
+
+		D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();		//プレイヤーの位置の取得
 		float fDir = 1.0f;
 
+		//向きとプレイヤーの位置を比べて、ビーム攻撃の方向を設定する
 		if (PlayerPos.x < m_SkullPos.x)
 		{
 			fDir = -1.0f;
 		}
 
 		if (m_nCntAtk >= 20)
-		{
+		{//20フレームごと弾を発生する
 			CBeam* pBullet = CBeam::Create(D3DXVECTOR3(m_SkullPos.x + (fDir * 40.0f), m_SkullPos.y, 0.0f), D3DXVECTOR3(25.0f * fDir, 0.0f, 0.0f), D3DXVECTOR2(20.0f, 20.0f), D3DXCOLOR(0.97f, 1.0f, 0.58f, 1.0f));
 			
 			if (m_nCntAtk % 20 == 0)
 			{
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_FIRE);
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_FIRE);			//サウンドを再生する
 			}
 		}
 
 		if (m_nCntAtk >= 120)
-		{
+		{//120フレームが経ったら、戻る状態にする
+
 			m_pSkull->SetAnimPattern(0);
 			m_nCntAtk = 0;
 			m_state = state_Return;
 
 			D3DXVECTOR3 pos, move;
 
+			//元に戻すために、速度を計算して、設定する
 			pos = m_pSkull->GetPos();
 			move = m_target - pos;
 			move /= 240.0f;
@@ -521,9 +516,9 @@ void CSkullTentacle::UpdateState(void)
 
 			return;
 		}
-		m_nCntAtk++;
+		m_nCntAtk++;			//攻撃カウンターをインクリメントする
 
-
+		//位置の設定
 		m_pSkull->SetPos(m_SkullPos);
 		m_pSpine->SetHeadPos(m_SkullPos);
 	}
@@ -531,33 +526,34 @@ void CSkullTentacle::UpdateState(void)
 
 	case state_Flamethrower:
 
-		m_pSkull->SetAnimPattern(1);
-		m_nCntAtk++;
+		m_pSkull->SetAnimPattern(1);		//アニメーションパターンの設定
+		m_nCntAtk++;						//攻撃カウンターをインクリメントする
 
 		if (m_nCntAtk % 30 == 29)
-		{
+		{//30フレームごと弾を発生する
 			CSkullFireball* pBullet = nullptr;
-			D3DXVECTOR3 pos = m_pSkull->GetPos();
-			float fAngle = 0;
+			D3DXVECTOR3 pos = m_pSkull->GetPos();			//位置の取得
+			float fAngle = 0;								//弾の角度
 
 			for (int nCnt = 0; nCnt < 10; nCnt++)
-			{
+			{//弾を10個生成する
 				pBullet = CSkullFireball::Create(pos, D3DXVECTOR3(3.0f * cosf(fAngle + m_fAngleMove), 3.0f * sinf(fAngle + m_fAngleMove), 0.0f));
 				fAngle += D3DX_PI * 0.2f;
 			}
 
-			m_fAngleMove += D3DX_PI * 0.05f;
+			m_fAngleMove += D3DX_PI * 0.05f;				//弾のスポーン角度の更新
 
-			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_FIRE);
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_FIRE);		//サウンドを再生する
 		}
 
 		if (m_nCntAtk >= 421)
-		{
+		{//421フレームが経ったら、待機状態に戻す
 			m_nCntAtk = 0;
 			m_fAngleMove = 0.0f;
 			m_state = state_Idle;
 		}
 
+		//位置の設定
 		m_pSkull->SetPos(m_SkullPos);
 		m_pSpine->SetHeadPos(m_SkullPos);
 
@@ -565,17 +561,19 @@ void CSkullTentacle::UpdateState(void)
 
 	case state_Pull:
 
-		m_pSkull->SetAnimPattern(2);
+	{//引く攻撃
 
-		m_nCntAtk++;
+		m_pSkull->SetAnimPattern(2);			//アニメーションパターンの設定
+
+		m_nCntAtk++;							//攻撃カウンターをインクリメントする
 
 		if (m_nCntAtk % 30 == 29 && m_nCntAtk < 330)
-		{
+		{//330フレームまで30フレームごとエフェクトを生成する
 			CRingEffect* pEffect = CRingEffect::Create(m_SkullPos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(500.0f, 500.0f), D3DXVECTOR2(-7.0f, -7.0f),
 				D3DXCOLOR(0.47f, 0.0f, 0.71f, 0.0f), D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.01f));
 		}
 
-		{
+		{//プレイヤーの位置を頭の方向に少し動かす
 			D3DXVECTOR3 pos = m_pSkull->GetPos();
 			D3DXVECTOR3 PlayerPos = CPlayer::GetPlayer()->GetPos();
 			D3DXVECTOR3 dir = pos - PlayerPos;
@@ -588,38 +586,43 @@ void CSkullTentacle::UpdateState(void)
 		}
 
 		if (m_nCntAtk >= 421)
-		{
+		{//421フレームが経ったら、待機状態に戻す
 			m_nCntAtk = 0;
 			m_fAngleMove = 0.0f;
 			m_state = state_Idle;
 		}
 
+		//位置の設定
 		m_pSkull->SetPos(m_SkullPos);
 		m_pSpine->SetHeadPos(m_SkullPos);
+
+	}
 
 		break;
 
 	case state_Return:
 
-	{
-		m_nCntMove--;
+	{//戻る状態
 
-		D3DXVECTOR3 pos = m_pSkull->GetPos() + m_pSkull->GetMove();
+		m_nCntMove--;			//移動カウンターをデクリメントする
 
-		m_SkullPos = pos;
+		D3DXVECTOR3 pos = m_pSkull->GetPos() + m_pSkull->GetMove();			//位置の取得
+
+		m_SkullPos = pos;			//頭の位置の設定
 
 		if (sqrtf(((m_SkullPos.x - m_target.x) * (m_SkullPos.x - m_target.x)) + ((m_SkullPos.y - m_target.y) * (m_SkullPos.y - m_target.y))) <= 10.0f)
-		{
+		{//元の位置に着いたら、止まる
 			m_nCntMove = 0;
 			m_pSkull->SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		}
 
+		//位置の設定
 		m_pSkull->SetPos(m_SkullPos);
 		m_pSpine->SetHeadPos(m_SkullPos);
 	}
 
 	if (m_nCntMove <= 0)
-	{
+	{//移動カウンターが0以下になったら、待機状態に戻す
 		m_nCntMove = 0;
 		m_pSkull->SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		m_state = state_Idle;
@@ -633,6 +636,7 @@ void CSkullTentacle::UpdateState(void)
 	}
 }
 
+//エネルギーを集まるアニメーションの処理
 void CSkullTentacle::ChargeAnimation(const D3DXCOLOR color)
 {
 	D3DXVECTOR3 pos, PosPlayer, move, acc;
@@ -640,6 +644,7 @@ void CSkullTentacle::ChargeAnimation(const D3DXCOLOR color)
 	D3DXVECTOR2 size;
 	float fX, fY;
 
+	//ランダムな位置を設定する
 	PosPlayer = CPlayer::GetPlayer()->GetPos();
 	fX = (float)random(-5000, 5000);
 	fY = (float)random(-5000, 5000);
@@ -650,6 +655,7 @@ void CSkullTentacle::ChargeAnimation(const D3DXCOLOR color)
 	pos.y *= 100.0f;
 	pos += m_SkullPos;
 
+	//上の位置を使って、速度を計算する(頭の方向へ動かす)。加速も設定する
 	move = m_SkullPos - pos;
 	D3DXVec3Normalize(&move, &move);
 	acc = move;
@@ -658,6 +664,7 @@ void CSkullTentacle::ChargeAnimation(const D3DXCOLOR color)
 	move.x *= 0.0f;
 	move.y *= 0.0f;
 
+	//色の設定
 	col = color;
 	fX = fX = (float)random(-10, 10) * 0.01f;
 	col.r += fX;
@@ -670,6 +677,7 @@ void CSkullTentacle::ChargeAnimation(const D3DXCOLOR color)
 
 	fX = fX = (float)random(-10, 10) * D3DX_PI * 0.05f;
 
+	//エフェクトの生成
 	CRotSimpleEff* pEffect = CRotSimpleEff::Create(pos, m_pSkull->GetPos(), move, col, 120, Dcol, D3DXVECTOR2(10.0f, 4.0f), fX);
 	pEffect->SetAcceleration(acc);
 }

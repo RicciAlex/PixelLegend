@@ -14,6 +14,7 @@
 //コンストラクタ
 CBone::CBone()
 {
+	//メンバー変数をクリアする
 	m_bBroken = false;
 
 	m_pHitbox = nullptr;
@@ -29,10 +30,11 @@ CBone::~CBone()
 HRESULT CBone::Init(void)
 {
 	if (FAILED(CBullet::Init()))
-	{
+	{//基本クラスの初期化処理
 		return -1;
 	}
 
+	//メンバー変数を初期化する
 	m_bBroken = false;
 
 	m_pHitbox = nullptr;
@@ -55,21 +57,25 @@ void CBone::Uninit(void)
 //更新処理
 void CBone::Update(void)
 {
+	//基本クラスの更新処理
 	CObject_2D::Update();
 
-	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 pos = GetPos();		//位置の取得
 
+	//ヒットボックスの更新処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->SetPos(pos);
+	{//nullチェック
+
+		m_pHitbox->SetPos(pos);		//ヒットボックスの位置の更新
 
 		if (m_pHitbox->Hit())
-		{
+		{//何かと当たったら、消す
 			Release();
 			return;
 		}
 	}
 
+	//画面を出ないようにする
 	if (pos.x <= 60.0f)
 	{
 		pos.x = 60.0f;
@@ -89,16 +95,16 @@ void CBone::Update(void)
 	}
 	
 	if (pos.x <= 60.0f || pos.x >= (float)SCREEN_WIDTH - 60 || pos.y <= 60.0f || pos.y >= (float)SCREEN_HEIGHT - 60)
-	{
+	{//壁と当たったら
 		if (!m_bBroken)
-		{
+		{//まだ折れていなかったら、折れる
 			m_bBroken = true;
 			Split();
 			Release();
 			return;
 		}
 		else
-		{
+		{//もう折れた場合、消す
 			Release();
 			return;
 		}
@@ -107,41 +113,57 @@ void CBone::Update(void)
 
 
 
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
+
+
 //生成処理
 CBone* CBone::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move)
 {
-	CBone* pBullet = new CBone;
+	CBone* pBullet = new CBone;			//インスタンスを生成する
 
 	if (FAILED(pBullet->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pBullet->SetPos(pos);
-	pBullet->SetSize(D3DXVECTOR2(35.0f, 10.7f));
-	pBullet->SetMove(move);
-	pBullet->SetTexture(CObject_2D::TextureBone);
-	pBullet->SetTextureParameter(1, 1, 2, INT_MAX);
-	pBullet->SetRotation((float)random(-10, 10) * 0.0025f * D3DX_PI);
-	pBullet->SetStartingRot(D3DX_PI * 0.5f);
-	pBullet->m_bBroken = false;
+	pBullet->SetPos(pos);												//位置の設定
+	pBullet->SetSize(D3DXVECTOR2(35.0f, 10.7f));						//サイズの設定
+	pBullet->SetMove(move);												//速度の設定
+	pBullet->SetTexture(CObject_2D::TextureBone);						//テクスチャの設定
+	pBullet->SetTextureParameter(1, 1, 2, INT_MAX);						//テクスチャパラメータの設定
+	pBullet->SetRotation((float)random(-10, 10) * 0.0025f * D3DX_PI);	//回転させる
+	pBullet->SetStartingRot(D3DX_PI * 0.5f);							//向きの初期値の設定
+	pBullet->m_bBroken = false;											//折れていない状態にする
 
+	//ヒットボックスの生成
 	pBullet->m_pHitbox = CSquareHitbox::Create(D3DXVECTOR3(pos), D3DXVECTOR2(49.0f, 15.0f), CHitbox::Type_EnemyBullet);
 
-
-	return pBullet;
+	return pBullet;			//生成したインスタンスを返す
 }
 
 
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
 
+
+//折れる処理
 void CBone::Split(void)
 {
-	D3DXVECTOR3 pos = GetPos();
-	D3DXVECTOR3 move1 = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 move2 = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 V = GetMove();
-	float fSpeed = D3DXVec3Length(&V);
+	D3DXVECTOR3 pos = GetPos();								
+	D3DXVECTOR3 move1 = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		
+	D3DXVECTOR3 move2 = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		
+	D3DXVECTOR3 V = GetMove();								
+	float fSpeed = D3DXVec3Length(&V);						
 
+	//位置によって新しい弾の速度を設定する
 	if (pos.x <= 61.0f || pos.x >= (float)SCREEN_WIDTH - 61.0f)
 	{
 		move1.x = GetMove().x * -1.0f;
@@ -167,9 +189,11 @@ void CBone::Split(void)
 	move2.x *= fSpeed;
 	move2.y *= fSpeed;
 
+	//サイズを調整する
 	D3DXVECTOR2 size = GetSize();
 	size.x *= 0.5f;
 
+	//新しい弾を生成して、必要なパラメータを設定する
 	CBone* pBullet = CBone::Create(pos, move1);
 	pBullet->SetTextureParameter(1, 2, 2, INT_MAX);
 	pBullet->SetAnimPattern(1);

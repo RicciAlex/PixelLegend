@@ -41,10 +41,11 @@ HRESULT CBeam::Init(void)
 //終了処理
 void CBeam::Uninit(void)
 {
+	//ヒットボックスの破棄
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -54,11 +55,13 @@ void CBeam::Uninit(void)
 //更新処理
 void CBeam::Update(void)
 {
+	//ヒットボックスの更新処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->SetPos(GetPos());
+	{//nullチェック
 
-		m_pHitbox->Hit();
+		m_pHitbox->SetPos(GetPos());			//ヒットボックスの位置の更新
+
+		m_pHitbox->Hit();						//何かと当たったかどうかを確認する
 	}
 
 	//基本クラスの更新処理
@@ -87,7 +90,9 @@ void CBeam::Draw(void)
 
 
 //=============================================================================
-//静的関数
+//
+//									静的関数
+//
 //=============================================================================
 
 
@@ -102,13 +107,13 @@ CBeam* CBeam::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move, const D3DXVE
 		return nullptr;
 	}
 
-	pBullet->SetPos(pos);					//位置の設定
-	pBullet->SetMove(move);					//速度の設定
-	pBullet->SetSize(size);					//サイズの設定
-	pBullet->SetTexture(TextureNull);
-	pBullet->SetTextureParameter(1, 1, 1, INT_MAX);
+	pBullet->SetPos(pos);								//位置の設定
+	pBullet->SetMove(move);								//速度の設定
+	pBullet->SetSize(size);								//サイズの設定
+	pBullet->SetTexture(TextureNull);					//テクスチャの設定
+	pBullet->SetTextureParameter(1, 1, 1, INT_MAX);		//テクスチャパラメータの設定
 
-	pBullet->m_pHitbox = CSquareHitbox::Create(pos, size, CHitbox::Type_EnemyBullet);
+	pBullet->m_pHitbox = CSquareHitbox::Create(pos, size, CHitbox::Type_EnemyBullet);			//ヒットボックスの生成
 	
 	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = pBullet->GetVtxbuff();			//頂点バッファの取得処理
 	VERTEX_2D* pVtx = nullptr;											//頂点情報へのポインタ

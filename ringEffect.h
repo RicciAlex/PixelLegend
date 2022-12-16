@@ -27,8 +27,8 @@ public:
 		const D3DXVECTOR2 size, const D3DXVECTOR2 deltaSize, const D3DXCOLOR col, const D3DXCOLOR deltaCol);			//生成処理
 
 private:
-	D3DXCOLOR m_deltaCol;
-	D3DXVECTOR2 m_deltaSize;
+	D3DXCOLOR m_deltaCol;						//色の減数
+	D3DXVECTOR2 m_deltaSize;					//サイズの減数
 };
 
 #endif

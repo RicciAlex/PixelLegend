@@ -22,23 +22,23 @@ class CTutorial : public CMode
 {
 public:
 
-	CTutorial();
-	~CTutorial();
+	CTutorial();							//コンストラク
+	~CTutorial();							//デストラクタ
 
-	HRESULT Init(void) override;				//初期化処理
-	void Uninit(void) override;					//終了処理
-	void Update(void) override;					//更新処理
+	HRESULT Init(void) override;			//初期化処理
+	void Uninit(void) override;				//終了処理
+	void Update(void) override;				//更新処理
 
-	static CTutorial* Create(void);					//生成処理
+	static CTutorial* Create(void);			//生成処理
 
 private:
 
-	int m_nCntAnim;
-
-	CBg*        m_pBg;
-	CObject_2D* m_pPlayer;
-	CObject_2D* m_pButton;
-	CObject_2D* m_pTarget;
+	int m_nCntAnim;							//アニメーション用のカウンター
+											
+	CBg*        m_pBg;						//背景へのポインタ
+	CObject_2D* m_pPlayer;					//プレイヤーへのポインタ
+	CObject_2D* m_pButton;					//ボタンへのポインタ
+	CObject_2D* m_pTarget;					//ターゲットへのポインタ
 };
 
 #endif

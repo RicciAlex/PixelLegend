@@ -34,7 +34,7 @@ public:
 
 private:
 
-	CSquareHitbox* m_pHitbox;
+	CSquareHitbox* m_pHitbox;					//ヒットボックスへのポインタ
 };
 
 #endif // !SCYLLABODY_H

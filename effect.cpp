@@ -63,13 +63,6 @@ void CEffect::Update(void)
 	}
 }
 
-////終了処理
-//void CEffect::Draw(void)
-//{
-//	//基本クラスの描画処理
-//	CObject_2D::Draw();
-//}
-
 //ライフの取得処理
 const int CEffect::GetLife(void)
 {

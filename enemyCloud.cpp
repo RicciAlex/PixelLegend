@@ -13,6 +13,7 @@
 //コンストラクタ
 CEnemyCloud::CEnemyCloud()
 {
+	//メンバー変数をクリアする
 	m_nCntMove = 0;
 	m_fAngleMove = 0.0f;
 	m_nPhase = state_max;
@@ -28,6 +29,8 @@ CEnemyCloud::~CEnemyCloud()
 //初期化処理
 HRESULT CEnemyCloud::Init(void)
 {
+	//メンバー変数を初期化する
+
 	//基本クラスの初期化処理
 	if (FAILED(CEnemy::Init()))
 	{

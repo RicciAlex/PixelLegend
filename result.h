@@ -20,24 +20,24 @@ class CLetter;
 class CResult : public CMode
 {
 public:
-	CResult();
-	~CResult();
+	CResult();							//コンストラク
+	~CResult();							//デストラクタ
+										
+	HRESULT Init(void) override;		//初期化処理
+	void Uninit(void) override;			//終了処理
+	void Update(void) override;			//更新処理
 
-	HRESULT Init(void) override;
-	void Uninit(void) override;
-	void Update(void) override;
-
-	static CResult* Create(const int nScore);
+	static CResult* Create(const int nScore);		//生成処理
 
 private:
 
-	static const int MaxDigit = 8;
+	static const int MaxDigit = 8;		//スコアの桁数
 
-	int m_nDelay;
-	float m_fAnim;
-
-	CLetter* m_pScore[MaxDigit];
-	CLetter* m_pUI[12];
+	int m_nDelay;						//ディレイ
+	float m_fAnim;						//アニメーション用の変数
+										
+	CLetter* m_pScore[MaxDigit];		//スコアの桁へのポインタ
+	CLetter* m_pUI[12];					//UIへのポインタ
 };
 
 #endif

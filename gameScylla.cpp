@@ -22,12 +22,12 @@
 //コンストラクタ
 CGameScylla::CGameScylla()
 {
+	//メンバー変数をクリアする
 	m_bPause = false;
 
 	m_pBg = nullptr;
 	m_pPlayer = nullptr;
 	m_pEnemy = nullptr;
-	//m_pMenu = nullptr;
 
 	m_pMenuBg = nullptr;
 	
@@ -46,12 +46,12 @@ CGameScylla::~CGameScylla()
 //初期化処理
 HRESULT CGameScylla::Init(void)
 {
+	//メンバー変数を初期化する
 	m_bPause = false;
 
 	m_pBg = nullptr;
 	m_pPlayer = nullptr;
 	m_pEnemy = nullptr;
-	//m_pMenu = nullptr;
 
 	m_pMenuBg = nullptr;
 
@@ -68,114 +68,126 @@ HRESULT CGameScylla::Init(void)
 //終了処理
 void CGameScylla::Uninit(void)
 {
+	//背景の破棄
 	if (m_pBg != nullptr)
-	{
-		m_pBg->Release();
-		m_pBg = nullptr;
+	{//nullチェック
+		m_pBg->Release();			//メモリを解放する
+		m_pBg = nullptr;			//ポインタをnullにする
 	}
-
+	//プレイヤーの破棄
 	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Release();
-		m_pPlayer = nullptr;
+	{//nullチェック
+		m_pPlayer->Release();		//メモリを解放する
+		m_pPlayer = nullptr;		//ポインタをnullにする
 	}
-
+	//敵の破棄
 	if (m_pEnemy != nullptr)
-	{
-		m_pEnemy->Release();
-		m_pEnemy = nullptr;
+	{//nullチェック
+		m_pEnemy->Release();		//メモリを解放する
+		m_pEnemy = nullptr;			//ポインタをnullにする
 	}
-
+	//メニューの背景の破棄
 	if (m_pMenuBg != nullptr)
-	{
-		m_pMenuBg->Release();
-		m_pMenuBg = nullptr;
+	{//nullチェック
+		m_pMenuBg->Release();		//メモリを解放する
+		m_pMenuBg = nullptr;		//ポインタをnullにする
 	}
-
+	//ボタンの破棄
 	for (int nCnt = 0; nCnt < button_max; nCnt++)
 	{
 		if (m_pButton[nCnt] != nullptr)
-		{
-			m_pButton[nCnt]->Uninit();
-			m_pButton[nCnt] = nullptr;
+		{//nullチェック
+			m_pButton[nCnt]->Uninit();			//メモリを解放する
+			m_pButton[nCnt] = nullptr;			//ポインタをnullにする
 		}
 	}
-	
-	/*if (m_pMenu != nullptr)
-	{
-		m_pMenu->Uninit();
-		m_pMenu = nullptr;
-	}*/
 }
 
 //更新処理
 void CGameScylla::Update(void)
 {
 	if (m_pEnemy != nullptr)
-	{
-		if (m_pEnemy->GetEnd())
-		{
-			if (m_pPlayer != nullptr)
-			{
+	{//敵のnullチェック
 
-				CApplication::SetRemainingLife(m_pPlayer->GetLife());
+		if (m_pEnemy->GetEnd())
+		{//敵が死んだら
+
+			if (m_pPlayer != nullptr)
+			{//プレイヤーのnullチェック
+
+				CApplication::SetRemainingLife(m_pPlayer->GetLife());		//プレイヤーの残った体力の取得
 			}
 
-			//CApplication::SetMode(CApplication::Mode_Result);
-			CApplication::SetFade(CApplication::Mode_Result);
+			CApplication::SetFade(CApplication::Mode_Result);				//リザルト画面に切り替える
 		}
 		else
-		{
-			UpdateMenu();
+		{//まだ死んでいなかったら
+
+			UpdateMenu();			//メニューを更新する
 		}
 	}
 
 	if (m_pPlayer != nullptr)
-	{
+	{//プレイヤーのnullチェック
+
 		if (m_pPlayer->GetEnd())
-		{
-			CApplication::SetFade(CApplication::Mode_Result);					//フェードの設定処理
+		{//プレイヤーが死んだら
+
+			CApplication::SetFade(CApplication::Mode_Result);		//リザルト画面に切り替える
 		}
 	}
 }
 
 
-
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 //生成処理
 CGameScylla* CGameScylla::Create(void)
 {
-	CGameScylla* pGame = new CGameScylla;
+	CGameScylla* pGame = new CGameScylla;		//インスタンスを生成する
 
 	if (FAILED(pGame->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
+	//背景を生成する
 	pGame->m_pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.75f), D3DXVECTOR2(0.000025f, -0.000025f));
 
 	if (pGame->m_pBg != nullptr)
-	{
+	{//生成出来たら、必要なパラメータの設定
 		pGame->m_pBg->SetTexture(CObject::TextureSeaBG);
 		pGame->m_pBg->SetTextureParameter(2, 1, 2, 30);
 	}
 
+	//プレイヤーの生成
 	pGame->m_pPlayer = CPlayer::Create();
 
 	if (pGame->m_pPlayer != nullptr)
-	{
+	{//生成出来たら、位置を設定する
 		pGame->m_pPlayer->SetPos(D3DXVECTOR3(300.0f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 	}
 
+	//敵の生成
 	pGame->m_pEnemy = CScylla::Create();
 
-	return pGame;
+	return pGame;			//生成したインスタンスを返す
 }
 
 
+//=============================================================================
+//
+//							プライベート関数
+//
+//=============================================================================
 
 
+//メニューの更新処理
 void CGameScylla::UpdateMenu(void)
 {
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
@@ -184,6 +196,7 @@ void CGameScylla::UpdateMenu(void)
 		{//ポーズ状態だったら
 			m_bPause = false;			//普通状態にする
 
+										//ボタンを破棄する
 			for (int nCnt = 0; nCnt < button_max; nCnt++)
 			{
 				if (m_pButton[nCnt] != nullptr)
@@ -192,13 +205,14 @@ void CGameScylla::UpdateMenu(void)
 					m_pButton[nCnt] = nullptr;
 				}
 			}
+			//メニューの背景を破棄する
 			if (m_pMenuBg != nullptr)
 			{
 				m_pMenuBg->Release();
 				m_pMenuBg = nullptr;
 			}
 
-			CObject::SetPause(false);
+			CObject::SetPause(false);			//ポーズ中ではない状態にする
 		}
 		else
 		{//普通状態だったら、ポーズメニューを生成して、ポーズ状態にする
@@ -228,19 +242,22 @@ void CGameScylla::UpdateMenu(void)
 	{//ポーズ状態だったら
 		for (int nCnt = 0; nCnt < button_max; nCnt++)
 		{//ボタンの更新処理
+
 			if (m_pButton[nCnt] != nullptr)
-			{
+			{//nullチェック
 				m_pButton[nCnt]->Update();
 
 				if (m_pButton[nCnt]->GetTriggerState())
-				{
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);
+				{//押されたら
 
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CLICK);		//クリックサウンドを再生する
+
+																						//どんなボタンが押されたによって更新する
 					switch (nCnt)
 					{
 					case button_continue:
 
-					{
+					{//コンティニューボタンだったら、ポーズメニューを破棄する
 						m_bPause = false;
 
 						for (int nCnt2 = 0; nCnt2 < button_max; nCnt2++)
@@ -265,7 +282,8 @@ void CGameScylla::UpdateMenu(void)
 
 					case button_quit:
 
-					{
+					{//タイトルに戻るボタンだったら、タイトル画面に切り替える
+
 						m_bPause = false;
 						CObject::SetPause(false);
 						CApplication::SetFade(CApplication::Mode_Title);

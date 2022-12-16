@@ -33,7 +33,7 @@ public:
 
 private:
 
-	CSquareHitbox* m_pHitbox;
+	CSquareHitbox* m_pHitbox;				//ヒットボックス
 };
 
 #endif // !ENEMY_THUNDER_H

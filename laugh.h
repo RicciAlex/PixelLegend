@@ -18,12 +18,12 @@ class CLetter;
 class CLaughBullet : public CBullet
 {
 public:
-	CLaughBullet();																//コンストラクタ
-	~CLaughBullet() override;														//デストラクタ
+	CLaughBullet();						//コンストラクタ
+	~CLaughBullet() override;			//デストラクタ
 
-	HRESULT Init(void) override;													//初期化処理
-	void Uninit(void) override;														//終了処理
-	void Update(void) override;														//更新処理
+	HRESULT Init(void) override;		//初期化処理
+	void Uninit(void) override;			//終了処理
+	void Update(void) override;			//更新処理
 
 	static CLaughBullet* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move);	//生成処理
 
@@ -31,7 +31,7 @@ public:
 
 private:
 
-	CSquareHitbox* m_pHitbox;
+	CSquareHitbox* m_pHitbox;			//ヒットボックスへのポインタ
 
 };
 

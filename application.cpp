@@ -10,27 +10,10 @@
 #include "rendering.h"
 #include "object.h"
 #include "object2D.h"
-#include "bg.h"
 #include "input.h"
 #include "inputKeyboard.h"
 #include "inputMouse.h"
 #include"player.h"
-#include "blackHole.h"
-#include "enemy.h"
-#include "enemyClock.h"
-#include "enemyCloud.h"
-#include "enemyWrathBody.h"
-#include "SkullTentacle.h"
-#include "Scylla.h"
-#include "ScyllaBody.h"
-#include "spine.h"
-#include "skull.h"
-#include "sloth.h"
-#include "pride.h"
-#include "candle.h"
-#include "Thanatos.h"
-#include "envy.h"
-#include "greed.h"
 #include "mode.h"
 #include "title.h"
 #include "gameScylla.h"
@@ -89,7 +72,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	}
 
 	//レンディングインスタンスの初期化処理
-	if (FAILED(m_pRenderer->Init(hWnd, FALSE)))
+	if (FAILED(m_pRenderer->Init(hWnd, TRUE)))
 	{
 		return -1;
 	}
@@ -97,112 +80,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//テクスチャ全部をロード処理
 	CObject_2D::LoadTextures();
 
+	//モードの生成
 	m_pMode = CTitle::Create();
-
-	//CObject::ReleaseAll();
-
-	////CBg* pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.75f), D3DXVECTOR2(0.000025f, -0.000025f));
-
-	///*CBg* pBg = CBg::Create(D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.000005f, -0.0001f));
-	//pBg->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	//pBg->SetSize(D3DXVECTOR2(1000.0f, 500.0f));
-	//pBg->SetTexture(CObject::TextureGreedBg);
-	//pBg->SetTextureParameter(1, 1, 1, INT_MAX);*/
-
-	////pBg->SetTexture(CObject::TextureThanatosBG);
-	//
-	//CBg* pBg = CBg::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
-	//pBg->SetTexture(CObject::TextureGluttonyBg);
-	//pBg->SetTextureParameter(1, 1, 1, INT_MAX);
-
-	///*CObject_2D* pObj = CObject_2D::Create();
-	//pObj->SetPos(D3DXVECTOR3(640.0f, 100.0f, 0.0f));
-	//pObj->SetSize(D3DXVECTOR2(50.0f, 100.0f));
-	//pObj->SetColor(D3DCOLOR_ARGB(255, 255, 45, 45));
-	//pBg->SetTextureParameter(1, 1, 1, INT_MAX);*/
-
-	//////オブジェクト4つ分の生成処理
-	////for (int nCnt = 0; nCnt < 4; nCnt++)
-	////{
-	////	CObject* pObject = CObject::Create(CObject::OBJECT2D);
-	////
-	////	//オブジェクトの初期化処理
-	////	if (FAILED(pObject->Init()))
-	////	{
-	////		return -1;
-	////	}
-
-	////	pObject->SetPos(D3DXVECTOR3(SCREEN_WIDTH * (0.25f + 0.5f * (nCnt % 2)), SCREEN_HEIGHT * (0.25f + (0.5f * (nCnt / 2))), 0.0f));	//位置の設定処理
-	////	pObject->SetTextureParameter(8, 4, 2, 3);			//テクスチャパラメータの設定処理
-	////	pObject->SetTexture(CObject::TextureThunder);				//テクスチャ種類の設定処理
-	////}
-
-	////プレイヤーの生成処理
-	//CPlayer* pPlayer = CPlayer::Create();
-
-	////プレイヤーの初期化処理
-	//if (FAILED(pPlayer->Init()))
-	//{
-	//	return -1;
-	//}
-
-	////プレイヤーの位置の設定処理
-	//pPlayer->SetPos(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f));
-
-	///*CEnemyCloud* pEnemy = CEnemyCloud::Create(D3DXVECTOR3((float)(SCREEN_WIDTH), (float)(SCREEN_HEIGHT) * 0.5f, 0.0f));
-
-	//CEnemyClock* pBEnemy = CEnemyClock::Create(D3DXVECTOR3((float)(SCREEN_WIDTH * 0.89f), (float)(SCREEN_HEIGHT) * 0.5f, 0.0f));*/
-
-	//
-	///*CWrathBody* pWBEnemy = CWrathBody::Create(D3DXVECTOR3(1000.0f, 400.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-
-	//CEnemyWrathArm* pWEnemy = CEnemyWrathArm::Create(D3DXVECTOR3(1000.0f, 400.0f, 0.0f), D3DXVECTOR3(60.0f, 95.0f, 0.0f));
-	//pWEnemy->SetTargetAngle(D3DX_PI - (D3DX_PI * 0.1f));
-	//pWEnemy = CEnemyWrathArm::Create(D3DXVECTOR3(1000.0f, 400.0f, 0.0f), D3DXVECTOR3(-60.0f, 100.0f, 0.0f));
-	//pWEnemy->SetTargetAngle(-D3DX_PI + (D3DX_PI * 0.1f));
-	//pWEnemy->ChangeKey();*/
-	//
-
-	///*CSpine* pSpine = CSpine::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.85f, 550.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.9f, 800.0f, 0.0f));
-	//pSpine = CSpine::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.825f, 550.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.85f, 800.0f, 0.0f));
-	//pSpine = CSpine::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.8f, 550.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.8f, 800.0f, 0.0f));
-	//pSpine = CSpine::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.775f, 550.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.75f, 800.0f, 0.0f));
-	//pSpine = CSpine::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.75f, 550.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.7f, 800.0f, 0.0f));
-	//pSpine = CSpine::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.725f, 550.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.65f, 800.0f, 0.0f));
-	//CSkullTentacle* pTentacle = CSkullTentacle::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.6f, (float)SCREEN_HEIGHT, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.6f, (float)SCREEN_HEIGHT * 0.8f, 0.0f));
-	//pTentacle = CSkullTentacle::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.4f, (float)SCREEN_HEIGHT, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.4f, (float)SCREEN_HEIGHT * 0.8f, 0.0f));
-	//pTentacle = CSkullTentacle::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.4f, 0.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.4f, (float)SCREEN_HEIGHT * 0.2f, 0.0f));
-	//pTentacle = CSkullTentacle::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.6f, 0.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.6f, (float)SCREEN_HEIGHT * 0.2f, 0.0f));
-	//pTentacle = CSkullTentacle::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.2f, 0.0f, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.2f, (float)SCREEN_HEIGHT * 0.2f, 0.0f));
-	//pTentacle = CSkullTentacle::Create(D3DXVECTOR3((float)SCREEN_WIDTH * 0.2f, (float)SCREEN_HEIGHT, 0.0f), D3DXVECTOR3((float)SCREEN_WIDTH * 0.2f, (float)SCREEN_HEIGHT * 0.8f, 0.0f));
-	//CScyllaBody* pBody = CScyllaBody::Create();*/
-
-	////CScylla* pScylla = CScylla::Create();
-
-	////CPride* pPride = CPride::Create();
-
-	////CSloth* pSloth = CSloth::Create();
-
-	///*CObject_2D* pObject = CObject_2D::Create();
-	//pObject->SetPos(D3DXVECTOR3(600.0f, 300.0f, 0.0f));
-	//pObject->SetSize(D3DXVECTOR2(30.0f, 30.0f));
-	//pObject->SetTexture(CObject::TextureGear);
-	//pObject->SetTextureParameter(1, 3, 2, INT_MAX);
-	//pObject->SetRotation(D3DX_PI * 0.01f);
-
-	//pObject = CObject_2D::Create();
-	//pObject->SetPos(D3DXVECTOR3(650.0f, 320.0f, 0.0f));
-	//pObject->SetSize(D3DXVECTOR2(45.0f, 45.0f));
-	//pObject->SetTexture(CObject::TextureGear);
-	//pObject->SetTextureParameter(1, 3, 2, INT_MAX);
-	//pObject->SetRotation(-D3DX_PI * 0.015f);*/
-
-	///*CThanatos* pThanatos = CThanatos::Create();
-	//pThanatos->SetBgPointer(pBg);*/
-
-	////CEnvy* pEnvy = CEnvy::Create();
-
-	//CGreed* pGreed = CGreed::Create();
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -213,6 +92,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}
 
+	//マウスインプットの生成
 	m_pMouse = new CInputMouse;
 
 	//キーボードの初期化処理
@@ -221,18 +101,23 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}
 
+	//スコアの生成
 	m_pScore = CScore::Create();
 
+	//ランキングの生成
 	m_pRanking = CRanking::Create();
 
+	//サウンドの生成
 	m_pSound = CSound::Create(hWnd);
 
 	if (m_pSound != nullptr)
-	{
+	{//生成出来たら、BGMを再生する
+
 		m_pSound->Play(CSound::SOUND_LABEL_BGM_TITLE);
 	}
 
-	m_pFade = CFade::Create();
+	//フェードを生成する
+	m_pFade = CFade::Create();		
 	m_bFade = true;
 
 	return S_OK;
@@ -246,56 +131,68 @@ void CApplication::Uninit(void)
 
 	//レンディングインスタンスの破棄
 	if (m_pRenderer != nullptr)
-	{
-		m_pRenderer->Uninit();
-		delete m_pRenderer;
-		m_pRenderer = nullptr;
+	{//nullチェック
+
+		m_pRenderer->Uninit();		//終了処理
+		delete m_pRenderer;			//メモリを解放する
+		m_pRenderer = nullptr;		//ポインタをnullにする
 	}
 
 	//インプットデバイスの破棄
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
 		if (m_pInput[nCnt] != nullptr)
-		{
-			m_pInput[nCnt]->Uninit();
-			delete m_pInput[nCnt];
-			m_pInput[nCnt] = nullptr;
+		{//nullチェック
+
+			m_pInput[nCnt]->Uninit();	//終了処理
+			delete m_pInput[nCnt];		//メモリを解放する
+			m_pInput[nCnt] = nullptr;	//ポインタをnullにする
 		}
 	}
 
+	//マウスの破棄処理
 	if (m_pMouse != nullptr)
-	{
-		m_pMouse->Uninit();
-		delete m_pMouse;
-		m_pMouse = nullptr;
+	{//nullチェック
+
+		m_pMouse->Uninit();			//終了処理
+		delete m_pMouse;			//メモリを解放する
+		m_pMouse = nullptr;			//ポインタをnullにする
 	}
 
+	//スコアの破棄処理
 	if (m_pScore != nullptr)
-	{
-		m_pScore->Uninit();
-		delete m_pScore;
-		m_pScore = nullptr;
+	{//nullチェック
+
+		m_pScore->Uninit();			//終了処理
+		delete m_pScore;			//メモリを解放する
+		m_pScore = nullptr;			//ポインタをnullにする
 	}
 
+	//ランキングの破棄処理
 	if (m_pRanking != nullptr)
-	{
-		m_pRanking->Uninit();
-		delete m_pRanking;
-		m_pRanking = nullptr;
+	{//nullチェック
+
+		m_pRanking->Uninit();		//終了処理
+		delete m_pRanking;			//メモリを解放する
+		m_pRanking = nullptr;		//ポインタをnullにする
 	}
 
+	//サウンドの破棄処理
 	if (m_pSound != nullptr)
-	{
-		m_pSound->Uninit();
-		delete m_pSound;
-		m_pSound = nullptr;
+	{//nullチェック
+
+		m_pSound->Uninit();			//終了処理
+		delete m_pSound;			//メモリを解放する
+		m_pSound = nullptr;			//ポインタをnullにする
 	}
 
+	//フェードの破棄処理
 	if (m_pFade != nullptr)
-	{
-		m_pFade->Uninit();
-		delete m_pFade;
-		m_pFade = nullptr;
+	{//nullチェック
+
+		m_pFade->Uninit();			//終了処理
+		delete m_pFade;				//メモリを解放する
+		m_pFade = nullptr;			//ポインタをnullにする
 	}
 
 	//オブジェクト全体の終了処理
@@ -305,39 +202,30 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-#ifdef _DEBUG
-
-	CBlackHole* pBullet = nullptr;
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_L))
-	{
-		pBullet = CBlackHole::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), 300);
-		pBullet->SetRotation(-D3DX_PI * 0.01f);
-		pBullet = CBlackHole::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), 300);
-		pBullet->SetRotation(-D3DX_PI * 0.05f);
-		pBullet->SetRevolution(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f), D3DX_PI * 0.01f, 200.0f);
-	}
-#endif
-
+	//インプットデバイスの更新処理
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
 		if (m_pInput[nCnt] != nullptr)
-		{
+		{//nullチェック
 			m_pInput[nCnt]->Update();
 		}
 	}
 
+	//レンディングの更新処理
 	if (m_pRenderer != nullptr)
-	{
+	{//nullチェック
 		m_pRenderer->Update();
 	}
 
+	//フェードの更新処理
 	if (m_pFade != nullptr)
-	{
+	{//nullチェック
 		m_pFade->Update();
 	}
 
+	//モードの更新処理
 	if (m_pMode != nullptr)
-	{
+	{//nullチェック
 		m_pMode->Update();
 	}
 }
@@ -345,62 +233,74 @@ void CApplication::Update(void)
 //描画処理
 void CApplication::Draw(void)
 {
+	//レンディングの描画処理
 	if (m_pRenderer != nullptr)
-	{
+	{//nullチェック
+
 		m_pRenderer->Draw();
 	}
 }
 
+//レンディングへのポインタの取得処理
 CRenderer* CApplication::GetRenderer(void)
 {
 	return m_pRenderer;
 }
 
+//マウスの取得処理
 CInputMouse* CApplication::GetMouse(void)
 {
 	return m_pMouse;
 }
 
+//ウインドウの取得処理
 HWND CApplication::GetWindow(void)
 {
 	return m_hWnd;
 }
 
+//難易度の設定処理
 void CApplication::SetDifficulty(const int difficulty)
 {
 	m_pScore->SetDifficulty(difficulty);
 	m_nDifficulty = difficulty;
 }
 
+//難易度の取得処理
 const int CApplication::GetDifficulty(void)
 {
 	return m_nDifficulty;
 }
 
+//プレイヤーの残った体力の設定処理
 void CApplication::SetRemainingLife(const int nLife)
 {
 	m_pScore->SetLife(nLife);
 }
 
+//モードの取得処理
 CApplication::Mode CApplication::GetMode(void)
 {
 	return m_mode;
 }
 
+//モードの設定処理
 void CApplication::SetMode(Mode mode)
 {
+	//現在のモードを破棄する
 	if (m_pMode != nullptr)
-	{
-		m_pMode->Uninit();
-		delete m_pMode;
-		m_pMode = nullptr;
+	{//nullチェック
+		m_pMode->Uninit();		//終了処理
+		delete m_pMode;			//メモリを解放する
+		m_pMode = nullptr;		//ポインタをnullにする
 	}
 
-	CObject::ReleaseAll();
-	CHitbox::ReleaseAll();
+	CObject::ReleaseAll();		//全部のオブジェクトの破棄処理
+	CHitbox::ReleaseAll();		//全部のヒットボックスの破棄処理
 
+	//サウンドを停止する
 	if (m_pSound != nullptr)
-	{
+	{//nullチェック
 		m_pSound->Stop();
 	}
 
@@ -410,21 +310,24 @@ void CApplication::SetMode(Mode mode)
 	{
 	case CApplication::Mode_Title:
 
-	{
-		m_pMode = CTitle::Create();
+	{//タイトル
+
+		m_pMode = CTitle::Create();			//新しいモードの生成
 		
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Scylla);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_TITLE);
 		}
 	}
@@ -433,44 +336,50 @@ void CApplication::SetMode(Mode mode)
 
 	case CApplication::Mode_StageSelection:
 
-	{
-		m_pMode = CStageSelection::Create();
+	{//ステージ選択画面
+
+		m_pMode = CStageSelection::Create();			//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Scylla);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_STAGE_SELECTION);
 		}
 	}
 
 		break;
 
-	case CApplication::Mode_Tutorial:
+	case CApplication::Mode_Tutorial:			
 
-	{
-		m_pMode = CTutorial::Create();
+	{//チュートリアル
+
+		m_pMode = CTutorial::Create();				//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Scylla);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_STAGE_SELECTION);
 		}
 	}
@@ -480,13 +389,7 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game:
 
 	{
-		/*m_pMode = CGameScylla::Create();
-
-		if (m_pMode != nullptr)
-		{
-			m_pMode->Init();
-			m_mode = mode;
-		}*/
+		
 	}
 
 		break;
@@ -494,26 +397,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Scylla:
 
 	{
-		m_pMode = CGameScylla::Create();
+		m_pMode = CGameScylla::Create();				//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(200000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Scylla);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -523,26 +429,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Thanatos:
 
 	{
-		m_pMode = CGameThanatos::Create();
+		m_pMode = CGameThanatos::Create();				//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(300000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Thanatos);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_THANATOS);
 		}
 	}
@@ -552,26 +461,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Pride:
 
 	{
-		m_pMode = CGamePride::Create();
+		m_pMode = CGamePride::Create();					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(150000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Pride);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -581,26 +493,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Envy:
 
 	{
-		m_pMode = CGameEnvy::Create();
+		m_pMode = CGameEnvy::Create();					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(500000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Envy);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -610,26 +525,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Wrath:
 
 	{
-		m_pMode = CGameWrath::Create();
+		m_pMode = CGameWrath::Create();					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(500000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Wrath);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -639,26 +557,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Sloth:
 
 	{
-		m_pMode = CGameSloth::Create();
+		m_pMode = CGameSloth::Create();					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(250000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Sloth);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -668,26 +589,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Greed:
 
 	{
-		m_pMode = CGameGreed::Create();
+		m_pMode = CGameGreed::Create();					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(350000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Greed);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -697,26 +621,29 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Game_Gluttony:
 
 	{
-		m_pMode = CGameGluttony::Create();
+		m_pMode = CGameGluttony::Create();					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 
+		//スコアをクリアしてから、ベーススコアを設定する
 		if (m_pScore != nullptr)
-		{
+		{//nullチェック
 			m_pScore->Clear();
 			m_pScore->SetBaseScore(250000);
 		}
 
+		//選択されたステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetStage(CStageSelection::stage_Gluttony);
 		}
 
+		//BGMを再生する
 		if (m_pSound != nullptr)
-		{
+		{//nullチェック
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME);
 		}
 	}
@@ -726,17 +653,18 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Result:
 
 	{
-		int nScore = m_pScore->GetFinalScore();
+		int nScore = m_pScore->GetFinalScore();				//スコアの取得処理
 
+		//ランキングの更新
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			m_pRanking->SetRanking((CStageSelection::stage)m_pRanking->GetStage(), nScore);
 		}
 
-		m_pMode = CResult::Create(nScore);
+		m_pMode = CResult::Create(nScore);					//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 	}
@@ -748,15 +676,16 @@ void CApplication::SetMode(Mode mode)
 	{
 		int stage = 0;
 
+		//ステージの設定
 		if (m_pRanking != nullptr)
-		{
+		{//nullチェック
 			stage = m_pRanking->GetStage();
 		}
 
-		m_pMode = CRankingMode::Create(stage);
+		m_pMode = CRankingMode::Create(stage);				//新しいモードの生成
 
 		if (m_pMode != nullptr)
-		{
+		{//nullチェック
 			m_mode = mode;
 		}
 	}
@@ -775,12 +704,13 @@ CSound* CApplication::GetSound(void)
 	return m_pSound;
 }
 
+//ランキングの取得処理
 CRanking* CApplication::GetRanking(void)
 {
 	return m_pRanking;
 }
 
-
+//フェードの設定処理
 void CApplication::SetFade(CApplication::Mode mode)
 {
 	if (m_pFade != nullptr)
@@ -789,11 +719,13 @@ void CApplication::SetFade(CApplication::Mode mode)
 	}
 }
 
+//フェード状態の設定処理
 void CApplication::SetFade(const bool bFade)
 {
 	m_bFade = bFade;
 }
 
+//フェード状態の設定処理
 const bool CApplication::GetFade(void)
 {
 	return m_bFade;

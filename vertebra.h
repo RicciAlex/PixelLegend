@@ -32,7 +32,7 @@ public:
 
 private:
 
-	CCircleHitbox* m_pHitbox;
+	CCircleHitbox* m_pHitbox;					//ヒットボックスへのポインタ
 };
 
 #endif

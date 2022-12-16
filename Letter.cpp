@@ -58,22 +58,24 @@ void CLetter::Draw(void)
 	CObject_2D::Draw();
 }
 
+//数値に変換する処理
 bool CLetter::ConvertInNumber(const int nNum)
 {
 	if (nNum >= 0 && nNum <= 9)
-	{
-		SetTexture(CObject::TextureNumbers);
-		SetTextureParameter(1, 5, 3, INT_MAX);
-		SetAnimPattern(nNum);
+	{//0～9の間だったら
+		SetTexture(CObject::TextureNumbers);		//テクスチャの設定
+		SetTextureParameter(1, 5, 3, INT_MAX);		//テクスチャパラメータの設定
+		SetAnimPattern(nNum);						//アニメションパターンの設定
 	}
 	else
-	{
+	{//範囲外だったら
 		return false;
 	}
 
 	return true;
 }
 
+//文字の変換処理
 bool CLetter::ConvertInSymbol(const char symbol)
 {
 	if (symbol != '?' && symbol != '!' && symbol != '%')
@@ -82,11 +84,11 @@ bool CLetter::ConvertInSymbol(const char symbol)
 	}
 	else
 	{
-		SetTexture(CObject::TextureNumbers);
-		SetTextureParameter(1, 5, 3, INT_MAX);
+		SetTexture(CObject::TextureNumbers);			//テクスチャの設定
+		SetTextureParameter(1, 5, 3, INT_MAX);			//テクスチャパラメータの設定
 
 		switch (symbol)
-		{
+		{//アニメションパターンの設定
 		case '?':
 
 			SetAnimPattern(10);
@@ -169,7 +171,7 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const ch
 		pLetter->SetAnimPattern(Cell);
 	}	
 
-	return pLetter;				
+	return pLetter;				//インスタンスを返す		
 } 
 
 //生成処理
@@ -197,5 +199,5 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const in
 	}
 	
 
-	return pLetter;
-}
+	return pLetter;					//インスタンスを返す
+}		

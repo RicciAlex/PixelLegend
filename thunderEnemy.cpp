@@ -13,11 +13,14 @@
 #include "sound.h"
 
 
+//コンストラクタ
 CThunderEnemy::CThunderEnemy()
 {
+	//メンバー変数をクリアする
 	m_pHitbox = nullptr;
 }
 
+//デストラクタ
 CThunderEnemy::~CThunderEnemy()
 {
 
@@ -32,6 +35,7 @@ HRESULT CThunderEnemy::Init(void)
 		return -1;
 	}
 
+	//メンバー変数を初期化する
 	SetLife(24);
 	CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_THUNDER);		//雷のサウンドエフェクト
 
@@ -41,10 +45,11 @@ HRESULT CThunderEnemy::Init(void)
 //終了処理
 void CThunderEnemy::Uninit(void)
 {
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Release();
-		m_pHitbox = nullptr;
+	{//nullチェック
+		m_pHitbox->Release();			//メモリを解放する
+		m_pHitbox = nullptr;			//ポインタをnullにする
 	}
 
 	//基本クラスの終了処理
@@ -56,25 +61,27 @@ void CThunderEnemy::Update(void)
 {
 	CObject_2D::Update();								//基本クラスの更新処理
 
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
-	{
-		m_pHitbox->Hit();
+	{//nullチェック
+		m_pHitbox->Hit();					//当たったかどうか確認する
 	}
 
-	int nLife = GetLife();
+	int nLife = GetLife();					//体力の取得
 
-	nLife--;											//寿命の更新
+	nLife--;								//体力の更新
 
 	if (nLife <= 0)
-	{//寿命が0になったら
+	{//体力が0になったら
 
-		DestroyBullet();
+		DestroyBullet();					//破棄する
 
 		return;
 	}
 	else
-	{
-		SetLife(nLife);
+	{//体力が0以上だったら
+
+		SetLife(nLife);						//体力を設定する
 	}
 }
 
@@ -108,6 +115,7 @@ CThunderEnemy* CThunderEnemy::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 mo
 		pBullet->SetSize(Size);								//サイズの設定
 		pBullet->SetStartingRot(D3DX_PI * 0.5f);			//回転角度の設定
 
+		//ヒットボックスの生成
 		pBullet->m_pHitbox = CSquareHitbox::Create(pos, Size, CHitbox::Type_EnemyBullet);
 
 	}

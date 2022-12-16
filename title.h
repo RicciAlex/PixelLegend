@@ -25,22 +25,24 @@ class CTitle : public CMode
 {
 public:
 
+	//タイトルアニメーションの色
 	enum TargetCol
 	{
-		TargetCol_Red = 0,
-		TargetCol_Green,
-		TargetCol_Blue,
-		TargetCol_Yellow,
-		TargetCol_Magenta,
-		TargetCol_Cyan,
+		TargetCol_Red = 0,		//赤
+		TargetCol_Green,		//緑
+		TargetCol_Blue,			//青
+		TargetCol_Yellow,		//黄
+		TargetCol_Magenta,		//マゼンタ
+		TargetCol_Cyan,			//シアン
 		TargetCol_Max
 	};
 
+	//ボタンの列挙型
 	enum Button
 	{
-		button_play = 0,
-		button_tutorial,
-		button_leaderboard,
+		button_play = 0,		//プレイボタン
+		button_tutorial,		//チュートリアルボタン
+		button_leaderboard,		//ランキングボタン
 		button_max
 	};
 
@@ -55,19 +57,18 @@ public:
 
 private:
 
-	void UpdateTitleColor(void);
+	void UpdateTitleColor(void);			//タイトルの色の更新処理
+		
+	static D3DXCOLOR targetColors[TargetCol_Max];		//タイトルアニメーションの色
 
-	static D3DXCOLOR targetColors[TargetCol_Max];
+	TargetCol m_TargetCol;				//次の目的の色の番号
+	D3DXCOLOR m_changeCol;				//アニメーションの速度(毎フレーム加算されているカラー)
+	int m_nChangeFrame;					//アニメーションフレーム
 
-	TargetCol m_TargetCol;
-	D3DXCOLOR m_changeCol;
-	int m_nChangeFrame;
-
-	CBg* m_pBg;
-	CButton* m_pButton[button_max];
-	CSkullCursor* m_pCursor[2];
-	CLetter* m_pTitle[16];
-	//CTitleMenu* m_pTitleMenu;
+	CBg* m_pBg;							//背景へのポインタ
+	CButton* m_pButton[button_max];		//ボタンへのポインタ
+	CSkullCursor* m_pCursor[2];			//カーソルへのポインタ
+	CLetter* m_pTitle[16];				//タイトルの文字へのポインタ
 };
 
 #endif
